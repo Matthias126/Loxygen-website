@@ -1,0 +1,198 @@
+.slider {
+  --slider-rotate: 18deg;
+  --slider-radius: 375%;
+  grid-column-gap: 3em;
+  grid-row-gap: 3em;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 2em;
+  display: flex;
+  position: relative;
+}
+
+.collection {
+  max-width: 100%;
+  position: relative;
+}
+
+.list {
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: transform;
+  touch-action: pan-y;
+  backface-visibility: hidden;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.list > :first-child {
+  position: relative;
+}
+
+.item {
+  width: 20em;
+  transform-origin: 50% var(--slider-radius);
+  flex: none;
+  position: absolute;
+}
+
+@media screen and (max-width: 767px) {
+  .slider {
+    --slider-rotate: 12deg;
+    --slider-radius: 475%;
+  }
+
+  .item {
+    width: 15em;
+  }
+}
+
+/* Card */
+
+.card {
+  color: #023560;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.375em;
+  flex-flow: column;
+  align-items: flex-start;
+  width: 100%;
+  padding-top: 0.625em;
+  padding-left: 0.625em;
+  padding-right: 0.625em;
+  display: flex;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.item[data-radial-slider-item-status="active"] .card {
+  border-color: rgba(2, 53, 96, 0.35);
+  box-shadow: 0 12px 30px -12px rgba(2, 53, 96, 0.35);
+}
+
+.cardMedia {
+  aspect-ratio: 8 / 9;
+  border-radius: 0.75em;
+  width: 100%;
+  position: relative;
+  background-color: #023560;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.coverImage {
+  object-fit: cover;
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.cardMonogram {
+  color: #fff;
+  font-weight: 900;
+  font-size: 2.75em;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.cardMediaSoon {
+  background-color: #f4f6f9;
+  border: 1.5px dashed rgba(2, 53, 96, 0.3);
+}
+
+.cardMediaSoon .cardMonogram {
+  color: #023560;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.cardInfo {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 4.5em;
+  padding: 0.625em;
+  display: flex;
+}
+
+.cardTitle {
+  text-transform: uppercase;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.0625em;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+/* Controls */
+.controls {
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  justify-content: center;
+  align-items: center;
+  padding: 2em 3em 0;
+  display: flex;
+  position: relative;
+}
+
+.controlBtn {
+  z-index: 1;
+  color: #023560;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1.5px solid #023560;
+  border-radius: 50em;
+  height: 3em;
+  padding: 0 1.5em;
+  font-size: 1em;
+  font-weight: 600;
+  position: relative;
+}
+
+.controlBtnNext {
+  color: #fff;
+  background-color: #023560;
+  border-color: #023560;
+}
+
+.dots {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.controlDot {
+  z-index: 1;
+  outline-offset: 0px;
+  color: #cbd5e1;
+  cursor: pointer;
+  background-color: currentColor;
+  border: 0.1875em solid #fff;
+  border-radius: 50em;
+  outline: 0 #0000;
+  width: 0.875em;
+  height: 0.875em;
+  padding: 0;
+  font-size: 1em;
+  transition: color 0.1s ease;
+  position: relative;
+  overflow: hidden;
+  outline: 0 !important;
+  box-shadow: 0 0 #0000 !important;
+}
+
+.controlDot[data-radial-slider-control-status="active"] {
+  color: #023560;
+}

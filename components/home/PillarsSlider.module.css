@@ -1,0 +1,133 @@
+.slider {
+  width: 100%;
+  position: relative;
+}
+
+.collection {
+  width: 100%;
+}
+
+.list {
+  --gap: 0.5em;
+  width: 100%;
+  height: 30em;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 767px) {
+  .list {
+    height: 22em;
+  }
+}
+
+.item {
+  --clip: 0;
+  --radius: 0.75em;
+  color: #fff;
+  cursor: pointer;
+  will-change: transform, clip-path;
+  clip-path: inset(0px calc(var(--clip) * 1px) round var(--radius));
+  -webkit-user-select: none;
+  user-select: none;
+  height: 100%;
+  position: absolute;
+  inset: 0% auto auto 0%;
+}
+
+.item[data-status="active"] {
+  cursor: default;
+}
+
+.itemInner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.itemBg {
+  z-index: 0;
+  background-color: #023560;
+  position: absolute;
+  inset: 0%;
+}
+
+.itemIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6em;
+  height: 6em;
+  transform: translate(-50%, -50%);
+  opacity: 0.16;
+  transition: opacity 0.3s ease;
+}
+
+.item[data-status="active"] .itemIcon {
+  opacity: 0.24;
+}
+
+.itemContent {
+  z-index: 2;
+  padding: 2em 2em 2.5em 2.25em;
+  position: absolute;
+  inset: auto 0% 0%;
+}
+
+.itemTitle {
+  opacity: 0;
+  letter-spacing: -0.03em;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: var(--font-display), Arial, sans-serif;
+  font-size: 2.25em;
+  font-weight: 700;
+  line-height: 1;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transform: translate(0, 0.25em);
+  transition-delay: 0ms;
+}
+
+.item[data-status="active"] .itemTitle {
+  transition-delay: 400ms;
+  opacity: 1;
+  transform: translate(0px, 0em);
+}
+
+.nav {
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5em;
+  display: flex;
+  position: relative;
+}
+
+.button {
+  color: #023560;
+  background-color: #fff;
+  border: 1.5px solid #023560;
+  border-radius: 0.5em;
+  justify-content: center;
+  align-items: center;
+  width: 3em;
+  height: 3em;
+  padding: 0.75em;
+  display: flex;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.button:hover {
+  background-color: #023560;
+  color: #fff;
+}
+
+.button:focus-visible {
+  outline: 2px solid #023560;
+  outline-offset: 2px;
+}
+
+.buttonArrow.isPrev {
+  transform: rotate(-180deg);
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /account
+Disallow: /e-learning
+Disallow: /api/
+
+Sitemap: https://loxygen.world/sitemap.xml
