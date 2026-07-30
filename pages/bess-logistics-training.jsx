@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildBessCourseJsonLd, buildBessFaqJsonLd, BESS_FAQ } from "@/lib/structuredData";
@@ -56,9 +57,9 @@ export default function BessLogisticsTraining() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="font-display text-heading font-bold tracking-tight text-brand-navy">
+              <h1 className="font-display text-heading tracking-tight text-brand-navy">
                 BESS Logistics Training —{" "}
-                <span className="text-brand-accent">
+                <span className="italic text-brand-accent">
                   navigating complexities in energy.
                 </span>
               </h1>
@@ -74,7 +75,7 @@ export default function BessLogisticsTraining() {
             <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
               {STATS.map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-display text-stat font-bold leading-none text-brand-navy">
+                  <p className="font-display text-stat leading-none text-brand-navy">
                     {stat.value}
                   </p>
                   <p className="mt-3 text-sm text-slate-500">{stat.label}</p>
@@ -82,17 +83,22 @@ export default function BessLogisticsTraining() {
               ))}
             </div>
 
-            <PlaceholderImage
-              label="BESS container / terminal photo"
-              className="mt-12 aspect-[21/9] w-full"
-            />
+            <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/bess-terminal.jpg"
+                alt="A crane loading containers at a European container terminal"
+                fill
+                sizes="(min-width: 1024px) 1152px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
         {/* Learning outcomes */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               What you&apos;ll walk away with
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2">
@@ -111,7 +117,7 @@ export default function BessLogisticsTraining() {
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[2fr_1fr]">
               <div>
-                <h2 className="font-display text-2xl font-semibold text-brand-navy">
+                <h2 className="font-display text-2xl text-brand-navy">
                   Why this matters now
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
@@ -126,7 +132,7 @@ export default function BessLogisticsTraining() {
 
               <div className="grid grid-cols-2 gap-8 lg:grid-cols-1">
                 <div>
-                  <p className="font-display text-stat font-bold leading-none text-brand-navy">
+                  <p className="font-display text-stat leading-none text-brand-navy">
                     23–27 GW
                   </p>
                   <p className="mt-3 text-sm text-slate-500">
@@ -134,7 +140,7 @@ export default function BessLogisticsTraining() {
                   </p>
                 </div>
                 <div>
-                  <p className="font-display text-stat font-bold leading-none text-brand-navy">
+                  <p className="font-display text-stat leading-none text-brand-navy">
                     16.98%
                   </p>
                   <p className="mt-3 text-sm text-slate-500">
@@ -153,7 +159,7 @@ export default function BessLogisticsTraining() {
               <PlaceholderImage label="Hilde Lenaerts — speaker photo" className="aspect-square w-full" />
 
               <div>
-                <h2 className="font-display text-2xl font-semibold text-brand-navy">
+                <h2 className="font-display text-2xl text-brand-navy">
                   Led by Hilde Lenaerts, LAGOMax
                 </h2>
                 <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
@@ -169,8 +175,8 @@ export default function BessLogisticsTraining() {
         {/* Pricing & CTA */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-20 text-center">
-              <p className="font-display text-banner font-bold tracking-tight text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
+              <p className="font-display text-banner tracking-tight text-white">
                 €350 per person, excl. VAT
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">
@@ -197,13 +203,13 @@ export default function BessLogisticsTraining() {
         {/* FAQ */}
         <section className="bg-white">
           <div className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               Frequently asked questions
             </h2>
             <div className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200">
               {BESS_FAQ.map((item) => (
                 <details key={item.question} className="group px-8 py-6">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-lg font-semibold text-brand-navy">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-lg text-brand-navy">
                     {item.question}
                     <span className="flex-none text-2xl font-normal text-brand-navy/40 transition-transform group-open:rotate-45">
                       +
@@ -221,8 +227,8 @@ export default function BessLogisticsTraining() {
         {/* Sustainability Award cross-link */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl font-semibold text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
+              <p className="font-display text-2xl text-white">
                 Does this qualify? Take 2 minutes to find out if what you&apos;re already doing
                 qualifies for the Loxygen Sustainability Award 2026.
               </p>

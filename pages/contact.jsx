@@ -48,9 +48,9 @@ export default function Contact() {
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
               <div>
-                <h1 className="font-display text-heading font-bold tracking-tight text-brand-navy">
+                <h1 className="font-display text-heading tracking-tight text-brand-navy">
                   Let&apos;s talk{" "}
-                  <span className="text-brand-accent">logistics training.</span>
+                  <span className="italic text-brand-accent">logistics training.</span>
                 </h1>
                 <p className="mt-5 max-w-md text-lg leading-8 text-slate-600">
                   Questions about a course, a webinar, or bringing the Academy in-company? Send
@@ -67,7 +67,7 @@ export default function Contact() {
                 </a>
               </div>
 
-              <div className="rounded-xl border border-slate-200 p-8 shadow-sm lg:p-10">
+              <div className="rounded-xl bg-white p-8 shadow-card lg:p-10">
                 <ContactForm />
               </div>
             </div>

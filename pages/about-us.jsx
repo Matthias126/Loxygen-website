@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAboutUsJsonLd } from "@/lib/structuredData";
 import PlaceholderImage from "@/components/PlaceholderImage";
@@ -25,7 +26,15 @@ const FOUNDERS = [
   },
 ];
 
-const NETWORKS = ["CrossTrades", "SeaBlue Project Logistics Network"];
+const NETWORKS = [
+  { name: "CrossTrades", logo: "/images/partner-crosstrades.png", width: 400, height: 173 },
+  {
+    name: "SeaBlue Project Logistics Network",
+    logo: "/images/partner-seablue.png",
+    width: 400,
+    height: 283,
+  },
+];
 
 export default function AboutUs() {
   const jsonLd = buildAboutUsJsonLd();
@@ -57,9 +66,9 @@ export default function AboutUs() {
         {/* Hero */}
         <section className="bg-white pt-4 lg:pt-6">
           <div className="px-4 lg:px-6">
-            <div className="relative flex min-h-[85vh] items-center justify-center overflow-hidden rounded-3xl bg-brand-navy px-6 text-center">
+            <div className="bg-grain relative flex min-h-[85vh] items-center justify-center overflow-hidden rounded-3xl bg-brand-navy px-6 text-center">
               <div className="mx-auto">
-                <h1 className="font-display text-hero whitespace-nowrap font-bold uppercase tracking-tight text-white">
+                <h1 className="font-display text-hero uppercase tracking-tight text-white">
                   About Loxygen
                 </h1>
               </div>
@@ -91,7 +100,7 @@ export default function AboutUs() {
         {/* Who is who */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">Who is who</h2>
+            <h2 className="font-display text-2xl text-brand-navy">Who is who</h2>
             <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {FOUNDERS.map((founder) => (
                 <div key={founder.name}>
@@ -99,7 +108,7 @@ export default function AboutUs() {
                     label={`${founder.name} — photo`}
                     className="aspect-square w-full"
                   />
-                  <h3 className="font-display mt-5 text-xl font-semibold text-brand-navy">
+                  <h3 className="font-display mt-5 text-xl text-brand-navy">
                     {founder.name}
                   </h3>
                   <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -115,18 +124,20 @@ export default function AboutUs() {
         {/* Networks */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl font-semibold text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
+              <p className="font-display text-2xl text-white">
                 Backed by two partner networks built for the same mission.
               </p>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                {NETWORKS.map((name) => (
-                  <div
-                    key={name}
-                    className="rounded-xl border border-white/20 px-8 py-4 text-sm font-semibold uppercase tracking-wide text-white/80"
-                  >
-                    {name}
-                  </div>
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
+                {NETWORKS.map((network) => (
+                  <Image
+                    key={network.name}
+                    src={network.logo}
+                    alt={network.name}
+                    width={network.width}
+                    height={network.height}
+                    className="h-16 w-auto"
+                  />
                 ))}
               </div>
             </div>

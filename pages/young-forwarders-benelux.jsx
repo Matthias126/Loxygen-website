@@ -1,8 +1,8 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildYoungForwardersJsonLd } from "@/lib/structuredData";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import CheckIcon from "@/components/CheckIcon";
 
 const TITLE = "Young Forwarders Benelux — European Ports Immersion Week | Loxygen Academy";
@@ -85,9 +85,9 @@ export default function YoungForwardersBenelux() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="font-display text-heading font-bold tracking-tight text-brand-navy">
+              <h1 className="font-display text-heading tracking-tight text-brand-navy">
                 From curious to{" "}
-                <span className="text-brand-accent">unstoppable.</span>
+                <span className="italic text-brand-accent">unstoppable.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
                 A European Ports Immersion Week for the next generation of freight forwarders —
@@ -98,7 +98,7 @@ export default function YoungForwardersBenelux() {
             <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
               {STATS.map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-display text-stat font-bold leading-none text-brand-navy">
+                  <p className="font-display text-stat leading-none text-brand-navy">
                     {stat.value}
                   </p>
                   <p className="mt-3 text-sm text-slate-500">{stat.label}</p>
@@ -106,17 +106,22 @@ export default function YoungForwardersBenelux() {
               ))}
             </div>
 
-            <PlaceholderImage
-              label="Port of Antwerp-Bruges / Rotterdam photo"
-              className="mt-12 aspect-[21/9] w-full"
-            />
+            <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/benelux-port-visit.jpg"
+                alt="Freight forwarders touring a container terminal during the Young Forwarders Benelux immersion week"
+                fill
+                sizes="(min-width: 1024px) 1152px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
         {/* Pull quote */}
-        <section className="bg-brand-navy">
+        <section className="bg-grain bg-brand-navy">
           <div className="mx-auto max-w-4xl px-6 py-28 text-center lg:px-8">
-            <p className="font-display text-heading font-medium leading-tight text-white">
+            <p className="font-display text-heading leading-tight text-white">
               &ldquo;You do not just visit the most innovative ports — you become part of an
               ecosystem that keeps global trade moving.&rdquo;
             </p>
@@ -126,16 +131,16 @@ export default function YoungForwardersBenelux() {
         {/* Stops */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               Where you&apos;ll go
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {STOPS.map((stop) => (
                 <div
                   key={stop.title}
-                  className="rounded-xl border border-slate-200 p-8 shadow-sm transition-shadow hover:shadow-md hover:border-l-4 hover:border-l-brand-navy"
+                  className="rounded-xl bg-white p-8 shadow-card transition-[box-shadow,border-color] hover:shadow-card-hover hover:border-l-4 hover:border-l-brand-navy"
                 >
-                  <h3 className="font-display text-xl font-semibold text-brand-navy">
+                  <h3 className="font-display text-xl text-brand-navy">
                     {stop.title}
                   </h3>
                   <p className="mt-3 text-base leading-7 text-slate-600">{stop.description}</p>
@@ -148,7 +153,7 @@ export default function YoungForwardersBenelux() {
         {/* Benefits */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               What you&apos;ll walk away with
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2">
@@ -165,8 +170,8 @@ export default function YoungForwardersBenelux() {
         {/* Eligibility & CTA */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-20 text-center">
-              <p className="font-display text-banner font-bold tracking-tight text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
+              <p className="font-display text-banner tracking-tight text-white">
                 Open exclusively to members of the SeaBlue Project Logistics Network and
                 CrossTrades.
               </p>

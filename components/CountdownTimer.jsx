@@ -57,7 +57,7 @@ export default function CountdownTimer({
       {segments.map((segment) => (
         <div key={segment.label} className="text-center">
           <p
-            className={`font-display text-3xl font-bold tabular-nums sm:text-4xl ${numberClass}`}
+            className={`font-display text-3xl tabular-nums sm:text-4xl ${numberClass}`}
           >
             {String(segment.value).padStart(2, "0")}
           </p>

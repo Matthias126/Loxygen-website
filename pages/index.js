@@ -45,8 +45,8 @@ export default function Home() {
         <AcademySection />
         <VirtualManagerSection />
         <ConsultingSection />
-        <TestimonialSection />
         <InsightsSection />
+        <TestimonialSection />
         <PillarsSlider />
         <CtaBanner />
       </main>

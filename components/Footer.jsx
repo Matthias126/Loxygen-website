@@ -78,7 +78,7 @@ export default function Footer() {
     <div ref={wrapRef} className="footer-parallax-wrap">
       <footer
         ref={innerRef}
-        className="relative flex min-h-svh flex-col justify-between gap-16 rounded-t-3xl bg-brand-navy px-6 pb-16 pt-28 text-white lg:px-8 lg:pb-20 lg:pt-40"
+        className="bg-grain relative flex min-h-svh flex-col justify-between gap-16 rounded-t-3xl bg-brand-navy px-6 pb-16 pt-28 text-white lg:px-8 lg:pb-20 lg:pt-40"
       >
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
           {FOOTER_COLUMNS.map((column) => (
@@ -104,7 +104,7 @@ export default function Footer() {
           <p className="footer-eyebrow">
             Not your typical logistics academy
           </p>
-          <p className="font-display text-[clamp(3rem,7vw+1.25rem,8.5rem)] font-bold leading-none tracking-tight text-white">
+          <p className="font-display italic text-[clamp(3rem,7vw+1.25rem,8.5rem)] leading-none tracking-tight text-white">
             Loxygen Academy
           </p>
         </div>

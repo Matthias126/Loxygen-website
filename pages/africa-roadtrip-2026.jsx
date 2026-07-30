@@ -1,8 +1,8 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAfricaRoadtripJsonLd } from "@/lib/structuredData";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import TestimonialSection from "@/components/TestimonialSection";
 import CountdownTimer from "@/components/CountdownTimer";
 
@@ -68,9 +68,9 @@ export default function AfricaRoadtrip2026() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="font-display text-heading font-bold tracking-tight text-brand-navy">
+              <h1 className="font-display text-heading tracking-tight text-brand-navy">
                 Africa is not waiting{" "}
-                <span className="text-brand-accent">to be discovered.</span>
+                <span className="italic text-brand-accent">to be discovered.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
                 It&apos;s moving fast — you need to know where to look. Africa Roadtrip 2026 is
@@ -81,7 +81,7 @@ export default function AfricaRoadtrip2026() {
             <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
               {STATS.map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-display text-stat font-bold leading-none text-brand-navy">
+                  <p className="font-display text-stat leading-none text-brand-navy">
                     {stat.value}
                   </p>
                   <p className="mt-3 text-sm text-slate-500">{stat.label}</p>
@@ -89,29 +89,34 @@ export default function AfricaRoadtrip2026() {
               ))}
             </div>
 
-            <PlaceholderImage
-              label="Ethiopia / Ghana / Namibia corridor photo"
-              className="mt-12 aspect-[21/9] w-full"
-            />
+            <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/africa-corridor.jpg"
+                alt="A delivery truck at an industrial logistics facility in Ethiopia"
+                fill
+                sizes="(min-width: 1024px) 1152px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
         {/* Corridors */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               Three corridors, one journey
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
               {CORRIDORS.map((corridor) => (
                 <div
                   key={corridor.title}
-                  className="rounded-xl border border-slate-200 p-10 shadow-sm transition-shadow hover:shadow-md hover:border-l-4 hover:border-l-brand-navy"
+                  className="rounded-xl bg-white p-10 shadow-card transition-[box-shadow,border-color] hover:shadow-card-hover hover:border-l-4 hover:border-l-brand-navy"
                 >
                   <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                     {corridor.subtitle}
                   </span>
-                  <h3 className="font-display mt-4 text-2xl font-semibold text-brand-navy">
+                  <h3 className="font-display mt-4 text-2xl text-brand-navy">
                     {corridor.title}
                   </h3>
                   <p className="mt-4 text-base leading-7 text-slate-600">
@@ -132,8 +137,8 @@ export default function AfricaRoadtrip2026() {
         {/* Pre-register CTA */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-20 text-center">
-              <p className="font-display text-banner font-bold tracking-tight text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
+              <p className="font-display text-banner tracking-tight text-white">
                 Want to be part of our next Africa journey?
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">
@@ -152,8 +157,8 @@ export default function AfricaRoadtrip2026() {
         {/* Sustainability Award cross-link */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl font-semibold text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
+              <p className="font-display text-2xl text-white">
                 Does this qualify? Take 2 minutes to find out if what you&apos;re already doing
                 qualifies for the Loxygen Sustainability Award 2026.
               </p>

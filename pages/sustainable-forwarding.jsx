@@ -95,9 +95,9 @@ export default function SustainableForwarding() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="font-display text-heading font-bold tracking-tight text-brand-navy">
+              <h1 className="font-display text-heading tracking-tight text-brand-navy">
                 Loxygen Sustainability{" "}
-                <span className="text-brand-accent">Award 2026.</span>
+                <span className="italic text-brand-accent">Award 2026.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
                 Most freight forwarders are making sustainability decisions every day — choosing
@@ -111,7 +111,7 @@ export default function SustainableForwarding() {
             <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
               {STATS.map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-display text-stat font-bold leading-none text-brand-navy">
+                  <p className="font-display text-stat leading-none text-brand-navy">
                     {stat.value}
                   </p>
                   <p className="mt-3 text-sm text-slate-500">{stat.label}</p>
@@ -129,19 +129,19 @@ export default function SustainableForwarding() {
         {/* Categories */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               Four ways to be recognised
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {CATEGORIES.map((category) => (
                 <div
                   key={category.letter}
-                  className="rounded-xl border border-slate-200 p-8 shadow-sm transition-shadow hover:shadow-md hover:border-l-4 hover:border-l-brand-navy"
+                  className="rounded-xl bg-white p-8 shadow-card transition-[box-shadow,border-color] hover:shadow-card-hover hover:border-l-4 hover:border-l-brand-navy"
                 >
-                  <p className="font-display text-4xl font-bold text-brand-navy">
+                  <p className="font-display text-4xl text-brand-navy">
                     {category.letter}
                   </p>
-                  <h3 className="font-display mt-4 text-lg font-semibold text-brand-navy">
+                  <h3 className="font-display mt-4 text-lg text-brand-navy">
                     {category.title}
                   </h3>
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -167,7 +167,7 @@ export default function SustainableForwarding() {
                 <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   2025 Winner
                 </span>
-                <h3 className="font-display mt-4 text-2xl font-semibold text-brand-navy">
+                <h3 className="font-display mt-4 text-2xl text-brand-navy">
                   Friedrich Zufall · ZUFALL.lab
                 </h3>
                 <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">
@@ -178,15 +178,15 @@ export default function SustainableForwarding() {
 
                 <div className="mt-8 grid grid-cols-3 gap-6">
                   <div>
-                    <p className="font-display text-2xl font-bold text-brand-navy">23,000 km</p>
+                    <p className="font-display text-2xl text-brand-navy">23,000 km</p>
                     <p className="mt-1 text-xs text-slate-500">cargo bike routes</p>
                   </div>
                   <div>
-                    <p className="font-display text-2xl font-bold text-brand-navy">10,000+</p>
+                    <p className="font-display text-2xl text-brand-navy">10,000+</p>
                     <p className="mt-1 text-xs text-slate-500">zero-emission parcels</p>
                   </div>
                   <div>
-                    <p className="font-display text-2xl font-bold text-brand-navy">7</p>
+                    <p className="font-display text-2xl text-brand-navy">7</p>
                     <p className="mt-1 text-xs text-slate-500">team members</p>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ export default function SustainableForwarding() {
         {/* Checklist */}
         <section className="bg-white">
           <div className="mx-auto max-w-4xl px-6 py-16 text-center lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               Does this qualify?
             </h2>
             <p className="mx-auto mt-3 max-w-md text-slate-600">
@@ -219,7 +219,7 @@ export default function SustainableForwarding() {
         {/* Process */}
         <section className="bg-white">
           <div className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">The process</h2>
+            <h2 className="font-display text-2xl text-brand-navy">The process</h2>
             <ol className="mt-8 space-y-4">
               {PROCESS_STEPS.map((step, index) => (
                 <li key={step} className="flex items-start gap-4">
@@ -236,11 +236,11 @@ export default function SustainableForwarding() {
         {/* Jury */}
         <section className="bg-white">
           <div className="mx-auto max-w-4xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">The jury</h2>
+            <h2 className="font-display text-2xl text-brand-navy">The jury</h2>
             <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
               {JURY.map((member) => (
-                <div key={member.name} className="rounded-xl border border-slate-200 p-6">
-                  <p className="font-display text-base font-semibold text-brand-navy">
+                <div key={member.name} className="rounded-xl bg-white p-6 shadow-card">
+                  <p className="font-display text-base text-brand-navy">
                     {member.name}
                   </p>
                   <p className="mt-1 text-sm text-slate-500">{member.affiliation}</p>
@@ -253,8 +253,8 @@ export default function SustainableForwarding() {
         {/* Submit CTA */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-20 text-center">
-              <p className="font-display text-banner font-bold tracking-tight text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
+              <p className="font-display text-banner tracking-tight text-white">
                 Submissions close 31 July 2026
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">

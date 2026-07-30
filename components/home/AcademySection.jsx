@@ -13,9 +13,9 @@ export default function AcademySection() {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-heading font-bold tracking-tight text-brand-navy">
-            Everything you need to move global freight
+        <div className="mx-auto max-w-2xl text-center" data-reveal>
+          <h2 className="font-display text-heading tracking-tight text-brand-navy">
+            Everything you need to know to move freight, globally
           </h2>
 
           <p className="mt-5 text-lg leading-8 text-slate-600">
@@ -28,33 +28,43 @@ export default function AcademySection() {
           <AcademyRadialSlider />
         </div>
 
-        <div className="mx-auto mt-8 max-w-4xl rounded-2xl border border-slate-200 bg-white p-8 lg:p-10">
-          <div className="grid grid-cols-1 items-center gap-10 sm:grid-cols-2">
+        <div
+          className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-5"
+          data-reveal-group
+        >
+          <div
+            className="bg-grain flex flex-col justify-between gap-10 rounded-2xl bg-brand-navy p-8 shadow-card sm:col-span-3 lg:p-10"
+            data-reveal-item
+          >
             <div>
-              <p className="font-display text-stat font-bold leading-none text-brand-navy">
+              <p className="font-display text-stat leading-none text-white">
                 380+
               </p>
-              <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+              <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-white/60">
                 Companies already training with the Academy
               </p>
             </div>
 
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-                Every format above, however you like to learn
-              </p>
-              <p className="mt-3 text-sm font-medium text-brand-navy">
-                {FORMATS.join(" · ")}
-              </p>
-            </div>
+            <Link
+              href="/the-academy"
+              className="inline-flex w-fit items-center justify-center rounded-lg bg-white px-6 py-3 text-sm font-semibold text-brand-navy hover:bg-white/90"
+            >
+              Browse the full catalogue
+            </Link>
           </div>
 
-          <Link
-            href="/the-academy"
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy/90"
-          >
-            Browse the full catalogue
-          </Link>
+          <div className="rounded-2xl bg-white p-8 shadow-card sm:col-span-2 lg:p-10" data-reveal-item>
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+              Every format, however you like to learn
+            </p>
+            <ul className="mt-5 flex flex-col gap-3">
+              {FORMATS.map((format) => (
+                <li key={format} className="text-base font-medium text-brand-navy">
+                  {format}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

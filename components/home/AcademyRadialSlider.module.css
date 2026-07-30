@@ -45,6 +45,7 @@
   .slider {
     --slider-rotate: 12deg;
     --slider-radius: 475%;
+    font-size: 13px;
   }
 
   .item {

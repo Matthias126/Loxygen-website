@@ -1,8 +1,8 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildBreakbulkJsonLd } from "@/lib/structuredData";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const TITLE = "Breakbulk Training | Loxygen Academy";
@@ -70,9 +70,9 @@ export default function BreakbulkTraining() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
-              <h1 className="font-display text-heading font-bold tracking-tight text-brand-navy">
+              <h1 className="font-display text-heading tracking-tight text-brand-navy">
                 Breakbulk Academy —{" "}
-                <span className="text-brand-accent">live online training.</span>
+                <span className="italic text-brand-accent">live online training.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
                 From bite-sized modules to advanced commercial negotiation — three ways to build
@@ -80,24 +80,29 @@ export default function BreakbulkTraining() {
               </p>
             </div>
 
-            <PlaceholderImage
-              label="Breakbulk / project cargo photo"
-              className="mt-12 aspect-[21/9] w-full"
-            />
+            <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/breakbulk-cargo.jpg"
+                alt="A heavy-lift transformer being loaded onto a vessel during a breakbulk operation"
+                fill
+                sizes="(min-width: 1024px) 1152px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
         {/* Tiers */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl font-semibold text-brand-navy">
+            <h2 className="font-display text-2xl text-brand-navy">
               Three ways to train
             </h2>
             <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-3">
               {TIERS.map((tier) => (
                 <div
                   key={tier.title}
-                  className="flex flex-col rounded-xl border border-slate-200 p-12 shadow-sm transition-shadow hover:shadow-md hover:border-l-4 hover:border-l-brand-navy lg:p-14"
+                  className="flex flex-col rounded-xl bg-white p-12 shadow-card transition-[box-shadow,border-color] hover:shadow-card-hover hover:border-l-4 hover:border-l-brand-navy lg:p-14"
                 >
                   <div className="min-h-10">
                     <span className="text-sm font-semibold uppercase tracking-wide text-slate-400">
@@ -105,7 +110,7 @@ export default function BreakbulkTraining() {
                     </span>
                   </div>
 
-                  <h3 className="font-display mt-6 min-h-24 text-4xl font-semibold leading-tight text-brand-navy">
+                  <h3 className="font-display mt-6 min-h-24 text-4xl leading-tight text-brand-navy">
                     {tier.title}
                   </h3>
 
@@ -138,8 +143,8 @@ export default function BreakbulkTraining() {
         {/* Event announcement */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-banner font-bold tracking-tight text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
+              <p className="font-display text-banner tracking-tight text-white">
                 Meet us at the Port of Antwerp-Bruges Breakbulk Summit
               </p>
               <p className="mt-4 text-white/70">October 12–13, 2026</p>
@@ -164,8 +169,8 @@ export default function BreakbulkTraining() {
         {/* Sustainability Award cross-link */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl font-semibold text-white">
+            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
+              <p className="font-display text-2xl text-white">
                 Does this qualify? Take 2 minutes to find out if what you&apos;re already doing
                 qualifies for the Loxygen Sustainability Award 2026.
               </p>

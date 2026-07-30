@@ -80,7 +80,10 @@ export default function PillarsSlider() {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-        <h2 className="font-display max-w-2xl text-heading font-bold tracking-tight text-brand-navy">
+        <h2
+          className="font-display max-w-2xl text-heading tracking-tight text-brand-navy"
+          data-reveal
+        >
           Five pillars, one platform
         </h2>
 

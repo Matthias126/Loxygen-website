@@ -4,7 +4,7 @@
 @theme {
   --color-brand-navy: #023560;
   --color-brand-light: #f4f6f9;
-  --color-brand-accent: #ff6e03;
+  --color-brand-accent: #0ea5e9;
 
   /* Fluid type scale — sizes scale continuously with viewport width
      instead of jumping at sm:/lg: breakpoints. */
@@ -28,6 +28,11 @@
 
   --text-footer-link: clamp(1.75rem, 1.4vw + 1.25rem, 3.25rem);
   --text-footer-link--line-height: 1;
+
+  /* Elevation — soft, navy-tinted shadows used in place of flat borders
+     so cards read as objects sitting above the page rather than outlines. */
+  --shadow-card: 0 1px 2px 0 rgba(2, 53, 96, 0.05), 0 12px 28px -14px rgba(2, 53, 96, 0.28);
+  --shadow-card-hover: 0 2px 4px 0 rgba(2, 53, 96, 0.07), 0 28px 56px -18px rgba(2, 53, 96, 0.38);
 }
 
 :root {
@@ -39,13 +44,18 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
-  --font-display: var(--font-montserrat);
+  --font-display: var(--font-instrument-serif);
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 /* Footer parallax reveal — Osmo-inspired concept (osmo.supply).
@@ -93,4 +103,25 @@ body {
     transform-origin: left;
     transform: scaleX(1);
   }
+}
+
+/* Grain texture — applied to large solid navy fields (hero/CTA/footer-style
+   blocks) so they read as a tactile surface instead of a flat color swatch.
+   Not a gradient: a fractal-noise SVG blended over the existing fill. */
+.bg-grain {
+  position: relative;
+  isolation: isolate;
+}
+
+.bg-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
