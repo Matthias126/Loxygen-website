@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -16,17 +17,26 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-navy">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+    <header className="sticky top-4 z-50 px-4">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between rounded-full border border-white/20 bg-brand-navy/30 px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-2xl backdrop-saturate-150">
         <Link
           href="/"
-          className="font-display text-xl italic text-white"
+          className="flex items-center gap-2.5"
           onClick={() => setMobileOpen(false)}
         >
-          Loxygen Academy
+          <Image
+            src="/favicon.png"
+            alt="Loxygen Academy"
+            width={32}
+            height={32}
+            className="rounded-md"
+          />
+          <span className="hidden font-display text-base italic text-white sm:inline">
+            Loxygen Academy
+          </span>
         </Link>
 
-        <div className="hidden items-center gap-9 md:flex">
+        <div className="hidden items-center gap-8 md:flex">
           <Link href="/" className="text-sm font-medium text-white/80 hover:text-white">
             Start
           </Link>
@@ -68,7 +78,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/login"
-            className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-white/90"
+            className="hidden rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-white/90 sm:inline-block"
           >
             Sign in
           </Link>
@@ -78,7 +88,7 @@ export default function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((open) => !open)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-white md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-white md:hidden"
           >
             {mobileOpen ? (
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -94,7 +104,7 @@ export default function Navbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 px-6 pb-6 md:hidden">
+        <div className="mx-auto mt-2 max-w-5xl rounded-3xl border border-white/15 bg-brand-navy/90 px-6 pb-6 pt-2 shadow-lg shadow-black/10 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 pt-4">
             <Link
               href="/"
@@ -145,6 +155,13 @@ export default function Navbar() {
               className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"
             >
               Blog
+            </Link>
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="mt-2 rounded-full bg-white px-3 py-2.5 text-center text-sm font-semibold text-brand-navy hover:bg-white/90"
+            >
+              Sign in
             </Link>
           </div>
         </div>
