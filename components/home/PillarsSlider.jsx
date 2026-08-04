@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import styles from "./PillarsSlider.module.css";
 import { initCascadingSlider, destroyCascadingSlider } from "@/lib/cascadingSlider";
 
@@ -13,6 +14,7 @@ const PILLARS = [
   {
     title: "People",
     description: "Training built around the people who move freight, not just the cargo.",
+    image: "/images/people-pillar.jpeg",
     icon: (
       <>
         <circle cx="9" cy="8" r="3" />
@@ -35,6 +37,7 @@ const PILLARS = [
   {
     title: "Sustainability",
     description: "ESG, CSRD and energy-transition logistics built into every track.",
+    image: "/images/sustainable-pillar.jpg",
     icon: <path d="M12 3c4 2 6 5.5 6 9a6 6 0 0 1-12 0c0-3.5 2-7 6-9ZM12 21v-9" />,
   },
   {
@@ -107,6 +110,18 @@ export default function PillarsSlider() {
                 >
                   <div className={styles.itemInner}>
                     <div className={styles.itemBg}>
+                      {pillar.image && (
+                        <>
+                          <Image
+                            src={pillar.image}
+                            alt=""
+                            fill
+                            sizes="(max-width: 767px) 100vw, 33vw"
+                            className={styles.itemBgImage}
+                          />
+                          <div className={styles.itemBgOverlay} />
+                        </>
+                      )}
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"
