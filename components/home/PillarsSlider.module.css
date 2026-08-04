@@ -51,9 +51,21 @@
   background-color: #023560;
   position: absolute;
   inset: 0%;
+  overflow: hidden;
+}
+
+.itemBgImage {
+  object-fit: cover;
+}
+
+.itemBgOverlay {
+  position: absolute;
+  inset: 0%;
+  background-color: rgba(2, 53, 96, 0.72);
 }
 
 .itemIcon {
+  z-index: 1;
   position: absolute;
   top: 50%;
   left: 50%;

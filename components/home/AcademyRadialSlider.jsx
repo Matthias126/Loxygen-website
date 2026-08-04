@@ -1,17 +1,18 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./AcademyRadialSlider.module.css";
 import { initRadialSlider, attachRadialSliderResize, destroyRadialSlider } from "@/lib/radialSlider";
 
 const CARDS = [
-  { title: "The Academy", href: "/the-academy", initials: "TA" },
-  { title: "BESS Logistics Training", href: "/bess-logistics-training", initials: "BL" },
+  { title: "The Academy", href: "/the-academy", initials: "TA", image: "/images/hero-port.jpg" },
+  { title: "BESS Logistics Training", href: "/bess-logistics-training", initials: "BL", image: "/images/BESS.jpg" },
   { title: "e-Learning", href: "/e-learning", initials: "EL" },
-  { title: "Young Forwarders Benelux", href: "/young-forwarders-benelux", initials: "YF" },
-  { title: "Africa Roadtrip 2026", href: "/africa-roadtrip-2026", initials: "AR" },
+  { title: "Young Forwarders Benelux", href: "/young-forwarders-benelux", initials: "YF", image: "/images/benelux-port-visit.jpg" },
+  { title: "Africa Roadtrip 2026", href: "/africa-roadtrip-2026", initials: "AR", image: "/images/africa-corridor.jpg" },
   { title: "Micro Learnings", href: "/micro-learnings", initials: "ML" },
-  { title: "Breakbulk Training", href: "/breakbulk-training", initials: "BT" },
-  { title: "Sustainable Forwarding", href: "/sustainable-forwarding", initials: "SF" },
+  { title: "Breakbulk Training", href: "/breakbulk-training", initials: "BT", image: "/images/breakbulk-cargo.jpg" },
+  { title: "Sustainable Forwarding", href: "/sustainable-forwarding", initials: "SF", image: "/images/sustainable-forwarding.jpeg" },
   { title: "Coming Soon", href: null, initials: "Soon" },
 ];
 
@@ -100,7 +101,17 @@ function CardInner({ card }) {
   const content = (
     <div className={styles.card}>
       <div className={`${styles.cardMedia} ${isComingSoon ? styles.cardMediaSoon : ""}`}>
-        <span className={styles.cardMonogram}>{card.initials}</span>
+        {card.image ? (
+          <Image
+            src={card.image}
+            alt={card.title}
+            fill
+            sizes="(max-width: 767px) 15em, 20em"
+            className={styles.coverImage}
+          />
+        ) : (
+          <span className={styles.cardMonogram}>{card.initials}</span>
+        )}
       </div>
       <div className={styles.cardInfo}>
         <h3 className={styles.cardTitle}>{card.title}</h3>
