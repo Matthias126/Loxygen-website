@@ -4,7 +4,7 @@ import ContactForm from "@/components/ContactForm";
 
 const TITLE = "Contact | Loxygen Academy";
 const DESCRIPTION =
-  "Get in touch with Loxygen Academy — questions about courses, webinars, immersive programmes or partnerships.";
+  "Get in touch with Loxygen Academy for questions about courses, webinars, immersive programmes or partnerships.";
 
 export default function Contact() {
   const jsonLd = {

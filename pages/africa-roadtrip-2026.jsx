@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAfricaRoadtripJsonLd } from "@/lib/structuredData";
+import { isStaticPageActive } from "@/lib/staticPages";
 import TestimonialSection from "@/components/TestimonialSection";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const TITLE = "Africa Roadtrip 2026 | Loxygen Academy";
 const DESCRIPTION =
-  "Africa Roadtrip 2026 — a 7-day boots-on-the-ground logistics journey across Ethiopia, Ghana and Namibia. Next edition: February 2027.";
+  "Africa Roadtrip 2026: a 7-day boots-on-the-ground logistics journey across Ethiopia, Ghana and Namibia. Next edition: February 2027.";
 
 const STATS = [
   { value: "Feb 2027", label: "next roadtrip" },
@@ -20,13 +21,13 @@ const STATS = [
 const CORRIDORS = [
   {
     title: "East Africa Corridor",
-    subtitle: "Ethiopia — beyond Djibouti",
+    subtitle: "Ethiopia: beyond Djibouti",
     description:
       "Inland corridors, Mojo Logistics Park, EDR intermodal terminals and Ethiopian Airlines' cool storage platform.",
   },
   {
     title: "West Africa Corridor",
-    subtitle: "Ghana — Tema as a gateway",
+    subtitle: "Ghana: Tema as a gateway",
     description: "Port operations at Tema and what makes it a gateway for West Africa trade.",
   },
   {
@@ -73,7 +74,7 @@ export default function AfricaRoadtrip2026() {
                 <span className="italic text-brand-accent">to be discovered.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                It&apos;s moving fast — you need to know where to look. Africa Roadtrip 2026 is
+                It&apos;s moving fast. You need to know where to look. Africa Roadtrip 2026 is
                 boots-on-the-ground learning across three corridors.
               </p>
             </div>
@@ -145,7 +146,7 @@ export default function AfricaRoadtrip2026() {
                 Pre-register for the next Africa Roadtrip, February 2027.
               </p>
               <Link
-                href="mailto:geert@loxygen.world?subject=Africa%20Roadtrip%202027%20—%20Pre-register"
+                href="mailto:geert@loxygen.world?subject=Africa%20Roadtrip%202027%3A%20Pre-register"
                 className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
               >
                 Pre-register now
@@ -187,4 +188,10 @@ export default function AfricaRoadtrip2026() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const isActive = await isStaticPageActive("africa-roadtrip-2026");
+  if (!isActive) return { notFound: true };
+  return { props: {}, revalidate: 60 };
 }

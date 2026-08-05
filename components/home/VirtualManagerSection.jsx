@@ -195,7 +195,7 @@ export default function VirtualManagerSection() {
         </h2>
 
         <p ref={paragraphRef} className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/70">
-          AURA is the logistics specialist you always needed and could never afford to hire —
+          AURA is the logistics specialist you always needed and could never afford to hire,
           trained on every trade lane, partner, rate and compliance requirement across a
           network of 380+ companies. Available now, never retiring, getting smarter every day.
         </p>
@@ -231,7 +231,7 @@ export default function VirtualManagerSection() {
             <span className="inline-block h-[1em] w-[2px] translate-y-0.5 animate-pulse bg-white/70" />
           </p>
           <p className="sr-only">
-            Example questions you can ask AURA: {QUERIES.join(" — ")}
+            Example questions you can ask AURA: {QUERIES.join("; ")}
           </p>
         </div>
       </div>

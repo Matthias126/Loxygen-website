@@ -1,20 +1,20 @@
 import Head from "next/head";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildHomepageJsonLd } from "@/lib/structuredData";
+import { getBlogPosts } from "@/lib/blog";
 import Hero from "@/components/home/Hero";
 import PillarsSlider from "@/components/home/PillarsSlider";
 import AcademySection from "@/components/home/AcademySection";
 import VirtualManagerSection from "@/components/home/VirtualManagerSection";
-import ConsultingSection from "@/components/home/ConsultingSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import InsightsSection from "@/components/home/InsightsSection";
 import CtaBanner from "@/components/home/CtaBanner";
 
 const TITLE = "Logistics Training for Freight Forwarders | Loxygen Academy";
 const DESCRIPTION =
-  "Practical logistics training for freight forwarders and supply chain teams — webinars, micro-learnings, e-learning and immersive learning trips. Browse courses.";
+  "Practical logistics training for freight forwarders and supply chain teams: webinars, micro-learnings, e-learning and immersive learning trips. Browse courses.";
 
-export default function Home() {
+export default function Home({ latestPosts }) {
   const jsonLd = buildHomepageJsonLd();
 
   return (
@@ -44,12 +44,19 @@ export default function Home() {
         <Hero />
         <AcademySection />
         <VirtualManagerSection />
-        <ConsultingSection />
-        <InsightsSection />
-        <TestimonialSection />
+        <InsightsSection posts={latestPosts} />
+        <TestimonialSection variant="light" />
         <PillarsSlider />
         <CtaBanner />
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const posts = await getBlogPosts();
+  return {
+    props: { latestPosts: posts.slice(0, 2) },
+    revalidate: 60,
+  };
 }

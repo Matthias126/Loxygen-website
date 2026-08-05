@@ -4,12 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAcademyJsonLd, buildUpcomingCoursesJsonLd } from "@/lib/structuredData";
+import { getCourses } from "@/lib/courses";
+import { COURSE_TYPE_TO_CATEGORY } from "@/lib/courseTypes";
+import { getStaticPageVisibility } from "@/lib/staticPages";
 import ProgrammeCard from "@/components/ProgrammeCard";
+import CourseCard from "@/components/CourseCard";
 import TestimonialSection from "@/components/TestimonialSection";
 
 const TITLE = "Freight Forwarding & Logistics Courses | Loxygen Academy";
 const DESCRIPTION =
-  "Explore Loxygen Academy courses — breakbulk, BESS logistics, international trade, sustainable forwarding, e-learning, micro-learnings and immersive learning trips.";
+  "Explore Loxygen Academy courses: breakbulk, BESS logistics, international trade, sustainable forwarding, e-learning, micro-learnings and immersive learning trips.";
 
 const FILTERS = [
   { key: "all", label: "All formats" },
@@ -74,7 +78,7 @@ const ALL_PROGRAMMES = [
     format: "Award & ESG content",
     title: "Sustainable Forwarding",
     description:
-      "ESG strategy, CSRD reporting and the Sustainability Award 2026 — for forwarders building a credible transition plan.",
+      "ESG strategy, CSRD reporting and the Sustainability Award 2026, for forwarders building a credible transition plan.",
   },
 ];
 
@@ -91,7 +95,7 @@ const UPCOMING_COURSES = [
     title: "BESS Basics",
     meta: "Online webinar · English · 3 September 2026",
     description:
-      "An introduction to battery energy storage transport — UN classification, packaging requirements and the safety documentation carriers expect. Written for teams new to BESS moves.",
+      "An introduction to battery energy storage transport: UN classification, packaging requirements and the safety documentation carriers expect. Written for teams new to BESS moves.",
     details: "Format: Online webinar · Duration: Half-day · Level: Beginner",
     href: "/bess-logistics-training",
   },
@@ -107,7 +111,7 @@ const UPCOMING_COURSES = [
     title: "Benelux Immersion Week",
     meta: "2027 edition · Registration open",
     description:
-      "A guided week visiting Rotterdam and Antwerp terminals, meeting operators and seeing port operations firsthand — built for the next generation of Benelux freight forwarders.",
+      "A guided week visiting Rotterdam and Antwerp terminals, meeting operators and seeing port operations firsthand, built for the next generation of Benelux freight forwarders.",
     details: "Format: Immersive programme · Duration: 5 days · Level: Early-career",
     href: "/young-forwarders-benelux",
   },
@@ -123,14 +127,33 @@ const PARTNER_NETWORKS = [
   },
 ];
 
-export default function TheAcademy() {
+export default function TheAcademy({ courses, pageVisibility }) {
   const jsonLd = [buildAcademyJsonLd(), buildUpcomingCoursesJsonLd()];
   const [activeFilter, setActiveFilter] = useState("all");
 
+  const catalogueItems = useMemo(() => {
+    const staticItems = ALL_PROGRAMMES.filter(
+      (programme) => pageVisibility[programme.href.slice(1)] !== false
+    ).map((programme) => ({ kind: "static", ...programme }));
+    const liveItems = courses
+      .filter((course) => COURSE_TYPE_TO_CATEGORY[course.type])
+      .map((course) => ({
+        kind: "live",
+        category: COURSE_TYPE_TO_CATEGORY[course.type],
+        course,
+      }));
+    return [...staticItems, ...liveItems];
+  }, [courses, pageVisibility]);
+
+  const visibleUpcomingCourses = useMemo(
+    () => UPCOMING_COURSES.filter((course) => pageVisibility[course.href.slice(1)] !== false),
+    [pageVisibility]
+  );
+
   const filteredProgrammes = useMemo(() => {
-    if (activeFilter === "all") return ALL_PROGRAMMES;
-    return ALL_PROGRAMMES.filter((programme) => programme.category === activeFilter);
-  }, [activeFilter]);
+    if (activeFilter === "all") return catalogueItems;
+    return catalogueItems.filter((item) => item.category === activeFilter);
+  }, [catalogueItems, activeFilter]);
 
   return (
     <>
@@ -157,10 +180,10 @@ export default function TheAcademy() {
 
       <main>
         {/* Full-screen hero */}
-        <section className="bg-grain relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-navy px-6 text-center">
+        <section className="bg-grain relative -mt-16 flex min-h-screen items-center justify-center overflow-hidden bg-brand-navy px-6 text-center">
           <div className="relative z-10 mx-auto max-w-3xl">
             <h1 className="font-display text-hero tracking-tight text-white">
-              The Academy —{" "}
+              The Academy:{" "}
               <span className="italic text-brand-accent">
                 logistics and freight forwarding courses.
               </span>
@@ -212,9 +235,13 @@ export default function TheAcademy() {
             </div>
 
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredProgrammes.map((programme) => (
-                <ProgrammeCard key={programme.href} {...programme} />
-              ))}
+              {filteredProgrammes.map((item) =>
+                item.kind === "static" ? (
+                  <ProgrammeCard key={item.href} {...item} />
+                ) : (
+                  <CourseCard key={item.course.id} course={item.course} />
+                )
+              )}
             </div>
           </div>
         </section>
@@ -229,7 +256,7 @@ export default function TheAcademy() {
               className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200"
               data-reveal-group
             >
-              {UPCOMING_COURSES.map((course) => (
+              {visibleUpcomingCourses.map((course) => (
                 <details key={course.title} className="group px-8 py-6" data-reveal-item>
                   <summary className="flex cursor-pointer list-none flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <span className="font-display text-lg text-brand-navy">{course.title}</span>
@@ -309,4 +336,10 @@ export default function TheAcademy() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const courses = await getCourses();
+  const pageVisibility = await getStaticPageVisibility();
+  return { props: { courses, pageVisibility }, revalidate: 60 };
 }

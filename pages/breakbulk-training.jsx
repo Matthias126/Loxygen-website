@@ -3,11 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildBreakbulkJsonLd } from "@/lib/structuredData";
+import { isStaticPageActive } from "@/lib/staticPages";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const TITLE = "Breakbulk Training | Loxygen Academy";
 const DESCRIPTION =
-  "Breakbulk Academy — live online training for freight forwarders handling breakbulk and project cargo, from bite-sized modules to advanced commercial negotiation.";
+  "Breakbulk Academy: live online training for freight forwarders handling breakbulk and project cargo, from bite-sized modules to advanced commercial negotiation.";
 
 const TIERS = [
   {
@@ -71,11 +72,11 @@ export default function BreakbulkTraining() {
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="font-display text-heading tracking-tight text-brand-navy">
-                Breakbulk Academy —{" "}
+                Breakbulk Academy:{" "}
                 <span className="italic text-brand-accent">live online training.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                From bite-sized modules to advanced commercial negotiation — three ways to build
+                From bite-sized modules to advanced commercial negotiation, three ways to build
                 breakbulk and project cargo expertise, live online.
               </p>
             </div>
@@ -199,4 +200,10 @@ export default function BreakbulkTraining() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const isActive = await isStaticPageActive("breakbulk-training");
+  if (!isActive) return { notFound: true };
+  return { props: {}, revalidate: 60 };
 }

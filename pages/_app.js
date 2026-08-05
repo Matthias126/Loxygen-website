@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { SessionProvider } from "next-auth/react";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
@@ -19,7 +20,7 @@ const instrumentSerif = Instrument_Serif({
   style: ["normal", "italic"],
 });
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -48,14 +49,16 @@ export default function App({ Component, pageProps }) {
   }, [router.asPath]);
 
   return (
-    <div className={`${inter.variable} ${instrumentSerif.variable} font-sans`}>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
-      <BackToTopButton />
-    </div>
+    <SessionProvider session={session}>
+      <div className={`${inter.variable} ${instrumentSerif.variable} font-sans`}>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <Navbar />
+        <Component {...pageProps} />
+        <Footer />
+        <BackToTopButton />
+      </div>
+    </SessionProvider>
   );
 }

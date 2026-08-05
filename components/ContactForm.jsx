@@ -9,7 +9,7 @@ const COPY = {
     message: "Message",
     submit: "Send message",
     submitting: "Sending…",
-    success: "Thanks — we'll get back to you shortly.",
+    success: "Thanks, we'll get back to you shortly.",
     error: "Something went wrong. Please try again or email us directly.",
   },
   nl: {
@@ -20,7 +20,7 @@ const COPY = {
     message: "Bericht",
     submit: "Verstuur bericht",
     submitting: "Versturen…",
-    success: "Bedankt — we nemen binnenkort contact met u op.",
+    success: "Bedankt, we nemen binnenkort contact met u op.",
     error: "Er is iets misgegaan. Probeer het opnieuw of mail ons rechtstreeks.",
   },
 };

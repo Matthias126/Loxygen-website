@@ -1,21 +1,11 @@
 import Link from "next/link";
+import PlaceholderImage from "@/components/PlaceholderImage";
 
-const INSIGHTS = [
-  {
-    slug: "when-machines-take-over-networks-win",
-    title: "When machines take over, networks win",
-    category: "AI",
-    tilt: "-rotate-1",
-  },
-  {
-    slug: "high-growth-market-freight-forwarders-create-value",
-    title: "A high-growth market where freight forwarders can create value",
-    category: "Strategy",
-    tilt: "rotate-1",
-  },
-];
+const TILTS = ["-rotate-1", "rotate-1"];
 
-export default function InsightsSection() {
+export default function InsightsSection({ posts = [] }) {
+  if (posts.length === 0) return null;
+
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
@@ -35,18 +25,33 @@ export default function InsightsSection() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2" data-reveal-group>
-          {INSIGHTS.map((post) => (
+          {posts.map((post, index) => (
             <div key={post.slug} data-reveal-item>
               <Link
                 href={`/blog/${post.slug}`}
-                className={`group block rounded-2xl bg-white p-8 shadow-card transition-[transform,box-shadow] hover:-translate-y-1 hover:rotate-0 hover:shadow-card-hover ${post.tilt}`}
+                className={`group block rounded-2xl bg-white p-8 shadow-card transition-[transform,box-shadow] hover:-translate-y-1 hover:rotate-0 hover:shadow-card-hover ${TILTS[index % TILTS.length]}`}
               >
+                {post.coverImageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- external Supabase Storage URL
+                  <img
+                    src={post.coverImageUrl}
+                    alt=""
+                    className="mb-6 aspect-video w-full rounded-xl object-cover"
+                  />
+                ) : (
+                  <PlaceholderImage label={post.category} className="mb-6 aspect-video w-full" />
+                )}
                 <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   {post.category}
                 </span>
                 <h3 className="font-display mt-4 text-xl text-brand-navy group-hover:underline">
                   {post.title}
                 </h3>
+                {post.excerpt ? (
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
+                    {post.excerpt}
+                  </p>
+                ) : null}
                 <span className="mt-4 inline-block text-sm font-semibold text-brand-navy">
                   Read more{" "}
                   <span className="inline-block transition-transform group-hover:translate-x-1">

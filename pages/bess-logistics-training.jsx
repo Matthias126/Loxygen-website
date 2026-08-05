@@ -3,13 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildBessCourseJsonLd, buildBessFaqJsonLd, BESS_FAQ } from "@/lib/structuredData";
+import { isStaticPageActive } from "@/lib/staticPages";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import CheckIcon from "@/components/CheckIcon";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const TITLE = "BESS Logistics Training | Loxygen Academy";
 const DESCRIPTION =
-  "BESS logistics training for freight forwarders — UN 3536 classification, shipping line restrictions, ADR permits and market opportunities across Europe. Live online, 3 September 2026.";
+  "BESS logistics training for freight forwarders: UN 3536 classification, shipping line restrictions, ADR permits and market opportunities across Europe. Live online, 3 September 2026.";
 
 const STATS = [
   { value: "3 Sep", label: "2026 · live online" },
@@ -58,7 +59,7 @@ export default function BessLogisticsTraining() {
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="font-display text-heading tracking-tight text-brand-navy">
-                BESS Logistics Training —{" "}
+                BESS Logistics Training:{" "}
                 <span className="italic text-brand-accent">
                   navigating complexities in energy.
                 </span>
@@ -68,7 +69,7 @@ export default function BessLogisticsTraining() {
                 opportunities across European markets and beyond.
               </p>
               <p className="mt-4 text-lg leading-8 text-slate-600">
-                Live online — 3 September 2026, 9h00–12h00 CET.
+                Live online, 3 September 2026, 9h00–12h00 CET.
               </p>
             </div>
 
@@ -126,7 +127,7 @@ export default function BessLogisticsTraining() {
                 </p>
                 <p className="mt-4 max-w-xl text-lg leading-8 text-slate-600">
                   New IMDG amendments are adding UN numbers for damaged batteries and sodium-ion
-                  cells — and getting classification wrong is common.
+                  cells, and getting classification wrong is common.
                 </p>
               </div>
 
@@ -156,7 +157,7 @@ export default function BessLogisticsTraining() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
             <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_2fr]">
-              <PlaceholderImage label="Hilde Lenaerts — speaker photo" className="aspect-square w-full" />
+              <PlaceholderImage label="Hilde Lenaerts, speaker photo" className="aspect-square w-full" />
 
               <div>
                 <h2 className="font-display text-2xl text-brand-navy">
@@ -180,7 +181,7 @@ export default function BessLogisticsTraining() {
                 €350 per person, excl. VAT
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">
-                Limited seats for Edition 3 — previous editions sold out.
+                Limited seats for Edition 3. Previous editions sold out.
               </p>
 
               <div className="mt-10">
@@ -257,4 +258,10 @@ export default function BessLogisticsTraining() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const isActive = await isStaticPageActive("bess-logistics-training");
+  if (!isActive) return { notFound: true };
+  return { props: {}, revalidate: 60 };
 }

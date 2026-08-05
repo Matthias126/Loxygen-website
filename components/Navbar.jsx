@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 const ACADEMY_LINKS = [
   ["/the-academy", "The Academy hub"],
@@ -15,6 +16,8 @@ const ACADEMY_LINKS = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
 
   return (
     <header className="sticky top-4 z-50 px-4">
@@ -76,12 +79,30 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/login"
-            className="hidden rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-white/90 sm:inline-block"
-          >
-            Sign in
-          </Link>
+          {isAuthenticated ? (
+            <div className="hidden items-center gap-4 sm:flex">
+              <Link
+                href="/account"
+                className="text-sm font-medium text-white/80 hover:text-white"
+              >
+                My account
+              </Link>
+              <button
+                type="button"
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-white/90"
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-white/90 sm:inline-block"
+            >
+              Sign in
+            </Link>
+          )}
 
           <button
             type="button"
@@ -156,13 +177,35 @@ export default function Navbar() {
             >
               Blog
             </Link>
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="mt-2 rounded-full bg-white px-3 py-2.5 text-center text-sm font-semibold text-brand-navy hover:bg-white/90"
-            >
-              Sign in
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/account"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"
+                >
+                  My account
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    signOut({ callbackUrl: "/" });
+                  }}
+                  className="mt-2 rounded-full bg-white px-3 py-2.5 text-center text-sm font-semibold text-brand-navy hover:bg-white/90"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="mt-2 rounded-full bg-white px-3 py-2.5 text-center text-sm font-semibold text-brand-navy hover:bg-white/90"
+              >
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       )}

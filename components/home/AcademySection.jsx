@@ -19,7 +19,7 @@ export default function AcademySection() {
           </h2>
 
           <p className="mt-5 text-lg leading-8 text-slate-600">
-            Drag, click or use the arrows to spin through what the Academy offers — courses,
+            Drag, click or use the arrows to spin through what the Academy offers: courses,
             webinars and immersive programmes for freight forwarders and supply chain teams.
           </p>
         </div>

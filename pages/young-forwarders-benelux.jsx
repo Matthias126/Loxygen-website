@@ -3,11 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildYoungForwardersJsonLd } from "@/lib/structuredData";
+import { isStaticPageActive } from "@/lib/staticPages";
 import CheckIcon from "@/components/CheckIcon";
 
-const TITLE = "Young Forwarders Benelux — European Ports Immersion Week | Loxygen Academy";
+const TITLE = "Young Forwarders Benelux: European Ports Immersion Week | Loxygen Academy";
 const DESCRIPTION =
-  "A 6-day European Ports Immersion Week for freight forwarders aged 22–35 — Antwerp, Rotterdam and the logistics hubs behind them. Next edition: May 2027.";
+  "A 6-day European Ports Immersion Week for freight forwarders aged 22–35, in Antwerp, Rotterdam and the logistics hubs behind them. Next edition: May 2027.";
 
 const STATS = [
   { value: "May 2027", label: "next edition" },
@@ -90,7 +91,7 @@ export default function YoungForwardersBenelux() {
                 <span className="italic text-brand-accent">unstoppable.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                A European Ports Immersion Week for the next generation of freight forwarders —
+                A European Ports Immersion Week for the next generation of freight forwarders:
                 real ports, real operators, real connections.
               </p>
             </div>
@@ -122,7 +123,7 @@ export default function YoungForwardersBenelux() {
         <section className="bg-grain bg-brand-navy">
           <div className="mx-auto max-w-4xl px-6 py-28 text-center lg:px-8">
             <p className="font-display text-heading leading-tight text-white">
-              &ldquo;You do not just visit the most innovative ports — you become part of an
+              &ldquo;You do not just visit the most innovative ports. You become part of an
               ecosystem that keeps global trade moving.&rdquo;
             </p>
           </div>
@@ -179,7 +180,7 @@ export default function YoungForwardersBenelux() {
                 Freight forwarders aged 22–35 seeking operational mastery, not just theory.
               </p>
               <Link
-                href="mailto:geert@loxygen.world?subject=Young%20Forwarders%20Benelux%20—%20Interest"
+                href="mailto:geert@loxygen.world?subject=Young%20Forwarders%20Benelux%3A%20Interest"
                 className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
               >
                 Get started
@@ -190,4 +191,10 @@ export default function YoungForwardersBenelux() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const isActive = await isStaticPageActive("young-forwarders-benelux");
+  if (!isActive) return { notFound: true };
+  return { props: {}, revalidate: 60 };
 }

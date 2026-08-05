@@ -38,7 +38,7 @@ const PILLARS = [
     title: "Sustainability",
     description: "ESG, CSRD and energy-transition logistics built into every track.",
     image: "/images/sustainable-pillar.jpg",
-    icon: <path d="M12 3c4 2 6 5.5 6 9a6 6 0 0 1-12 0c0-3.5 2-7 6-9ZM12 21v-9" />,
+    //icon: <path d="M12 3c4 2 6 5.5 6 9a6 6 0 0 1-12 0c0-3.5 2-7 6-9ZM12 21v-9" />,
   },
   {
     title: "AI",

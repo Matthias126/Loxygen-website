@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildSustainabilityAwardJsonLd } from "@/lib/structuredData";
+import { isStaticPageActive } from "@/lib/staticPages";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
 
@@ -24,28 +25,28 @@ const CATEGORIES = [
     title: "Environmental",
     subtitle: "Green operations & carbon reduction",
     description:
-      "For asset-based forwarders — fleet electrification, clean fuels, energy-efficient facilities, smarter routing and Scope 1 & 2 measurement.",
+      "For asset-based forwarders: fleet electrification, clean fuels, energy-efficient facilities, smarter routing and Scope 1 & 2 measurement.",
   },
   {
     letter: "S",
     title: "Social",
     subtitle: "Community & people impact",
     description:
-      "Open to all forwarder profiles — education programmes, worker welfare, fair wages, diversity & inclusion, charitable partnerships.",
+      "Open to all forwarder profiles: education programmes, worker welfare, fair wages, diversity & inclusion, charitable partnerships.",
   },
   {
     letter: "G",
     title: "Governance",
     subtitle: "Sustainable partnerships & supply chain",
     description:
-      "For non-asset forwarders — procurement decisions, greener carriers, modal shift, and requiring emissions data from subcontractors.",
+      "For non-asset forwarders: procurement decisions, greener carriers, modal shift, and requiring emissions data from subcontractors.",
   },
   {
     letter: "★",
     title: "Next Generation ESG Leader",
     subtitle: "Under 35",
     description:
-      "For young professionals or teams under 35 who've initiated a sustainability project — any E, S or G initiative qualifies.",
+      "For young professionals or teams under 35 who've initiated a sustainability project. Any E, S or G initiative qualifies.",
   },
 ];
 
@@ -100,7 +101,7 @@ export default function SustainableForwarding() {
                 <span className="italic text-brand-accent">Award 2026.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                Most freight forwarders are making sustainability decisions every day — choosing
+                Most freight forwarders are making sustainability decisions every day: choosing
                 carriers, proposing transport modes, investing in their people.
               </p>
               <p className="mt-4 text-lg leading-8 text-slate-600">
@@ -159,7 +160,7 @@ export default function SustainableForwarding() {
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
             <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_1fr]">
               <PlaceholderImage
-                label="Friedrich Zufall — cargo bike logistics"
+                label="Friedrich Zufall, cargo bike logistics"
                 className="aspect-square w-full"
               />
 
@@ -283,4 +284,10 @@ export default function SustainableForwarding() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const isActive = await isStaticPageActive("sustainable-forwarding");
+  if (!isActive) return { notFound: true };
+  return { props: {}, revalidate: 60 };
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAboutUsJsonLd } from "@/lib/structuredData";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import ScrollFillText from "@/components/ScrollFillText";
 
 const TITLE = "About Loxygen | Logistics Training & Consulting, Belgium";
 const DESCRIPTION =
@@ -64,35 +65,39 @@ export default function AboutUs() {
 
       <main>
         {/* Hero */}
-        <section className="bg-white pt-4 lg:pt-6">
+        <section className="-mt-16 bg-white pt-1.5">
           <div className="px-4 lg:px-6">
-            <div className="bg-grain relative flex min-h-[85vh] items-center justify-center overflow-hidden rounded-3xl bg-brand-navy px-6 text-center">
-              <div className="mx-auto">
-                <h1 className="font-display text-hero uppercase tracking-tight text-white">
+            <div className="bg-grain relative flex min-h-[98vh] items-center justify-center overflow-hidden rounded-3xl bg-brand-navy px-6 text-center">
+              <Image
+                src="/images/loxygen-about.jpeg"
+                alt="The Loxygen team"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-black/60" />
+              <div className="relative mx-auto">
+                <h1 className="font-display text-[clamp(4.5rem,14vw+1rem,15rem)] uppercase leading-none tracking-tight text-white">
                   About Loxygen
                 </h1>
               </div>
-              <span className="absolute bottom-6 right-6 text-xs font-semibold uppercase tracking-wide text-white/30">
-                Team / office photo pending
-              </span>
             </div>
           </div>
         </section>
 
         {/* Intro */}
         <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <div className="max-w-3xl">
-              <p className="text-lg leading-8 text-slate-600">
-                Loxygen BV is a Belgian logistics education and consulting company, founded in
-                2024. Loxygen Academy is more than a training platform — it&apos;s an investment
-                in the people and potential of logistics networks.
-              </p>
-              <p className="mt-4 text-lg leading-8 text-slate-600">
-                Built on education, sustainability expertise and collaboration, our aim is
-                stronger, more capable supply chain ecosystems — with the Virtual Logistics
-                Manager helping solve the challenges of future value chains.
-              </p>
+          <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+            <div className="max-w-4xl">
+              <ScrollFillText
+                className="font-display text-banner leading-snug text-brand-navy"
+                text="Loxygen BV is a Belgian logistics education and consulting company, founded in 2024. Loxygen Academy is more than a training platform: it's an investment in the people and potential of logistics networks."
+              />
+              <ScrollFillText
+                className="mt-6 font-display text-banner leading-snug text-brand-navy"
+                text="Built on education, sustainability expertise and collaboration, our aim is stronger, more capable supply chain ecosystems, with the Virtual Logistics Manager helping solve the challenges of future value chains."
+              />
             </div>
           </div>
         </section>
@@ -105,7 +110,7 @@ export default function AboutUs() {
               {FOUNDERS.map((founder) => (
                 <div key={founder.name}>
                   <PlaceholderImage
-                    label={`${founder.name} — photo`}
+                    label={`${founder.name} photo`}
                     className="aspect-square w-full"
                   />
                   <h3 className="font-display mt-5 text-xl text-brand-navy">
