@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
@@ -27,15 +26,8 @@ export default function Navbar() {
           className="flex items-center gap-2.5"
           onClick={() => setMobileOpen(false)}
         >
-          <Image
-            src="/favicon.png"
-            alt="Loxygen Academy"
-            width={32}
-            height={32}
-            className="rounded-md"
-          />
-          <span className="hidden font-display text-base italic text-white sm:inline">
-            Loxygen Academy
+          <span className="font-sans text-lg font-bold tracking-wide text-white">
+            LOXYGEN
           </span>
         </Link>
 
