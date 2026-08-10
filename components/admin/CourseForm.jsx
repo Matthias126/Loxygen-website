@@ -35,6 +35,7 @@ export default function CourseForm({
     price: initialCourse?.price ?? "",
     stripe_price_id: initialCourse?.stripe_price_id ?? "",
     is_active: initialCourse?.is_active ?? true,
+    show_in_upcoming: initialCourse?.show_in_upcoming ?? false,
     available_at: initialCourse?.available_at ? initialCourse.available_at.slice(0, 10) : "",
     cover_image_url: initialCourse?.cover_image_url ?? "",
   });
@@ -54,7 +55,11 @@ export default function CourseForm({
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+      ...(name === "is_active" && !checked ? { show_in_upcoming: false } : {}),
+    }));
   };
 
   const handleImageUpload = async (event) => {
@@ -240,6 +245,23 @@ export default function CourseForm({
         <input type="checkbox" name="is_active" checked={form.is_active} onChange={handleChange} />
         Active (visible on the site)
       </label>
+
+      <label className="flex items-center gap-2 text-sm font-medium text-brand-navy">
+        <input
+          type="checkbox"
+          name="show_in_upcoming"
+          checked={form.show_in_upcoming}
+          onChange={handleChange}
+          disabled={!form.is_active}
+        />
+        Feature in &ldquo;Upcoming courses&rdquo; on The Academy hub
+      </label>
+      {!form.is_active ? (
+        <p className="-mt-4 text-xs text-slate-500">
+          Only active courses can be featured as upcoming, since the link needs a real page to
+          go to.
+        </p>
+      ) : null}
 
       <button
         type="submit"

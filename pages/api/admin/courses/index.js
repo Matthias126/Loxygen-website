@@ -24,6 +24,7 @@ export default async function handler(req, res) {
       price,
       stripe_price_id,
       is_active,
+      show_in_upcoming,
       available_at,
       cover_image_url,
     } = req.body ?? {};
@@ -31,6 +32,8 @@ export default async function handler(req, res) {
     if (!slug || !title || !type) {
       return res.status(400).json({ error: "Slug, title and type are required." });
     }
+
+    const isActive = is_active !== false;
 
     const { data, error } = await supabaseAdmin
       .from("courses")
@@ -41,7 +44,8 @@ export default async function handler(req, res) {
         type,
         price: price || null,
         stripe_price_id: stripe_price_id || null,
-        is_active: is_active !== false,
+        is_active: isActive,
+        show_in_upcoming: isActive && show_in_upcoming === true,
         available_at: available_at || null,
         cover_image_url: cover_image_url || null,
       })

@@ -77,6 +77,7 @@ export default function AdminCoursesList() {
                       <p className="mt-1 text-xs text-slate-500">
                         {course.type} · {course.price ? `€${course.price}` : "no price"} ·{" "}
                         {course.is_active ? "Active" : "Inactive"}
+                        {course.show_in_upcoming ? " · Featured as upcoming" : ""}
                       </p>
                     </div>
                     <div className="flex items-center gap-4">

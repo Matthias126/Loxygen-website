@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAcademyJsonLd, buildUpcomingCoursesJsonLd } from "@/lib/structuredData";
-import { getCourses } from "@/lib/courses";
+import { getCourses, getUpcomingCourses } from "@/lib/courses";
 import { COURSE_TYPE_TO_CATEGORY } from "@/lib/courseTypes";
 import { getStaticPageVisibility } from "@/lib/staticPages";
 import ProgrammeCard from "@/components/ProgrammeCard";
@@ -18,9 +18,9 @@ const DESCRIPTION =
 const FILTERS = [
   { key: "all", label: "All formats" },
   { key: "immersive", label: "Immersive" },
-  { key: "scheduled", label: "Scheduled" },
   { key: "self-paced", label: "Self-paced" },
   { key: "sustainability", label: "Sustainability" },
+  { key: "upcoming", label: "Upcoming" },
 ];
 
 const ALL_PROGRAMMES = [
@@ -82,40 +82,20 @@ const ALL_PROGRAMMES = [
   },
 ];
 
-const UPCOMING_COURSES = [
-  {
-    title: "Breakbulk Essentials",
-    meta: "Online · English · 11–13 August 2026",
-    description:
-      "Hands-on breakbulk planning webinars covering vessel stowage, lashing and securing, and the documentation project cargo shipments require. Built for operations teams handling out-of-gauge and heavy-lift cargo.",
-    details: "Format: Live webinar · Duration: 3 sessions, 90 min each · Level: Intermediate",
-    href: "/breakbulk-training",
-  },
-  {
-    title: "BESS Basics",
-    meta: "Online webinar · English · 3 September 2026",
-    description:
-      "An introduction to battery energy storage transport: UN classification, packaging requirements and the safety documentation carriers expect. Written for teams new to BESS moves.",
-    details: "Format: Online webinar · Duration: Half-day · Level: Beginner",
-    href: "/bess-logistics-training",
-  },
-  {
-    title: "International Trade & Transport",
-    meta: "e-learning · English · On demand",
-    description:
-      "Core international trade rules, Incoterms, customs documentation and multimodal transport planning. Self-paced modules you can start any time.",
-    details: "Format: e-learning · Duration: 6 modules, self-paced · Level: All levels",
-    href: "/e-learning",
-  },
-  {
-    title: "Benelux Immersion Week",
-    meta: "2027 edition · Registration open",
-    description:
-      "A guided week visiting Rotterdam and Antwerp terminals, meeting operators and seeing port operations firsthand, built for the next generation of Benelux freight forwarders.",
-    details: "Format: Immersive programme · Duration: 5 days · Level: Early-career",
-    href: "/young-forwarders-benelux",
-  },
-];
+const TYPE_LABEL = {
+  "e-learning": "E-learning",
+  webinar: "Webinar",
+  "micro-learning": "Micro-learning",
+  immersive: "Immersive programme",
+};
+
+function formatDate(dateString) {
+  return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 const PARTNER_NETWORKS = [
   { name: "CrossTrades", logo: "/images/partner-crosstrades.png", width: 400, height: 173 },
@@ -127,8 +107,8 @@ const PARTNER_NETWORKS = [
   },
 ];
 
-export default function TheAcademy({ courses, pageVisibility }) {
-  const jsonLd = [buildAcademyJsonLd(), buildUpcomingCoursesJsonLd()];
+export default function TheAcademy({ courses, upcomingCourses, pageVisibility }) {
+  const jsonLd = [buildAcademyJsonLd(), buildUpcomingCoursesJsonLd(upcomingCourses)];
   const [activeFilter, setActiveFilter] = useState("all");
 
   const catalogueItems = useMemo(() => {
@@ -136,7 +116,7 @@ export default function TheAcademy({ courses, pageVisibility }) {
       (programme) => pageVisibility[programme.href.slice(1)] !== false
     ).map((programme) => ({ kind: "static", ...programme }));
     const liveItems = courses
-      .filter((course) => COURSE_TYPE_TO_CATEGORY[course.type])
+      .filter((course) => COURSE_TYPE_TO_CATEGORY[course.type] && !course.show_in_upcoming)
       .map((course) => ({
         kind: "live",
         category: COURSE_TYPE_TO_CATEGORY[course.type],
@@ -145,15 +125,16 @@ export default function TheAcademy({ courses, pageVisibility }) {
     return [...staticItems, ...liveItems];
   }, [courses, pageVisibility]);
 
-  const visibleUpcomingCourses = useMemo(
-    () => UPCOMING_COURSES.filter((course) => pageVisibility[course.href.slice(1)] !== false),
-    [pageVisibility]
+  const upcomingCatalogueItems = useMemo(
+    () => upcomingCourses.map((course) => ({ kind: "live", category: "upcoming", course })),
+    [upcomingCourses]
   );
 
   const filteredProgrammes = useMemo(() => {
+    if (activeFilter === "upcoming") return upcomingCatalogueItems;
     if (activeFilter === "all") return catalogueItems;
     return catalogueItems.filter((item) => item.category === activeFilter);
-  }, [catalogueItems, activeFilter]);
+  }, [catalogueItems, upcomingCatalogueItems, activeFilter]);
 
   return (
     <>
@@ -246,49 +227,68 @@ export default function TheAcademy({ courses, pageVisibility }) {
           </div>
         </section>
 
-        {/* Upcoming courses — kept current by whoever owns the catalogue */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy" data-reveal>
-              Upcoming courses
-            </h2>
-            <div
-              className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200"
-              data-reveal-group
-            >
-              {visibleUpcomingCourses.map((course) => (
-                <details key={course.title} className="group px-8 py-6" data-reveal-item>
-                  <summary className="flex cursor-pointer list-none flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                    <span className="font-display text-lg text-brand-navy">{course.title}</span>
-                    <span className="flex items-center gap-4">
-                      <span className="text-sm text-slate-500">{course.meta}</span>
-                      <span
-                        aria-hidden="true"
-                        className="flex-none text-2xl font-normal text-brand-navy/40 transition-transform group-open:rotate-45"
-                      >
-                        +
-                      </span>
-                    </span>
-                  </summary>
+        {/* Upcoming courses — live from Supabase, managed in /admin/courses */}
+        {upcomingCourses.length > 0 ? (
+          <section className="bg-white">
+            <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+              <h2 className="font-display text-2xl text-brand-navy" data-reveal>
+                Upcoming courses
+              </h2>
+              <div
+                className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200"
+                data-reveal-group
+              >
+                {upcomingCourses.map((course) => {
+                  const meta = [
+                    TYPE_LABEL[course.type] ?? course.type,
+                    course.available_at ? formatDate(course.available_at) : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ");
 
-                  <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600">
-                    {course.description}
-                  </p>
-                  <p className="mt-4 text-sm font-medium text-slate-500">{course.details}</p>
-                  <Link
-                    href={course.href}
-                    className="group/explore mt-6 mb-2 inline-flex items-center text-sm font-semibold text-brand-navy hover:underline"
-                  >
-                    Explore{" "}
-                    <span className="ml-1 inline-block transition-transform group-hover/explore:translate-x-1">
-                      →
-                    </span>
-                  </Link>
-                </details>
-              ))}
+                  return (
+                    <details key={course.id} className="group px-8 py-6" data-reveal-item>
+                      <summary className="flex cursor-pointer list-none flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                        <span className="font-display text-lg text-brand-navy">
+                          {course.title}
+                        </span>
+                        <span className="flex items-center gap-4">
+                          <span className="text-sm text-slate-500">{meta}</span>
+                          <span
+                            aria-hidden="true"
+                            className="flex-none text-2xl font-normal text-brand-navy/40 transition-transform group-open:rotate-45"
+                          >
+                            +
+                          </span>
+                        </span>
+                      </summary>
+
+                      {course.description ? (
+                        <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600">
+                          {course.description}
+                        </p>
+                      ) : null}
+                      {course.price ? (
+                        <p className="mt-4 text-sm font-medium text-slate-500">
+                          €{course.price}
+                        </p>
+                      ) : null}
+                      <Link
+                        href={`/courses/${course.slug}`}
+                        className="group/explore mt-6 mb-2 inline-flex items-center text-sm font-semibold text-brand-navy hover:underline"
+                      >
+                        Explore{" "}
+                        <span className="ml-1 inline-block transition-transform group-hover/explore:translate-x-1">
+                          →
+                        </span>
+                      </Link>
+                    </details>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : null}
 
         <TestimonialSection
           quote="Our organisation has greatly benefited from the exceptional training provided by Loxygen Logistics Academy. The courses were comprehensive, industry-relevant and delivered with a high standard of professionalism."
@@ -339,7 +339,10 @@ export default function TheAcademy({ courses, pageVisibility }) {
 }
 
 export async function getStaticProps() {
-  const courses = await getCourses();
-  const pageVisibility = await getStaticPageVisibility();
-  return { props: { courses, pageVisibility }, revalidate: 60 };
+  const [courses, upcomingCourses, pageVisibility] = await Promise.all([
+    getCourses(),
+    getUpcomingCourses(),
+    getStaticPageVisibility(),
+  ]);
+  return { props: { courses, upcomingCourses, pageVisibility }, revalidate: 60 };
 }
