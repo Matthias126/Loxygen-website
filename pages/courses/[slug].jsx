@@ -71,23 +71,18 @@ export default function CourseDetail({ course }) {
               <PlaceholderImage label={course.type} className="mt-10 aspect-[21/9] w-full" />
             )}
 
-            {template === "scheduled" && course.available_at ? (
-              <div className="mt-12 rounded-2xl bg-brand-light px-6 py-10">
-                <CountdownTimer
-                  targetDate={course.available_at}
-                  variant="light"
-                  expiredLabel="Happening now"
-                />
-              </div>
-            ) : null}
-
             {course.description ? (
               <p className="mt-10 text-lg leading-8 text-slate-600">{course.description}</p>
             ) : null}
 
             <div className="mt-12 flex flex-wrap items-center gap-6">
               {course.price ? (
-                <span className="font-display text-2xl text-brand-navy">€{course.price}</span>
+                <span className="flex items-baseline gap-2">
+                  <span className="font-display text-2xl text-brand-navy">€{course.price}</span>
+                  {course.price_note ? (
+                    <span className="text-sm text-slate-500">{course.price_note}</span>
+                  ) : null}
+                </span>
               ) : null}
               <Link
                 href="/contact"
@@ -99,6 +94,19 @@ export default function CourseDetail({ course }) {
 
             {TEMPLATE_NOTE[template] ? (
               <p className="mt-4 text-sm text-slate-500">{TEMPLATE_NOTE[template]}</p>
+            ) : null}
+
+            {course.available_at ? (
+              <div className="mt-8 rounded-2xl bg-brand-light px-6 py-10">
+                <p className="mb-6 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Sign up before it starts
+                </p>
+                <CountdownTimer
+                  targetDate={course.available_at}
+                  variant="light"
+                  expiredLabel="Happening now"
+                />
+              </div>
             ) : null}
           </div>
         </section>

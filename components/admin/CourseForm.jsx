@@ -33,6 +33,7 @@ export default function CourseForm({
     description: initialCourse?.description ?? "",
     type: initialCourse?.type ?? defaultType ?? COURSE_TYPES[0],
     price: initialCourse?.price ?? "",
+    price_note: initialCourse?.price_note ?? "",
     stripe_price_id: initialCourse?.stripe_price_id ?? "",
     is_active: initialCourse?.is_active ?? true,
     show_in_upcoming: initialCourse?.show_in_upcoming ?? false,
@@ -184,6 +185,21 @@ export default function CourseForm({
             min="0"
             step="0.01"
             value={form.price}
+            onChange={handleChange}
+            className={`mt-2 ${FIELD_CLASS}`}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="price_note" className="text-sm font-medium text-brand-navy">
+            Price note (optional)
+          </label>
+          <input
+            id="price_note"
+            name="price_note"
+            type="text"
+            placeholder="e.g. per person, excl. VAT"
+            value={form.price_note}
             onChange={handleChange}
             className={`mt-2 ${FIELD_CLASS}`}
           />
