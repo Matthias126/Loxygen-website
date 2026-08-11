@@ -93,7 +93,7 @@ export default function VirtualManagerSection() {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReducedMotion || !stageRef.current) return undefined;
+    if (prefersReducedMotion || !wordmarkRef.current) return undefined;
 
     let hasPaused = false;
     let unlockTimeoutId;
@@ -118,6 +118,10 @@ export default function VirtualManagerSection() {
     // rootMargin shrinks the viewport to a thin band around vertical center,
     // so this fires when AURA crosses through the middle of the screen —
     // i.e. when it's actually dominating the view — not just "on screen."
+    // Watching the wordmark itself (not the taller stage div around it,
+    // which has empty space above the word from its own centering) — the
+    // stage's own top edge was entering the band while the heading, blurb
+    // and CTA above it were all still fully on screen.
     const observer = new IntersectionObserver(
       (entries) => {
         if (hasPaused) return;
@@ -129,10 +133,10 @@ export default function VirtualManagerSection() {
         unlockTimeoutId = setTimeout(unlockScroll, 900);
         observer.disconnect();
       },
-      { rootMargin: "-42% 0px -42% 0px", threshold: 0 }
+      { rootMargin: "-38% 0px -55% 0px", threshold: 0 }
     );
 
-    observer.observe(stageRef.current);
+    observer.observe(wordmarkRef.current);
 
     return () => {
       observer.disconnect();
