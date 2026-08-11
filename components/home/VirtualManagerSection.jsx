@@ -100,14 +100,18 @@ export default function VirtualManagerSection() {
 
     const lockScroll = () => {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = "hidden";
+      // Lock on <html>, not <body> — html already carries overflow-x:hidden
+      // permanently, and setting overflow on body too (even briefly) is the
+      // exact "both html and body have non-visible overflow" trap that broke
+      // position:sticky site-wide before. Keeping it to one element avoids it.
+      document.documentElement.style.overflowY = "hidden";
       if (scrollBarWidth > 0) {
         document.body.style.paddingRight = `${scrollBarWidth}px`;
       }
     };
 
     const unlockScroll = () => {
-      document.body.style.overflow = "";
+      document.documentElement.style.overflowY = "";
       document.body.style.paddingRight = "";
     };
 
