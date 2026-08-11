@@ -38,6 +38,9 @@ export default function CourseForm({
     is_active: initialCourse?.is_active ?? true,
     show_in_upcoming: initialCourse?.show_in_upcoming ?? false,
     available_at: initialCourse?.available_at ? initialCourse.available_at.slice(0, 10) : "",
+    registration_deadline: initialCourse?.registration_deadline
+      ? initialCourse.registration_deadline.slice(0, 10)
+      : "",
     cover_image_url: initialCourse?.cover_image_url ?? "",
   });
   const [slugEdited, setSlugEdited] = useState(Boolean(initialCourse));
@@ -96,6 +99,9 @@ export default function CourseForm({
         ...form,
         price: form.price === "" ? null : Number(form.price),
         available_at: form.available_at ? new Date(form.available_at).toISOString() : null,
+        registration_deadline: form.registration_deadline
+          ? new Date(form.registration_deadline).toISOString()
+          : null,
       });
     } catch (submitError) {
       setStatus("error");
@@ -255,6 +261,24 @@ export default function CourseForm({
           onChange={handleChange}
           className={`mt-2 ${FIELD_CLASS}`}
         />
+      </div>
+
+      <div>
+        <label htmlFor="registration_deadline" className="text-sm font-medium text-brand-navy">
+          Registration deadline (optional, defaults to the start date if left empty)
+        </label>
+        <input
+          id="registration_deadline"
+          name="registration_deadline"
+          type="date"
+          value={form.registration_deadline}
+          onChange={handleChange}
+          className={`mt-2 ${FIELD_CLASS}`}
+        />
+        <p className="mt-2 text-xs text-slate-500">
+          Powers the sign-up countdown next to the CTA. Use this when registration closes before
+          the course itself starts.
+        </p>
       </div>
 
       <label className="flex items-center gap-2 text-sm font-medium text-brand-navy">

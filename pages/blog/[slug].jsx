@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { getAllBlogSlugs, getBlogPostBySlug } from "@/lib/blog";
 import { buildBlogPostJsonLd } from "@/lib/structuredData";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import MarkdownContent from "@/components/MarkdownContent";
+import ShareRow from "@/components/ShareRow";
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString("en-GB", {
@@ -71,7 +72,11 @@ export default function BlogPost({ post }) {
             )}
 
             <div className="prose prose-slate mt-10 max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-p:text-lg prose-p:leading-8 prose-p:text-slate-600 prose-a:text-brand-navy">
-              <ReactMarkdown>{post.content}</ReactMarkdown>
+              <MarkdownContent content={post.content} />
+            </div>
+
+            <div className="mt-12 border-t border-slate-200 pt-8">
+              <ShareRow title={post.title} url={url} />
             </div>
           </div>
         </section>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { BLOG_CATEGORIES } from "@/lib/blogCategories";
+import MarkdownContent from "@/components/MarkdownContent";
 
 const FIELD_CLASS =
   "w-full rounded-lg border border-slate-200 px-4 py-3 text-base text-brand-navy placeholder:text-slate-400 focus:border-brand-navy focus:outline-none focus:ring-1 focus:ring-brand-navy";
@@ -192,12 +192,16 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
             onChange={handleChange}
             className={`mt-2 font-mono text-sm ${FIELD_CLASS}`}
           />
+          <p className="mt-2 text-xs text-slate-500">
+            Paste a YouTube link on its own line to embed the video. Links: [label](https://...)
+            or just paste the URL.
+          </p>
         </div>
 
         <div>
           <p className="text-sm font-medium text-brand-navy">Preview</p>
           <div className="prose prose-slate mt-2 max-w-none rounded-lg border border-slate-200 p-4 prose-headings:font-display prose-headings:text-brand-navy">
-            <ReactMarkdown>{form.content || "*Nothing to preview yet.*"}</ReactMarkdown>
+            <MarkdownContent content={form.content || "*Nothing to preview yet.*"} />
           </div>
         </div>
       </div>

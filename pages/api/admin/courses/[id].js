@@ -31,6 +31,7 @@ export default async function handler(req, res) {
       is_active,
       show_in_upcoming,
       available_at,
+      registration_deadline,
       cover_image_url,
     } = req.body ?? {};
 
@@ -53,6 +54,7 @@ export default async function handler(req, res) {
         is_active: isActive,
         show_in_upcoming: isActive && show_in_upcoming === true,
         available_at: available_at || null,
+        registration_deadline: registration_deadline || null,
         cover_image_url: cover_image_url || null,
       })
       .eq("id", id)

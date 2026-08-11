@@ -96,15 +96,17 @@ export default function CourseDetail({ course }) {
               <p className="mt-4 text-sm text-slate-500">{TEMPLATE_NOTE[template]}</p>
             ) : null}
 
-            {course.available_at ? (
+            {course.registration_deadline || course.available_at ? (
               <div className="mt-8 rounded-2xl bg-brand-light px-6 py-10">
                 <p className="mb-6 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Sign up before it starts
+                  Time left to sign up
                 </p>
                 <CountdownTimer
-                  targetDate={course.available_at}
+                  targetDate={course.registration_deadline || course.available_at}
                   variant="light"
-                  expiredLabel="Happening now"
+                  expiredLabel={
+                    course.registration_deadline ? "Registration closed" : "Happening now"
+                  }
                 />
               </div>
             ) : null}
