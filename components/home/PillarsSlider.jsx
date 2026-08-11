@@ -57,7 +57,7 @@ const PILLARS = [
 
 export default function PillarsSlider() {
   const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -137,6 +137,7 @@ export default function PillarsSlider() {
                     </div>
                     <div className={styles.itemContent}>
                       <h3 className={styles.itemTitle}>{pillar.title}</h3>
+                      <p className={styles.itemDescription}>{pillar.description}</p>
                     </div>
                   </div>
                 </div>
@@ -183,10 +184,6 @@ export default function PillarsSlider() {
             </button>
           </nav>
         </div>
-
-        <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-6 text-slate-500">
-          {PILLARS[activeIndex].description}
-        </p>
       </div>
     </section>
   );
