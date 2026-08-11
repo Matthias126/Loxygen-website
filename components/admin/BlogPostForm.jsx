@@ -192,10 +192,19 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
             onChange={handleChange}
             className={`mt-2 font-mono text-sm ${FIELD_CLASS}`}
           />
-          <p className="mt-2 text-xs text-slate-500">
-            Paste a YouTube link on its own line to embed the video. Links: [label](https://...)
-            or just paste the URL.
-          </p>
+          <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-slate-500">
+            <li>
+              Use <code className="font-mono">## </code>for a section heading and{" "}
+              <code className="font-mono">### </code>for a subheading, e.g.{" "}
+              <code className="font-mono">## A market misunderstanding</code>. Headings give the
+              post real structure — important for SEO, not just for looks.
+            </li>
+            <li>Paste a YouTube link on its own line to embed the video.</li>
+            <li>
+              Links: <code className="font-mono">[label](https://...)</code> or just paste the
+              URL.
+            </li>
+          </ul>
         </div>
 
         <div>
