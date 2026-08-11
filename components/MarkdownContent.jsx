@@ -29,10 +29,18 @@ function Paragraph({ node, children }) {
   return <p>{children}</p>;
 }
 
+// Markdown requires a space after the #s ("## Heading", not "##Heading") to
+// register as a heading at all — an easy thing to type wrong by hand, and it
+// fails silently (renders as plain text with visible ## in it). Insert the
+// missing space so "##Heading" and "###Heading" still work as intended.
+function normalizeHeadingSyntax(content) {
+  return content.replace(/^(#{2,6})(?=[^\s#])/gm, "$1 ");
+}
+
 export default function MarkdownContent({ content }) {
   return (
     <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ p: Paragraph }}>
-      {content}
+      {normalizeHeadingSyntax(content)}
     </ReactMarkdown>
   );
 }
