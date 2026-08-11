@@ -86,17 +86,22 @@ export default function VirtualManagerSection() {
     };
   }, []);
 
-  // Freeze scrolling for a moment once AURA comes fully into view — the
-  // whole page holds still (nothing shifts independently), then releases
-  // and scrolling continues exactly as it would have anyway. Triggers once.
+  // Freeze scrolling for a moment once the navy section fully fills the
+  // screen (its top edge at or above the viewport top, its bottom edge at
+  // or below the viewport bottom) — not a moment before, or the previous or
+  // next section is still visibly bleeding in at the top or bottom. Checked
+  // directly against real geometry on scroll rather than approximated with
+  // fixed viewport-percentage margins, so it holds up at any viewport
+  // height. Triggers once.
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReducedMotion || !wordmarkRef.current) return undefined;
+    if (prefersReducedMotion || !sectionRef.current || !wordmarkRef.current) return undefined;
 
     let hasPaused = false;
     let unlockTimeoutId;
+    let ticking = false;
 
     const lockScroll = () => {
       const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -115,31 +120,40 @@ export default function VirtualManagerSection() {
       document.body.style.paddingRight = "";
     };
 
-    // rootMargin shrinks the viewport to a thin band around vertical center,
-    // so this fires when AURA crosses through the middle of the screen —
-    // i.e. when it's actually dominating the view — not just "on screen."
-    // Watching the wordmark itself (not the taller stage div around it,
-    // which has empty space above the word from its own centering) — the
-    // stage's own top edge was entering the band while the heading, blurb
-    // and CTA above it were all still fully on screen.
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (hasPaused) return;
-        const [entry] = entries;
-        if (!entry.isIntersecting) return;
+    const checkCoverage = () => {
+      ticking = false;
+      if (hasPaused || !sectionRef.current || !wordmarkRef.current) return;
 
-        hasPaused = true;
-        lockScroll();
-        unlockTimeoutId = setTimeout(unlockScroll, 900);
-        observer.disconnect();
-      },
-      { rootMargin: "-38% 0px -55% 0px", threshold: 0 }
-    );
+      const rect = sectionRef.current.getBoundingClientRect();
+      const fullyCovers = rect.top <= 0 && rect.bottom >= window.innerHeight;
+      if (!fullyCovers) return;
 
-    observer.observe(wordmarkRef.current);
+      // Full navy coverage alone can be true before AURA itself has fully
+      // scrolled into view (there's a lot of navy above it from the heading
+      // block) — also wait for the word to be entirely on screen so the
+      // freeze doesn't land on it half cut off at the bottom.
+      const wordRect = wordmarkRef.current.getBoundingClientRect();
+      const wordFullyVisible = wordRect.top >= 0 && wordRect.bottom <= window.innerHeight;
+      if (!wordFullyVisible) return;
+
+      hasPaused = true;
+      lockScroll();
+      unlockTimeoutId = setTimeout(unlockScroll, 900);
+      window.removeEventListener("scroll", onScroll);
+    };
+
+    const onScroll = () => {
+      if (hasPaused || ticking) return;
+      ticking = true;
+      requestAnimationFrame(checkCoverage);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Covers the (unlikely) case of loading the page already scrolled here.
+    checkCoverage();
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
       clearTimeout(unlockTimeoutId);
       unlockScroll();
     };
@@ -219,10 +233,10 @@ export default function VirtualManagerSection() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-6xl px-6 pt-20 pb-40 lg:px-8 lg:pt-28 lg:pb-56">
         <div
           ref={stageRef}
-          className="relative flex min-h-[420px] flex-col items-center justify-center gap-10 lg:min-h-[520px]"
+          className="relative flex min-h-[480px] flex-col items-center justify-center gap-10 lg:min-h-[600px]"
         >
           <span
             ref={wordmarkRef}
