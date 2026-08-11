@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       content,
       category,
       cover_image_url,
+      cover_image_alt,
       is_published,
       published_at,
     } = req.body ?? {};
@@ -40,6 +41,7 @@ export default async function handler(req, res) {
         content,
         category,
         cover_image_url: cover_image_url || null,
+        cover_image_alt: cover_image_alt || null,
         is_published: Boolean(is_published),
         published_at: is_published ? published_at || new Date().toISOString() : null,
       })

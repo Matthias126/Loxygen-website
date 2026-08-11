@@ -30,6 +30,7 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
     content: initialPost?.content ?? "",
     category: initialPost?.category ?? BLOG_CATEGORIES[0],
     cover_image_url: initialPost?.cover_image_url ?? "",
+    cover_image_alt: initialPost?.cover_image_alt ?? "",
     is_published: initialPost?.is_published ?? false,
   });
   const [slugEdited, setSlugEdited] = useState(Boolean(initialPost));
@@ -177,6 +178,21 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
             className="mt-4 aspect-video w-full max-w-sm rounded-xl object-cover"
           />
         ) : null}
+      </div>
+
+      <div>
+        <label htmlFor="cover_image_alt" className="text-sm font-medium text-brand-navy">
+          Image alt text (optional, falls back to the title)
+        </label>
+        <input
+          id="cover_image_alt"
+          name="cover_image_alt"
+          type="text"
+          placeholder="Describe the image for screen readers and Google Images"
+          value={form.cover_image_alt}
+          onChange={handleChange}
+          className={`mt-2 ${FIELD_CLASS}`}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

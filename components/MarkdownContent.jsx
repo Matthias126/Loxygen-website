@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { getYouTubeVideoId } from "@/lib/youtube";
+import { normalizeHeadingSyntax, extractHeadings } from "@/lib/headings";
 
 // A paragraph whose only content is a YouTube link (pasted on its own line,
 // bracketed or bare — remark-gfm autolinks bare URLs into the same link
@@ -29,18 +30,40 @@ function Paragraph({ node, children }) {
   return <p>{children}</p>;
 }
 
-// Markdown requires a space after the #s ("## Heading", not "##Heading") to
-// register as a heading at all — an easy thing to type wrong by hand, and it
-// fails silently (renders as plain text with visible ## in it). Insert the
-// missing space so "##Heading" and "###Heading" still work as intended.
-function normalizeHeadingSyntax(content) {
-  return content.replace(/^(#{2,6})(?=[^\s#])/gm, "$1 ");
-}
-
 export default function MarkdownContent({ content }) {
+  const normalized = normalizeHeadingSyntax(content);
+  // Headings render in source order, same as extractHeadings walks the text,
+  // so pulling ids off this list by position keeps TOC links and the actual
+  // anchor ids in sync — including the -2/-3 suffixes for repeated headings.
+  const headings = extractHeadings(content);
+  let cursor = 0;
+
+  function H2({ children }) {
+    const id = headings[cursor]?.id;
+    cursor += 1;
+    return (
+      <h2 id={id} className="scroll-mt-28">
+        {children}
+      </h2>
+    );
+  }
+
+  function H3({ children }) {
+    const id = headings[cursor]?.id;
+    cursor += 1;
+    return (
+      <h3 id={id} className="scroll-mt-28">
+        {children}
+      </h3>
+    );
+  }
+
   return (
-    <ReactMarkdown remarkPlugins={[remarkGfm]} components={{ p: Paragraph }}>
-      {normalizeHeadingSyntax(content)}
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{ p: Paragraph, h2: H2, h3: H3 }}
+    >
+      {normalized}
     </ReactMarkdown>
   );
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import PlaceholderImage from "@/components/PlaceholderImage";
 
@@ -32,12 +33,15 @@ export default function InsightsSection({ posts = [] }) {
                 className={`group block rounded-2xl bg-white p-8 shadow-card transition-[transform,box-shadow] hover:-translate-y-1 hover:rotate-0 hover:shadow-card-hover ${TILTS[index % TILTS.length]}`}
               >
                 {post.coverImageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- external Supabase Storage URL
-                  <img
-                    src={post.coverImageUrl}
-                    alt=""
-                    className="mb-6 aspect-video w-full rounded-xl object-cover"
-                  />
+                  <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl">
+                    <Image
+                      src={post.coverImageUrl}
+                      alt={post.coverImageAlt || post.title}
+                      fill
+                      sizes="(min-width: 1024px) 550px, 90vw"
+                      className="object-cover"
+                    />
+                  </div>
                 ) : (
                   <PlaceholderImage label={post.category} className="mb-6 aspect-video w-full" />
                 )}

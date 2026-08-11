@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { SITE_URL } from "@/lib/seo";
-import { getAllBlogSlugs } from "@/lib/blog";
+import { getBlogSitemapEntries } from "@/lib/blog";
 import { getCourses } from "@/lib/courses";
 
 const EXCLUDED_PAGES = new Set(["_app", "_document", "404", "sitemap.xml"]);
@@ -15,20 +15,31 @@ async function getStaticRoutes() {
     .filter((file) => /\.jsx?$/.test(file))
     .map((file) => file.replace(/\.jsx?$/, ""))
     .filter((name) => !EXCLUDED_PAGES.has(name) && !GATED_PAGES.has(name))
-    .map((name) => (name === "index" ? "" : `/${name}`));
+    .map((name) => ({ loc: name === "index" ? "" : `/${name}` }));
 
-  const slugs = await getAllBlogSlugs();
-  const blogRoutes = ["/blog", ...slugs.map((slug) => `/blog/${slug}`)];
+  const blogEntries = await getBlogSitemapEntries();
+  const blogRoutes = [
+    { loc: "/blog" },
+    ...blogEntries.map((entry) => ({
+      loc: `/blog/${entry.slug}`,
+      lastmod: entry.updatedAt || entry.publishedAt,
+    })),
+  ];
 
   const courses = await getCourses();
-  const courseRoutes = courses.map((course) => `/courses/${course.slug}`);
+  const courseRoutes = courses.map((course) => ({ loc: `/courses/${course.slug}` }));
 
   return [...topLevelRoutes, ...blogRoutes, ...courseRoutes];
 }
 
 function buildSitemap(routes) {
   const urls = routes
-    .map((route) => `  <url><loc>${SITE_URL}${route}</loc></url>`)
+    .map((route) => {
+      const lastmod = route.lastmod
+        ? `<lastmod>${new Date(route.lastmod).toISOString().slice(0, 10)}</lastmod>`
+        : "";
+      return `  <url><loc>${SITE_URL}${route.loc}</loc>${lastmod}</url>`;
+    })
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;

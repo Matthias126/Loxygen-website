@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import PlaceholderImage from "@/components/PlaceholderImage";
 
@@ -16,12 +17,15 @@ export default function BlogCard({ post }) {
       className="group block rounded-xl bg-white p-8 shadow-card transition-[box-shadow,border-color] hover:shadow-card-hover hover:border-l-4 hover:border-l-brand-navy"
     >
       {post.coverImageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element -- external Supabase Storage URL, no next/image domain config for this demo pass
-        <img
-          src={post.coverImageUrl}
-          alt=""
-          className="mb-6 aspect-video w-full rounded-xl object-cover"
-        />
+        <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl">
+          <Image
+            src={post.coverImageUrl}
+            alt={post.coverImageAlt || post.title}
+            fill
+            sizes="(min-width: 1024px) 400px, (min-width: 640px) 45vw, 100vw"
+            className="object-cover"
+          />
+        </div>
       ) : (
         <PlaceholderImage label={post.category} className="mb-6 aspect-video w-full" />
       )}
