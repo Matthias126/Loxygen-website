@@ -49,11 +49,13 @@ export default function EditCourse({ course }) {
 export async function getServerSideProps({ params }) {
   const { data: course } = await supabaseAdmin
     .from("courses")
-    .select("*")
+    .select("*, tiers:course_price_tiers(*)")
     .eq("id", params.id)
     .maybeSingle();
 
   if (!course) return { notFound: true };
 
-  return { props: { course } };
+  const sortedTiers = [...(course.tiers ?? [])].sort((a, b) => a.sort_order - b.sort_order);
+
+  return { props: { course: { ...course, tiers: sortedTiers } } };
 }

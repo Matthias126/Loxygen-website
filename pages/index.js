@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { buildHomepageJsonLd } from "@/lib/structuredData";
 import { getBlogPosts } from "@/lib/blog";
 import Hero from "@/components/home/Hero";
+import PartnerLogos from "@/components/home/PartnerLogos";
 import PillarsSlider from "@/components/home/PillarsSlider";
 import AcademySection from "@/components/home/AcademySection";
 import VirtualManagerSection from "@/components/home/VirtualManagerSection";
@@ -29,10 +30,12 @@ export default function Home({ latestPosts }) {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={SITE_URL} />
+        <meta property="og:image" content={DEFAULT_OG_IMAGE} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
 
         <script
           type="application/ld+json"
@@ -42,10 +45,16 @@ export default function Home({ latestPosts }) {
 
       <main>
         <Hero />
+        <PartnerLogos />
         <AcademySection />
         <VirtualManagerSection />
         <InsightsSection posts={latestPosts} />
-        <TestimonialSection variant="light" />
+        <TestimonialSection
+          variant="light"
+          quote="Our organisation has greatly benefited from the exceptional training provided by Loxygen Logistics Academy. The courses were comprehensive, industry-relevant and delivered with a high standard of professionalism."
+          name="Glyn Vince"
+          role="CEO, Slade Shipping FE PTE Ltd (Singapore)"
+        />
         <PillarsSlider />
         <CtaBanner />
       </main>

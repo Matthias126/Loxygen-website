@@ -27,8 +27,8 @@
   --text-numeral: clamp(5rem, 6vw + 1rem, 8.5rem);
   --text-numeral--line-height: 1;
 
-  --text-footer-link: clamp(1.75rem, 1.4vw + 1.25rem, 3.25rem);
-  --text-footer-link--line-height: 1;
+  --text-footer-link: clamp(1.05rem, 0.3vw + 0.95rem, 1.2rem);
+  --text-footer-link--line-height: 1.6;
 
   /* Elevation — soft, navy-tinted shadows used in place of flat borders
      so cards read as objects sitting above the page rather than outlines. */

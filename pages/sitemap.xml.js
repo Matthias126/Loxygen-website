@@ -5,7 +5,7 @@ import { getBlogSitemapEntries } from "@/lib/blog";
 import { getCourses } from "@/lib/courses";
 
 const EXCLUDED_PAGES = new Set(["_app", "_document", "404", "sitemap.xml"]);
-const GATED_PAGES = new Set(["e-learning", "account"]);
+const GATED_PAGES = new Set(["account"]);
 
 async function getStaticRoutes() {
   const pagesDir = path.join(process.cwd(), "pages");
@@ -27,7 +27,10 @@ async function getStaticRoutes() {
   ];
 
   const courses = await getCourses();
-  const courseRoutes = courses.map((course) => ({ loc: `/courses/${course.slug}` }));
+  const courseRoutes = courses.map((course) => ({
+    loc: `/courses/${course.slug}`,
+    lastmod: course.created_at,
+  }));
 
   return [...topLevelRoutes, ...blogRoutes, ...courseRoutes];
 }

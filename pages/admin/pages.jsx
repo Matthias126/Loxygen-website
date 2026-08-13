@@ -12,7 +12,7 @@ const PAGE_LABELS = {
   "bess-logistics-training": "BESS Logistics Training",
   "e-learning": "E-learning",
   "micro-learnings": "Micro-learnings",
-  "sustainable-forwarding": "Sustainable Forwarding",
+  "sustainable-forwarding": "Sustainability Award",
 };
 
 export default function AdminPages() {

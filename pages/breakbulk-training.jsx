@@ -5,6 +5,7 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildBreakbulkJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
 import CountdownTimer from "@/components/CountdownTimer";
+import SustainabilityAwardCrossLink from "@/components/SustainabilityAwardCrossLink";
 
 const TITLE = "Breakbulk Training | Loxygen Academy";
 const DESCRIPTION =
@@ -17,8 +18,8 @@ const TIERS = [
     description:
       "Bite-sized breakbulk knowledge on the JollyDeck platform, built for busy freight forwarders.",
     topics: null,
-    note: "Available from June 2026",
-    cta: "Join the waitlist",
+    note: null,
+    cta: "Register interest",
   },
   {
     title: "Essentials",
@@ -55,10 +56,12 @@ export default function BreakbulkTraining() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/breakbulk-training`} />
+        <meta property="og:image" content={`${SITE_URL}/images/breakbulk-cargo.jpg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/breakbulk-cargo.jpg`} />
 
         <script
           type="application/ld+json"
@@ -167,36 +170,7 @@ export default function BreakbulkTraining() {
           </div>
         </section>
 
-        {/* Sustainability Award cross-link */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl text-white">
-                Does this qualify? Take 2 minutes to find out if what you&apos;re already doing
-                qualifies for the Loxygen Sustainability Award 2026.
-              </p>
-              <p className="mt-3 text-sm font-medium text-white/60">
-                Deadline: 31 July 2026 · No submission cost
-              </p>
-
-              <div className="mt-8">
-                <CountdownTimer
-                  targetDate="2026-07-31T23:59:59+02:00"
-                  expiredLabel="Submissions closed"
-                />
-              </div>
-
-              <Link
-                href="https://loxygen-esg-doiqualify.netlify.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
-              >
-                Take the checklist
-              </Link>
-            </div>
-          </div>
-        </section>
+        <SustainabilityAwardCrossLink />
       </main>
     </>
   );

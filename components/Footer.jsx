@@ -13,6 +13,9 @@ const FOOTER_COLUMNS = [
       ["/micro-learnings", "Micro-learnings"],
       ["/breakbulk-training", "Breakbulk training"],
       ["/bess-logistics-training", "BESS logistics training"],
+      ["/young-forwarders-benelux", "Young Forwarders Benelux"],
+      ["/africa-roadtrip-2026", "Africa Roadtrip 2026"],
+      ["/sustainable-forwarding", "Sustainability Award"],
     ],
   },
   {

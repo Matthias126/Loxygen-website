@@ -4,9 +4,9 @@ import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildBessCourseJsonLd, buildBessFaqJsonLd, BESS_FAQ } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import CheckIcon from "@/components/CheckIcon";
 import CountdownTimer from "@/components/CountdownTimer";
+import SustainabilityAwardCrossLink from "@/components/SustainabilityAwardCrossLink";
 
 const TITLE = "BESS Logistics Training | Loxygen Academy";
 const DESCRIPTION =
@@ -42,10 +42,12 @@ export default function BessLogisticsTraining() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/bess-logistics-training`} />
+        <meta property="og:image" content={`${SITE_URL}/images/BESS.jpg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/BESS.jpg`} />
 
         <script
           type="application/ld+json"
@@ -86,8 +88,8 @@ export default function BessLogisticsTraining() {
 
             <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
               <Image
-                src="/images/bess-terminal.jpg"
-                alt="A crane loading containers at a European container terminal"
+                src="/images/BESS.jpg"
+                alt="Battery energy storage system containers staged at a logistics yard"
                 fill
                 sizes="(min-width: 1024px) 1152px, 100vw"
                 className="object-cover"
@@ -157,7 +159,15 @@ export default function BessLogisticsTraining() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
             <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1fr_2fr]">
-              <PlaceholderImage label="Hilde Lenaerts, speaker photo" className="aspect-square w-full" />
+              <div className="relative aspect-square w-full max-w-[180px] overflow-hidden rounded-xl">
+                <Image
+                  src="/images/hilde_lenaerts.jpg"
+                  alt="Hilde Lenaerts"
+                  fill
+                  sizes="180px"
+                  className="object-cover"
+                />
+              </div>
 
               <div>
                 <h2 className="font-display text-2xl text-brand-navy">
@@ -225,36 +235,7 @@ export default function BessLogisticsTraining() {
           </div>
         </section>
 
-        {/* Sustainability Award cross-link */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl text-white">
-                Does this qualify? Take 2 minutes to find out if what you&apos;re already doing
-                qualifies for the Loxygen Sustainability Award 2026.
-              </p>
-              <p className="mt-3 text-sm font-medium text-white/60">
-                Deadline: 31 July 2026 · No submission cost
-              </p>
-
-              <div className="mt-8">
-                <CountdownTimer
-                  targetDate="2026-07-31T23:59:59+02:00"
-                  expiredLabel="Submissions closed"
-                />
-              </div>
-
-              <Link
-                href="https://loxygen-esg-doiqualify.netlify.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
-              >
-                Take the checklist
-              </Link>
-            </div>
-          </div>
-        </section>
+        <SustainabilityAwardCrossLink />
       </main>
     </>
   );

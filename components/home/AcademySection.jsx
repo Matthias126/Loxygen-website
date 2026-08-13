@@ -15,7 +15,7 @@ export default function AcademySection() {
       <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
         <div className="mx-auto max-w-2xl text-center" data-reveal>
           <h2 className="font-display text-heading tracking-tight text-brand-navy">
-            Everything you need to know to move freight, globally
+            Sharpen the skills that move global freight
           </h2>
 
           <p className="mt-5 text-lg leading-8 text-slate-600">
@@ -37,11 +37,8 @@ export default function AcademySection() {
             data-reveal-item
           >
             <div>
-              <p className="font-display text-stat leading-none text-white">
-                380+
-              </p>
-              <p className="mt-3 text-sm font-semibold uppercase tracking-wide text-white/60">
-                Companies already training with the Academy
+              <p className="font-display text-2xl leading-snug text-white">
+                Training programmes across e-learning, webinars & immersive trips.
               </p>
             </div>
 

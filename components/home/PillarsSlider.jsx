@@ -7,6 +7,7 @@ const PILLARS = [
   {
     title: "Maritime",
     description: "Deep expertise in ocean freight, ports and vessel operations.",
+    image: "/images/maritime_pillar.jpg",
     icon: (
       <path d="M3 18c1.5 1.2 3 1.2 4.5 0s3-1.2 4.5 0 3 1.2 4.5 0 3-1.2 4.5 0M6 18l1-9h10l1 9M9 9V4h6v5" />
     ),
@@ -27,6 +28,7 @@ const PILLARS = [
   {
     title: "Platforms",
     description: "Practical fluency with the digital tools freight forwarders run on.",
+    image: "/images/platform_pillar.jpeg",
     icon: (
       <>
         <rect x="3" y="4" width="18" height="12" rx="1.5" />
@@ -38,11 +40,12 @@ const PILLARS = [
     title: "Sustainability",
     description: "ESG, CSRD and energy-transition logistics built into every track.",
     image: "/images/sustainable-pillar.jpg",
-    //icon: <path d="M12 3c4 2 6 5.5 6 9a6 6 0 0 1-12 0c0-3.5 2-7 6-9ZM12 21v-9" />,
+    icon: <path d="M12 3c4 2 6 5.5 6 9a6 6 0 0 1-12 0c0-3.5 2-7 6-9ZM12 21v-9" />,
   },
   {
     title: "AI",
     description: "AI-assisted logistics operations, from AURA to everyday workflows.",
+    image: "/images/ai_pillar.png",
     icon: (
       <>
         <rect x="5" y="5" width="14" height="14" rx="2.5" />

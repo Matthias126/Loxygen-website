@@ -19,7 +19,7 @@ export default function TestimonialSection({
           </p>
           <footer
             className={`mt-8 text-sm font-medium uppercase tracking-wide ${
-              isLight ? "text-slate-400" : "text-white/50"
+              isLight ? "text-slate-600" : "text-white/50"
             }`}
           >
             {role ? `${name}, ${role}` : name}

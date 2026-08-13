@@ -20,7 +20,7 @@ export default function CourseCard({ course, isOwned }) {
           // eslint-disable-next-line @next/next/no-img-element -- external Supabase Storage URL, no next/image domain config for this demo pass
           <img
             src={course.cover_image_url}
-            alt=""
+            alt={course.title}
             className="mb-6 aspect-video w-full rounded-xl object-cover"
           />
         ) : (
@@ -38,7 +38,11 @@ export default function CourseCard({ course, isOwned }) {
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        {course.price ? (
+        {course.tiers?.length > 0 ? (
+          <span className="text-sm font-semibold text-brand-navy">
+            From €{Math.min(...course.tiers.map((tier) => tier.price))}
+          </span>
+        ) : course.price ? (
           <span className="text-sm font-semibold text-brand-navy">€{course.price}</span>
         ) : (
           <span />

@@ -27,5 +27,5 @@ export async function proxy(req) {
 }
 
 export const config = {
-  matcher: ["/e-learning", "/account", "/admin/:path*", "/api/admin/:path*"],
+  matcher: ["/account", "/admin/:path*", "/api/admin/:path*"],
 };

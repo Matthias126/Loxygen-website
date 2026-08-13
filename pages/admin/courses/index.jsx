@@ -75,7 +75,13 @@ export default function AdminCoursesList() {
                     <div>
                       <p className="font-medium text-brand-navy">{course.title}</p>
                       <p className="mt-1 text-xs text-slate-500">
-                        {course.type} · {course.price ? `€${course.price}` : "no price"} ·{" "}
+                        {course.type} ·{" "}
+                        {course.tiers?.length > 0
+                          ? `${course.tiers.length} price options`
+                          : course.price
+                            ? `€${course.price}`
+                            : "no price"}{" "}
+                        ·{" "}
                         {course.is_active ? "Active" : "Inactive"}
                         {course.show_in_upcoming ? " · Featured as upcoming" : ""}
                       </p>

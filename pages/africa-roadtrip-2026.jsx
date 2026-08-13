@@ -5,36 +5,36 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAfricaRoadtripJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
 import TestimonialSection from "@/components/TestimonialSection";
-import CountdownTimer from "@/components/CountdownTimer";
+import SustainabilityAwardCrossLink from "@/components/SustainabilityAwardCrossLink";
 
 const TITLE = "Africa Roadtrip 2026 | Loxygen Academy";
 const DESCRIPTION =
-  "Africa Roadtrip 2026: a 7-day boots-on-the-ground logistics journey across Ethiopia, Ghana and Namibia. Next edition: February 2027.";
+  "Africa Roadtrip 2026: a 6-day boots-on-the-ground logistics journey across Egypt, Tunisia and Morocco, 29 November to 4 December 2026. Max 10 places.";
 
 const STATS = [
-  { value: "Feb 2027", label: "next roadtrip" },
-  { value: "7 days", label: "across 3 corridors" },
-  { value: "Max 15", label: "participants" },
-  { value: "3", label: "countries: Ethiopia, Ghana, Namibia" },
+  { value: "29 Nov", label: "to 4 Dec 2026" },
+  { value: "6 days", label: "across 3 corridors" },
+  { value: "Max 10", label: "participants" },
+  { value: "€3,555", label: "starting price, per person" },
 ];
 
 const CORRIDORS = [
   {
-    title: "East Africa Corridor",
-    subtitle: "Ethiopia: beyond Djibouti",
+    title: "Egypt",
+    subtitle: "Ain Sokhna and the Suez corridor",
     description:
-      "Inland corridors, Mojo Logistics Park, EDR intermodal terminals and Ethiopian Airlines' cool storage platform.",
+      "Egypt is no longer somewhere cargo passes through; it is somewhere cargo is going.",
   },
   {
-    title: "West Africa Corridor",
-    subtitle: "Ghana: Tema as a gateway",
-    description: "Port operations at Tema and what makes it a gateway for West Africa trade.",
+    title: "Tunisia",
+    subtitle: "Not a mega-hub — a door",
+    description:
+      "Reliable access into two of the region's most complex markets: Libya and Algeria.",
   },
   {
-    title: "Namibian Corridor",
-    subtitle: "Logistics meets new energy",
-    description:
-      "The Walvis Bay to Copperbelt corridor and Namibia's energy transition projects.",
+    title: "Morocco",
+    subtitle: "Tanger Med and the industrial platform serving European OEMs",
+    description: "The shortest supply chain into Europe that isn't in Europe.",
   },
 ];
 
@@ -53,10 +53,12 @@ export default function AfricaRoadtrip2026() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/africa-roadtrip-2026`} />
+        <meta property="og:image" content={`${SITE_URL}/images/africa_tour2026.png`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/africa_tour2026.png`} />
 
         <script
           type="application/ld+json"
@@ -70,12 +72,12 @@ export default function AfricaRoadtrip2026() {
           <div className="mx-auto max-w-7xl px-6 pt-24 lg:px-8">
             <div className="max-w-3xl">
               <h1 className="font-display text-heading tracking-tight text-brand-navy">
-                Africa is not waiting{" "}
-                <span className="italic text-brand-accent">to be discovered.</span>
+                Production is moving{" "}
+                <span className="italic text-brand-accent">to North Africa.</span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                It&apos;s moving fast. You need to know where to look. Africa Roadtrip 2026 is
-                boots-on-the-ground learning across three corridors.
+                See who&apos;s moving it. Africa Roadtrip 2026 is boots-on-the-ground learning
+                across Egypt, Tunisia and Morocco — not a sightseeing tour.
               </p>
             </div>
 
@@ -92,8 +94,8 @@ export default function AfricaRoadtrip2026() {
 
             <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
               <Image
-                src="/images/africa-corridor.jpg"
-                alt="A delivery truck at an industrial logistics facility in Ethiopia"
+                src="/images/africa_tour2026.png"
+                alt="A Terex mobile harbour crane and dockworkers at a Marsa Maroc port terminal in Morocco"
                 fill
                 sizes="(min-width: 1024px) 1152px, 100vw"
                 className="object-cover"
@@ -130,9 +132,9 @@ export default function AfricaRoadtrip2026() {
         </section>
 
         <TestimonialSection
-          quote="Great opportunity, great experience, very good organisation."
-          name="Comodality"
-          role=""
+          quote="The 2026 Africa Road Trip was a great opportunity, great experience, very good organisation."
+          name="Josu Azkorra"
+          role="Comodality Spain"
         />
 
         {/* Pre-register CTA */}
@@ -143,48 +145,19 @@ export default function AfricaRoadtrip2026() {
                 Want to be part of our next Africa journey?
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">
-                Pre-register for the next Africa Roadtrip, February 2027.
+                29 November – 4 December 2026 · Max 10 places · Starting from €3,555 per person.
               </p>
               <Link
-                href="mailto:geert@loxygen.world?subject=Africa%20Roadtrip%202027%3A%20Pre-register"
+                href="mailto:geert@loxygen.world?subject=Africa%20Roadtrip%202026%3A%20Request%20my%20place"
                 className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
               >
-                Pre-register now
+                Request your place
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Sustainability Award cross-link */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
-            <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
-              <p className="font-display text-2xl text-white">
-                Does this qualify? Take 2 minutes to find out if what you&apos;re already doing
-                qualifies for the Loxygen Sustainability Award 2026.
-              </p>
-              <p className="mt-3 text-sm font-medium text-white/60">
-                Deadline: 31 July 2026 · No submission cost
-              </p>
-
-              <div className="mt-8">
-                <CountdownTimer
-                  targetDate="2026-07-31T23:59:59+02:00"
-                  expiredLabel="Submissions closed"
-                />
-              </div>
-
-              <Link
-                href="https://loxygen-esg-doiqualify.netlify.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
-              >
-                Take the checklist
-              </Link>
-            </div>
-          </div>
-        </section>
+        <SustainabilityAwardCrossLink />
       </main>
     </>
   );

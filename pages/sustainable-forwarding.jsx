@@ -1,23 +1,27 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildSustainabilityAwardJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
+import { isSustainabilityAwardClosed } from "@/lib/sustainabilityAward";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const TITLE = "Loxygen Sustainability Award 2026 | Loxygen Academy";
-const DESCRIPTION =
-  "The Loxygen Sustainability Award 2026 recognises freight forwarders' environmental, social and governance initiatives. Deadline 31 July 2026, no submission cost.";
 
 const QUALIFY_SURVEY_URL = "https://loxygen-esg-doiqualify.netlify.app";
 
-const STATS = [
-  { value: "31 Jul", label: "2026 · submission deadline" },
-  { value: "Free", label: "no submission cost" },
-  { value: "Sep 2026", label: "ceremony · Vietnam AGM" },
-  { value: "4", label: "award categories" },
-];
+function getStats(awardClosed) {
+  return [
+    awardClosed
+      ? { value: "Closed", label: "2026 submissions" }
+      : { value: "31 Jul", label: "2026 · submission deadline" },
+    { value: "Free", label: "no submission cost" },
+    { value: "Sep 2026", label: "ceremony · Vietnam AGM" },
+    { value: "4", label: "award categories" },
+  ];
+}
 
 const CATEGORIES = [
   {
@@ -67,23 +71,30 @@ const JURY = [
 
 export default function SustainableForwarding() {
   const jsonLd = buildSustainabilityAwardJsonLd();
+  const awardClosed = isSustainabilityAwardClosed();
+  const stats = getStats(awardClosed);
+  const description = awardClosed
+    ? "The Loxygen Sustainability Award 2026 recognises freight forwarders' environmental, social and governance initiatives. 2026 submissions are closed; winners are announced at the Vietnam AGM in September 2026."
+    : "The Loxygen Sustainability Award 2026 recognises freight forwarders' environmental, social and governance initiatives. Deadline 31 July 2026, no submission cost.";
 
   return (
     <>
       <Head>
         <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <meta name="description" content={description} />
         <link rel="canonical" href={`${SITE_URL}/sustainable-forwarding`} />
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:title" content={TITLE} />
-        <meta property="og:description" content={DESCRIPTION} />
+        <meta property="og:description" content={description} />
         <meta property="og:url" content={`${SITE_URL}/sustainable-forwarding`} />
+        <meta property="og:image" content={`${SITE_URL}/images/sustainability-award.jpg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
-        <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/sustainability-award.jpg`} />
 
         <script
           type="application/ld+json"
@@ -110,7 +121,7 @@ export default function SustainableForwarding() {
             </div>
 
             <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
-              {STATS.map((stat) => (
+              {stats.map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-stat leading-none text-brand-navy">
                     {stat.value}
@@ -120,10 +131,15 @@ export default function SustainableForwarding() {
               ))}
             </div>
 
-            <PlaceholderImage
-              label="Sustainability Award / winner photo"
-              className="mt-12 aspect-[21/9] w-full"
-            />
+            <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/sustainability-award.jpg"
+                alt="Offshore wind turbines along a coastal energy transition site"
+                fill
+                sizes="(min-width: 1024px) 1152px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
@@ -197,25 +213,27 @@ export default function SustainableForwarding() {
         </section>
 
         {/* Checklist */}
-        <section className="bg-white">
-          <div className="mx-auto max-w-4xl px-6 py-16 text-center lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">
-              Does this qualify?
-            </h2>
-            <p className="mx-auto mt-3 max-w-md text-slate-600">
-              Take 2 minutes to find out if what you&apos;re already doing qualifies.
-            </p>
+        {!awardClosed ? (
+          <section className="bg-white">
+            <div className="mx-auto max-w-4xl px-6 py-16 text-center lg:px-8">
+              <h2 className="font-display text-2xl text-brand-navy">
+                Does this qualify?
+              </h2>
+              <p className="mx-auto mt-3 max-w-md text-slate-600">
+                Take 2 minutes to find out if what you&apos;re already doing qualifies.
+              </p>
 
-            <Link
-              href={QUALIFY_SURVEY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90"
-            >
-              Take the checklist
-            </Link>
-          </div>
-        </section>
+              <Link
+                href={QUALIFY_SURVEY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90"
+              >
+                Take the checklist
+              </Link>
+            </div>
+          </section>
+        ) : null}
 
         {/* Process */}
         <section className="bg-white">
@@ -255,29 +273,42 @@ export default function SustainableForwarding() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
             <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
-              <p className="font-display text-banner tracking-tight text-white">
-                Submissions close 31 July 2026
-              </p>
-              <p className="mx-auto mt-4 max-w-md text-white/70">
-                Open to CrossTrades and SeaBlue Project Logistics Network members. No
-                submission cost.
-              </p>
+              {awardClosed ? (
+                <>
+                  <p className="font-display text-banner tracking-tight text-white">
+                    2026 submissions are now closed
+                  </p>
+                  <p className="mx-auto mt-4 max-w-md text-white/70">
+                    Winners will be announced at the Vietnam AGM, September 2026.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="font-display text-banner tracking-tight text-white">
+                    Submissions close 31 July 2026
+                  </p>
+                  <p className="mx-auto mt-4 max-w-md text-white/70">
+                    Open to CrossTrades, SeaBlue Project Logistics Network and Flyte members. No
+                    submission cost.
+                  </p>
 
-              <div className="mt-10">
-                <CountdownTimer
-                  targetDate="2026-07-31T23:59:59+02:00"
-                  expiredLabel="Submissions closed"
-                />
-              </div>
+                  <div className="mt-10">
+                    <CountdownTimer
+                      targetDate="2026-07-31T23:59:59+02:00"
+                      expiredLabel="Submissions closed"
+                    />
+                  </div>
 
-              <Link
-                href="https://elemental-bridge-2ed.notion.site/6cfeb9f2992448e8885013e3d81bcd6b"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-10 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
-              >
-                Submit your entry
-              </Link>
+                  <Link
+                    href="https://elemental-bridge-2ed.notion.site/6cfeb9f2992448e8885013e3d81bcd6b"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-10 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
+                  >
+                    Submit your entry
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </section>

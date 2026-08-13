@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAboutUsJsonLd } from "@/lib/structuredData";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import ScrollFillText from "@/components/ScrollFillText";
 
 const TITLE = "About Loxygen | Logistics Training & Consulting, Belgium";
@@ -13,17 +12,15 @@ const FOUNDERS = [
   {
     name: "Geert De Wilde",
     role: "Co-founder",
+    photo: "/images/GDW.jpeg",
+    photoClassName: "scale-110 origin-top",
     bio: "35+ years in the maritime industry, with C-level positions in freight forwarding and digital supply chain platforms.",
   },
   {
     name: "Rik Spruyt",
     role: "Co-founder",
+    photo: "/images/Rik_about.jpg",
     bio: "35+ years in the maritime industry; founder of the CrossTrades and SeaBlue Project Logistics Network partner networks.",
-  },
-  {
-    name: "Guido Van Nuffelen",
-    role: "Owner, Orchestri",
-    bio: "Strategic ESG and business management consultant.",
   },
 ];
 
@@ -34,6 +31,13 @@ const NETWORKS = [
     logo: "/images/partner-seablue.png",
     width: 400,
     height: 283,
+  },
+  {
+    name: "Flyte",
+    logo: "/images/flyte-weblogo.svg",
+    width: 264,
+    height: 135,
+    lightBg: true,
   },
 ];
 
@@ -52,10 +56,12 @@ export default function AboutUs() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/about-us`} />
+        <meta property="og:image" content={`${SITE_URL}/images/loxygen-about.jpeg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/loxygen-about.jpeg`} />
 
         <script
           type="application/ld+json"
@@ -67,7 +73,7 @@ export default function AboutUs() {
         {/* Hero */}
         <section className="-mt-16 bg-white pt-1.5">
           <div className="px-4 lg:px-6">
-            <div className="bg-grain relative flex min-h-[98vh] items-center justify-center overflow-hidden rounded-3xl bg-brand-navy px-6 text-center">
+            <div className="bg-grain relative flex min-h-[70vh] items-center justify-center overflow-hidden rounded-3xl bg-brand-navy px-6 text-center lg:min-h-[98vh]">
               <Image
                 src="/images/loxygen-about.jpeg"
                 alt="The Loxygen team"
@@ -104,15 +110,22 @@ export default function AboutUs() {
 
         {/* Who is who */}
         <section className="bg-white">
-          <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">Who is who</h2>
-            <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+            <h2 className="font-display text-heading tracking-tight text-brand-navy">
+              Who is who
+            </h2>
+            <div className="mt-12 grid grid-cols-1 gap-12 sm:grid-cols-2">
               {FOUNDERS.map((founder) => (
                 <div key={founder.name}>
-                  <PlaceholderImage
-                    label={`${founder.name} photo`}
-                    className="aspect-square w-full"
-                  />
+                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-brand-light">
+                    <Image
+                      src={founder.photo}
+                      alt={founder.name}
+                      fill
+                      sizes="(min-width: 640px) 50vw, 100vw"
+                      className={`object-cover ${founder.photoClassName ?? ""}`}
+                    />
+                  </div>
                   <h3 className="font-display mt-5 text-xl text-brand-navy">
                     {founder.name}
                   </h3>
@@ -131,19 +144,34 @@ export default function AboutUs() {
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
             <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-16 text-center">
               <p className="font-display text-2xl text-white">
-                Backed by two partner networks built for the same mission.
+                Backed by three partner networks built for the same mission.
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-                {NETWORKS.map((network) => (
-                  <Image
-                    key={network.name}
-                    src={network.logo}
-                    alt={network.name}
-                    width={network.width}
-                    height={network.height}
-                    className="h-16 w-auto"
-                  />
-                ))}
+                {NETWORKS.map((network) =>
+                  network.lightBg ? (
+                    <div
+                      key={network.name}
+                      className="flex h-16 items-center rounded-lg bg-[#FFBA00] px-6"
+                    >
+                      <Image
+                        src={network.logo}
+                        alt={network.name}
+                        width={network.width}
+                        height={network.height}
+                        className="h-9 w-auto"
+                      />
+                    </div>
+                  ) : (
+                    <Image
+                      key={network.name}
+                      src={network.logo}
+                      alt={network.name}
+                      width={network.width}
+                      height={network.height}
+                      className="h-16 w-auto"
+                    />
+                  )
+                )}
               </div>
             </div>
           </div>

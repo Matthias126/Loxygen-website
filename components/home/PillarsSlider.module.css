@@ -61,7 +61,7 @@
 .itemBgOverlay {
   position: absolute;
   inset: 0%;
-  background-color: rgba(2, 53, 96, 0.1);
+  background-color: rgba(2, 53, 96, 0.2);
 }
 
 .itemIcon {
@@ -109,19 +109,16 @@
 
 .itemDescription {
   opacity: 0;
-  margin-top: 0.6em;
+  margin-top: 0.5em;
   margin-bottom: 0;
-  max-width: 22em;
-  font-size: 0.95em;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.75);
+  max-width: 20em;
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   transform: translate(0, 0.25em);
   transition-delay: 0ms;
 }
 
 .item[data-status="active"] .itemDescription {
-  transition-delay: 480ms;
+  transition-delay: 450ms;
   opacity: 1;
   transform: translate(0px, 0em);
 }

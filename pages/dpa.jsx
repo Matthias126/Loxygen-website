@@ -1,77 +1,46 @@
 import Head from "next/head";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const TITLE = "Data Processing Agreement | Loxygen Academy";
 const DESCRIPTION =
-  "How Loxygen Academy processes personal data on behalf of business customers, including sub-processors, security measures and data subject rights.";
-const LAST_UPDATED = "5 August 2026";
+  "Annex 1 – Data Processing Agreement between Loxygen and its clients, setting out the Article 28(3) GDPR processor obligations that apply to the Agreement.";
+const LAST_UPDATED = "14 August 2026";
 
-const SECTIONS = [
+const INTRO =
+  "This Data Processing Agreement is an annex to the Terms and forms an integral part of the Agreement between the Parties. This Annex 1 outlines the additional terms, requirements, and conditions under which Loxygen (acting as Processor or Sub-processor) will process Personal Data on behalf of the Client (acting as Controller or Processor) in executing the Agreement, ensuring data protection and GDPR compliance. This Annex includes the mandatory clauses required by Article 28(3) of the General Data Protection Regulation 2016/679 (hereinafter referred to as “GDPR”) for agreements between Controllers and Processors.";
+
+const CLAUSES = [
   {
-    heading: "1. Purpose & scope",
-    paragraphs: [
-      "This Data Processing Agreement (DPA) describes how Loxygen BV (\"Loxygen\", \"we\") processes personal data in connection with the Loxygen Academy website, e-learning platform, and micro-learning subscription. It applies alongside our Terms & Conditions for business customers who register employees for training under their organisation's account.",
+    text: "Insofar no definition is provided in the Agreement, the capitalized terms in this Annex shall have the definitions given under the GDPR.",
+  },
+  {
+    text: "Loxygen agrees:",
+    subitems: [
+      "to Process the Personal Data only on documented instruction from the Client in accordance with Appendix A, including transfers of Personal Data to a third country or an international organization, unless required by applicable law to which Loxygen is subject; in such a case, Loxygen shall inform the Client of those legal requirements before Processing, unless that law prohibits this;",
+      "to immediately inform the Client if, in Loxygen's opinion, an instruction infringes the GDPR or other applicable data protection provisions;",
+      "not to make available Personal Data to third parties without the Client’s prior written approval;",
+      "that persons authorized to Process the Personal Data are committed to confidentiality by an agreement or are under an appropriate statutory obligation of confidentiality;",
+      "to take appropriate technical and organizational measures to ensure a level of security appropriate to the risk (e.g. against unauthorized or unlawful Processing of Personal Data and against accidental loss, destruction of, or damage to such data) as set out in Appendix A;",
+      "taking into account the general written authorization given by the Client to engage other Sub-processors, to inform the Client if Loxygen intends to appoint another Sub-processor than those set out in Appendix A, allowing the Client to object to this appointment within fourteen (14) days in writing on reasonable grounds supported by documentary evidence. If the Client does not submit a written, well-reasoned objection regarding the engagement of additional Sub-Processors within the aforementioned time, the appointment of the additional Sub-Processors shall be deemed authorized;",
+      "to impose the same data protection obligations as stated in this Annex to authorized Sub-processors by way of a contract, ensuring that the Processing meets the requirements of the GDPR;",
+      "that where appointed Sub-processors fail to fulfil their data protection obligations, Loxygen shall remain fully liable to the Client for the performance of that Sub-Processor’s obligations;",
+      "to reasonably assist the Client by appropriate technical and organizational measures (i) for fulfilling the Client’s obligation to respond to requests for exercising data subject rights or (ii) the Client’s compliance with any other obligation under the GDPR;",
+      "to consider the principles of data protection by design and default when Processing Personal Data;",
+      "to notify the Client of any Personal Data Breach without undue delay after becoming aware of such a breach and to reasonably assist the Client in mitigating and resolving such a Personal Data Breach;",
+      "not to Process Personal Data outside the EEA without the Client’s written consent and only subject to the safeguards required under the GDPR;",
+      "not to retain Personal Data longer than necessary for the performance of the Agreement, unless another storage period is instructed by the Client or mandated by applicable law;",
+      "to delete or return (at the Client's choice) all the Personal Data to the Client after termination of the Agreement and to delete existing copies unless applicable law requires storage of the Personal Data;",
+      "to make available to the Client all information reasonably necessary to demonstrate compliance with the obligations outlined in this Annex and to reasonably allow for and contribute to audits, including inspections, conducted by the Client or another auditor mandated by the Client.",
     ],
   },
   {
-    heading: "2. Roles of the parties",
-    paragraphs: [
-      "For account and billing data, Loxygen acts as the data controller. Where a business customer registers its employees for training, that customer acts as controller for its employees' data, and Loxygen acts as processor, acting only on the customer's documented instructions as set out in this DPA.",
-    ],
+    text: "The Parties acknowledge and agree that, if necessary, regardless of the reason (such as, but not limited to, any (prospective) changes to applicable data protection legislation or amendments to the scope of the Services, cooperation, or the Agreement), they shall enter into a more extensive data processing agreement as may be necessary.",
   },
   {
-    heading: "3. Categories of personal data",
-    paragraphs: [
-      "Name, business email address, company name, course/subscription purchase history, and (where a micro-learning subscription is purchased) the data needed to provision an account on our partner platform, JollyDeck. We do not intentionally collect special categories of personal data.",
-    ],
+    text: "To the extent permitted under applicable law, any limitations and/or exclusions of liability in the Agreement shall apply to this Annex. Additionally, Loxygen shall only be liable under this Annex if it has: (i) failed to comply with its specific obligations under the GDPR; or (ii) acted outside or in breach of the Client's lawful instructions.",
   },
   {
-    heading: "4. Purpose of processing",
-    paragraphs: [
-      "Personal data is processed to create and manage accounts, deliver purchased course and subscription content, provision JollyDeck access, process payments, and send transactional and support emails. It is not used for unrelated marketing without separate consent.",
-    ],
-  },
-  {
-    heading: "5. Sub-processors",
-    paragraphs: [
-      "We use the following sub-processors to deliver the Academy: Stripe (payment processing), Resend (transactional email), Supabase (database and account storage), and JollyDeck (micro-learning content delivery). Each sub-processor is contractually bound to protect personal data to a standard consistent with this DPA.",
-    ],
-  },
-  {
-    heading: "6. International transfers",
-    paragraphs: [
-      "Where a sub-processor stores or processes data outside the European Economic Area, we rely on that provider's own GDPR-compliant transfer mechanisms (such as Standard Contractual Clauses). Details are available on request.",
-    ],
-  },
-  {
-    heading: "7. Security measures",
-    paragraphs: [
-      "Access to personal data is restricted to what's needed to operate the Academy, account passwords are stored using industry-standard hashing, and payment card data is handled entirely by Stripe. Loxygen never stores full card numbers.",
-    ],
-  },
-  {
-    heading: "8. Data subject rights",
-    paragraphs: [
-      "Individuals can request access to, correction of, or deletion of their personal data by contacting us at geert@loxygen.world. Business customers are responsible for handling rights requests from their own employees where Loxygen acts as processor, and we will assist as required by applicable law.",
-    ],
-  },
-  {
-    heading: "9. Data breach notification",
-    paragraphs: [
-      "If we become aware of a personal data breach affecting a business customer's data, we will notify that customer without undue delay so they can meet their own regulatory obligations.",
-    ],
-  },
-  {
-    heading: "10. Term & termination",
-    paragraphs: [
-      "This DPA remains in effect for as long as Loxygen processes personal data on a customer's behalf. On termination, we will delete or return the relevant personal data, unless retention is required by law.",
-    ],
-  },
-  {
-    heading: "11. Contact",
-    paragraphs: [
-      "Questions about this DPA or data protection at Loxygen can be sent to geert@loxygen.world.",
-    ],
+    text: "This Annex is governed by all miscellaneous clauses of the Terms, including provisions regarding the competent court and applicable law, unless the context requires otherwise.",
   },
 ];
 
@@ -88,6 +57,12 @@ export default function DPA() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/dpa`} />
+        <meta property="og:image" content={DEFAULT_OG_IMAGE} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={TITLE} />
+        <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
       </Head>
 
       <main>
@@ -97,22 +72,35 @@ export default function DPA() {
               Data Processing{" "}
               <span className="italic text-brand-accent">Agreement.</span>
             </h1>
-            <p className="mt-5 text-sm font-semibold uppercase tracking-wide text-slate-400">
+            <p className="mt-4 text-base font-medium text-slate-600">
+              Annex 1 &ndash; Data Processing Agreement
+            </p>
+            <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-slate-400">
               Last updated {LAST_UPDATED}
             </p>
 
-            <div className="mt-16 space-y-12">
-              {SECTIONS.map((section) => (
-                <div key={section.heading}>
-                  <h2 className="font-display text-2xl text-brand-navy">{section.heading}</h2>
-                  {section.paragraphs.map((paragraph, index) => (
-                    <p key={index} className="mt-4 text-base leading-7 text-slate-600">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
+            <p className="mt-10 text-base leading-7 text-slate-600">{INTRO}</p>
+
+            <ol className="mt-10 space-y-8">
+              {CLAUSES.map((clause, index) => (
+                <li key={index} className="text-base leading-7 text-slate-600">
+                  <span className="font-semibold text-brand-navy">{index + 1}) </span>
+                  {clause.text}
+                  {clause.subitems ? (
+                    <ol className="mt-4 space-y-4 pl-6">
+                      {clause.subitems.map((item, i) => (
+                        <li key={i}>
+                          <span className="font-semibold text-brand-navy">
+                            {String.fromCharCode(97 + i)})
+                          </span>{" "}
+                          {item}
+                        </li>
+                      ))}
+                    </ol>
+                  ) : null}
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
       </main>

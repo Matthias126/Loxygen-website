@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { buildAcademyJsonLd, buildUpcomingCoursesJsonLd } from "@/lib/structuredData";
 import { getCourses, getUpcomingCourses } from "@/lib/courses";
 import { COURSE_TYPE_TO_CATEGORY } from "@/lib/courseTypes";
@@ -31,7 +31,9 @@ const ALL_PROGRAMMES = [
     title: "Young Forwarders Benelux",
     description:
       "A European Ports Immersion Week for the next generation of Benelux freight forwarders.",
-    imageLabel: "Rotterdam / Antwerp port visit",
+    image: "/images/benelux-port-visit.jpg",
+    imageAlt:
+      "Freight forwarders touring a container terminal during the Young Forwarders Benelux immersion week",
   },
   {
     category: "immersive",
@@ -39,7 +41,8 @@ const ALL_PROGRAMMES = [
     format: "Immersive programme · 2026",
     title: "Africa Roadtrip 2026",
     description: "An immersive road trip through Africa's key logistics corridors.",
-    imageLabel: "Africa corridor road trip",
+    image: "/images/africa_tour2026.png",
+    imageAlt: "A Terex mobile harbour crane and dockworkers at a Marsa Maroc port terminal in Morocco",
   },
   {
     category: "scheduled",
@@ -47,6 +50,8 @@ const ALL_PROGRAMMES = [
     format: "Webinar series",
     title: "Breakbulk Training",
     description: "Webinars on planning and executing breakbulk and project cargo movements.",
+    image: "/images/breakbulk-cargo.jpg",
+    imageAlt: "A heavy-lift transformer being loaded onto a vessel during a breakbulk operation",
   },
   {
     category: "scheduled",
@@ -55,6 +60,8 @@ const ALL_PROGRAMMES = [
     title: "BESS Logistics Training",
     description:
       "Transport, safety and compliance training for battery energy storage system logistics.",
+    image: "/images/BESS.jpg",
+    imageAlt: "Battery energy storage system containers staged at a logistics yard",
   },
   {
     category: "self-paced",
@@ -63,6 +70,8 @@ const ALL_PROGRAMMES = [
     title: "E-learning",
     description:
       "On-demand courses covering trade compliance, documentation and freight operations.",
+    image: "/images/e-learning.jpg",
+    imageAlt: "Rows of stacked tank containers at a logistics storage yard",
   },
   {
     category: "self-paced",
@@ -71,14 +80,18 @@ const ALL_PROGRAMMES = [
     title: "Micro-learnings",
     description:
       "Bite-sized lessons delivered year-round through JollyDeck, for teams that learn in the flow of work.",
+    image: "/images/micro-learnings.jpg",
+    imageAlt: "A Loxygen guide pointing out port infrastructure to a group on a dockside walkway",
   },
   {
     category: "sustainability",
     href: "/sustainable-forwarding",
-    format: "Award & ESG content",
-    title: "Sustainable Forwarding",
+    format: "Award & recognition",
+    title: "Sustainability Award",
     description:
-      "ESG strategy, CSRD reporting and the Sustainability Award 2026, for forwarders building a credible transition plan.",
+      "Recognising freight forwarders' environmental, social and governance initiatives — four categories, judged by an independent jury.",
+    image: "/images/sustainability-award.jpg",
+    imageAlt: "Offshore wind turbines along a coastal energy transition site",
   },
 ];
 
@@ -105,6 +118,13 @@ const PARTNER_NETWORKS = [
     width: 400,
     height: 283,
   },
+  {
+    name: "Flyte",
+    logo: "/images/flyte-weblogo.svg",
+    width: 264,
+    height: 135,
+    lightBg: true,
+  },
 ];
 
 export default function TheAcademy({ courses, upcomingCourses, pageVisibility }) {
@@ -116,7 +136,12 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
       (programme) => pageVisibility[programme.href.slice(1)] !== false
     ).map((programme) => ({ kind: "static", ...programme }));
     const liveItems = courses
-      .filter((course) => COURSE_TYPE_TO_CATEGORY[course.type] && !course.show_in_upcoming)
+      .filter(
+        (course) =>
+          COURSE_TYPE_TO_CATEGORY[course.type] &&
+          !course.show_in_upcoming &&
+          course.type !== "micro-learning"
+      )
       .map((course) => ({
         kind: "live",
         category: COURSE_TYPE_TO_CATEGORY[course.type],
@@ -148,10 +173,12 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/the-academy`} />
+        <meta property="og:image" content={DEFAULT_OG_IMAGE} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
 
         <script
           type="application/ld+json"
@@ -304,16 +331,31 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
-              {PARTNER_NETWORKS.map((network) => (
-                <Image
-                  key={network.name}
-                  src={network.logo}
-                  alt={network.name}
-                  width={network.width}
-                  height={network.height}
-                  className="h-16 w-auto"
-                />
-              ))}
+              {PARTNER_NETWORKS.map((network) =>
+                network.lightBg ? (
+                  <div
+                    key={network.name}
+                    className="flex h-16 items-center rounded-lg bg-[#FFBA00] px-6"
+                  >
+                    <Image
+                      src={network.logo}
+                      alt={network.name}
+                      width={network.width}
+                      height={network.height}
+                      className="h-9 w-auto"
+                    />
+                  </div>
+                ) : (
+                  <Image
+                    key={network.name}
+                    src={network.logo}
+                    alt={network.name}
+                    width={network.width}
+                    height={network.height}
+                    className="h-16 w-auto"
+                  />
+                )
+              )}
             </div>
 
             <div className="mt-10">

@@ -10,7 +10,7 @@ const ACADEMY_LINKS = [
   ["/bess-logistics-training", "BESS logistics training"],
   ["/young-forwarders-benelux", "Young Forwarders Benelux"],
   ["/africa-roadtrip-2026", "Africa Roadtrip 2026"],
-  ["/sustainable-forwarding", "Sustainable forwarding"],
+  ["/sustainable-forwarding", "Sustainability Award"],
 ];
 
 export default function Navbar() {
@@ -117,7 +117,7 @@ export default function Navbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="mx-auto mt-2 max-w-5xl rounded-3xl border border-white/15 bg-brand-navy/90 px-6 pb-6 pt-2 shadow-lg shadow-black/10 backdrop-blur-xl md:hidden">
+        <div className="absolute inset-x-4 top-full mx-auto mt-2 max-w-5xl rounded-3xl border border-white/15 bg-brand-navy/90 px-6 pb-6 pt-2 shadow-lg shadow-black/10 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 pt-4">
             <Link
               href="/"

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import ShareExpertiseForm from "@/components/ShareExpertiseForm";
 
 const TITLE = "Share Your Expertise | Loxygen Academy";
@@ -31,10 +31,12 @@ export default function ShareYourExpertise() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/share-your-expertise`} />
+        <meta property="og:image" content={DEFAULT_OG_IMAGE} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
 
         <script
           type="application/ld+json"

@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 
 const QUERIES = [
   "How long to ship 2 pallets from Antwerp to Lagos?",
-  "Which partner covers breakbulk in West Africa?",
-  "What will customs clearance cost in Rotterdam?",
+  "Which partner can handle a 200-ton project cargo move out of Durban?",
+  "How do I ship a 40-ton heavy BESS container from China to Budapest?",
   "Who can handle an oversized cargo move to Mombasa?",
 ];
 
@@ -219,7 +219,7 @@ export default function VirtualManagerSection() {
         <p ref={paragraphRef} className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/70">
           AURA is the logistics specialist you always needed and could never afford to hire,
           trained on every trade lane, partner, rate and compliance requirement across a
-          network of 380+ companies. Available now, never retiring, getting smarter every day.
+          network of 380+ companies. Available soon, always on, and getting smarter every day.
         </p>
 
         <div className="mt-10">
@@ -245,13 +245,42 @@ export default function VirtualManagerSection() {
             AURA
           </span>
 
-          <p
+          <div
             aria-hidden="true"
-            className="flex min-h-[1.75em] max-w-2xl items-baseline justify-center gap-1 px-4 text-center text-lg font-medium text-white/70 lg:text-xl"
+            className="relative flex w-full max-w-2xl items-center gap-3 overflow-hidden rounded-2xl border border-white/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.35)_0%,rgba(2,53,96,0.4)_28%,rgba(2,53,96,0.22)_65%,rgba(255,255,255,0.2)_100%)] px-6 py-5 shadow-2xl shadow-black/20 backdrop-blur-2xl backdrop-saturate-150"
           >
-            <span>{displayText}</span>
-            <span className="inline-block h-[1em] w-[2px] translate-y-0.5 animate-pulse bg-white/70" />
-          </p>
+            <span className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+            <span className="pointer-events-none absolute -top-8 left-10 h-16 w-32 rounded-full bg-white/30 blur-2xl" />
+
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+              className="flex-none text-white/60"
+            >
+              <circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" strokeWidth="1.6" />
+              <path d="M17 17l-4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+
+            <span className="min-h-[1.5em] flex-1 text-left text-lg font-medium text-white lg:text-xl">
+              {displayText}
+              <span className="ml-1 inline-block h-[1em] w-[2px] translate-y-0.5 animate-pulse bg-white/70" />
+            </span>
+
+            <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-brand-navy">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M8 13V3M8 3L3.5 7.5M8 3l4.5 4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
           <p className="sr-only">
             Example questions you can ask AURA: {QUERIES.join("; ")}
           </p>

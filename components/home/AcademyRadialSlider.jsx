@@ -7,12 +7,12 @@ import { initRadialSlider, attachRadialSliderResize, destroyRadialSlider } from 
 const CARDS = [
   { title: "The Academy", href: "/the-academy", initials: "TA", image: "/images/hero-port.jpg" },
   { title: "BESS Logistics Training", href: "/bess-logistics-training", initials: "BL", image: "/images/BESS.jpg" },
-  { title: "e-Learning", href: "/e-learning", initials: "EL" },
+  { title: "e-Learning", href: "/e-learning", initials: "EL", image: "/images/e-learning.jpg" },
   { title: "Young Forwarders Benelux", href: "/young-forwarders-benelux", initials: "YF", image: "/images/benelux-port-visit.jpg" },
-  { title: "Africa Roadtrip 2026", href: "/africa-roadtrip-2026", initials: "AR", image: "/images/africa-corridor.jpg" },
-  { title: "Micro Learnings", href: "/micro-learnings", initials: "ML" },
+  { title: "Africa Roadtrip 2026", href: "/africa-roadtrip-2026", initials: "AR", image: "/images/africa_tour2026.png" },
+  { title: "Micro Learnings", href: "/micro-learnings", initials: "ML", image: "/images/micro-learnings.jpg" },
   { title: "Breakbulk Training", href: "/breakbulk-training", initials: "BT", image: "/images/breakbulk-cargo.jpg" },
-  { title: "Sustainable Forwarding", href: "/sustainable-forwarding", initials: "SF", image: "/images/sustainable-forwarding.jpeg" },
+  { title: "Sustainability Award", href: "/sustainable-forwarding", initials: "SA", image: "/images/sustainability-award.jpg" },
   { title: "Coming Soon", href: null, initials: "Soon" },
 ];
 

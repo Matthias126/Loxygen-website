@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     const { data, error } = await supabaseAdmin
       .from("courses")
-      .select("*")
+      .select("*, tiers:course_price_tiers(*)")
       .eq("id", id)
       .maybeSingle();
 
@@ -33,6 +33,9 @@ export default async function handler(req, res) {
       available_at,
       registration_deadline,
       cover_image_url,
+      jollydeck_url,
+      topic_id,
+      tiers,
     } = req.body ?? {};
 
     if (!slug || !title || !type) {
@@ -56,12 +59,37 @@ export default async function handler(req, res) {
         available_at: available_at || null,
         registration_deadline: registration_deadline || null,
         cover_image_url: cover_image_url || null,
+        jollydeck_url: jollydeck_url || null,
+        topic_id: topic_id || null,
       })
       .eq("id", id)
       .select()
       .single();
 
     if (error) return res.status(500).json({ error: error.message });
+
+    if (Array.isArray(tiers)) {
+      const { error: deleteError } = await supabaseAdmin
+        .from("course_price_tiers")
+        .delete()
+        .eq("course_id", id);
+      if (deleteError) return res.status(500).json({ error: deleteError.message });
+
+      if (tiers.length > 0) {
+        const { error: tiersError } = await supabaseAdmin.from("course_price_tiers").insert(
+          tiers.map((tier, index) => ({
+            course_id: id,
+            label: tier.label,
+            price: tier.price,
+            price_note: tier.price_note || null,
+            stripe_price_id: tier.stripe_price_id || null,
+            sort_order: index,
+          }))
+        );
+        if (tiersError) return res.status(500).json({ error: tiersError.message });
+      }
+    }
+
     return res.status(200).json({ course: data });
   }
 

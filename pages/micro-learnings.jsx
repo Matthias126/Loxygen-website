@@ -1,9 +1,9 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildMicroLearningsJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import CheckIcon from "@/components/CheckIcon";
 
 const TITLE = "Micro-learnings | Loxygen Academy";
@@ -68,10 +68,12 @@ export default function MicroLearnings() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/micro-learnings`} />
+        <meta property="og:image" content={`${SITE_URL}/images/micro-learnings.jpg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/micro-learnings.jpg`} />
 
         <script
           type="application/ld+json"
@@ -107,10 +109,15 @@ export default function MicroLearnings() {
               ))}
             </div>
 
-            <PlaceholderImage
-              label="Micro-learnings product photo pending"
-              className="relative mt-12 aspect-[21/9] w-full rounded-3xl"
-            />
+            <div className="relative mt-12 aspect-[21/9] w-full overflow-hidden rounded-3xl">
+              <Image
+                src="/images/micro-learnings.jpg"
+                alt="A Loxygen guide pointing out port infrastructure to a group on a dockside walkway"
+                fill
+                sizes="(min-width: 1024px) 1152px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </section>
 
@@ -126,6 +133,25 @@ export default function MicroLearnings() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Preview CTA */}
+        <section className="bg-white">
+          <div className="mx-auto max-w-7xl px-6 pb-16 text-center lg:px-8">
+            <p className="font-display text-banner tracking-tight text-brand-navy">
+              See every module, by topic
+            </p>
+            <p className="mx-auto mt-4 max-w-md text-slate-600">
+              Browse the full catalogue before you subscribe — no account needed.
+            </p>
+
+            <Link
+              href="/micro-learnings/preview"
+              className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90"
+            >
+              See what&apos;s included
+            </Link>
           </div>
         </section>
 

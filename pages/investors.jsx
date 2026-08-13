@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { SITE_URL, SITE_NAME } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const TITLE = "Investors | Loxygen Academy";
 const DESCRIPTION =
@@ -8,9 +8,9 @@ const DESCRIPTION =
 
 const STATS = [
   { value: "2024", label: "founded in Belgium" },
-  { value: "380+", label: "companies already training with the Academy" },
+  { value: "380+", label: "member companies across our partner networks" },
   { value: "7", label: "training programmes across e-learning, webinars & immersive trips" },
-  { value: "2", label: "partner networks: CrossTrades & SeaBlue Project Logistics Network" },
+  { value: "3", label: "partner networks: CrossTrades, SeaBlue Project Logistics Network & Flyte" },
 ];
 
 export default function Investors() {
@@ -41,10 +41,12 @@ export default function Investors() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/investors`} />
+        <meta property="og:image" content={DEFAULT_OG_IMAGE} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
 
         <script
           type="application/ld+json"

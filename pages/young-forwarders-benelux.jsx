@@ -14,7 +14,7 @@ const STATS = [
   { value: "May 2027", label: "next edition" },
   { value: "6 days", label: "on the ground" },
   { value: "22–35", label: "age range" },
-  { value: "Members only", label: "SeaBlue & CrossTrades" },
+  { value: "Members only", label: "SeaBlue, CrossTrades & Flyte" },
 ];
 
 const STOPS = [
@@ -70,10 +70,12 @@ export default function YoungForwardersBenelux() {
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
         <meta property="og:url" content={`${SITE_URL}/young-forwarders-benelux`} />
+        <meta property="og:image" content={`${SITE_URL}/images/benelux-port-visit.jpg`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
+        <meta name="twitter:image" content={`${SITE_URL}/images/benelux-port-visit.jpg`} />
 
         <script
           type="application/ld+json"
@@ -173,8 +175,8 @@ export default function YoungForwardersBenelux() {
           <div className="mx-auto max-w-7xl px-6 pb-24 lg:px-8">
             <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
               <p className="font-display text-banner tracking-tight text-white">
-                Open exclusively to members of the SeaBlue Project Logistics Network and
-                CrossTrades.
+                Open exclusively to members of the SeaBlue Project Logistics Network,
+                CrossTrades and Flyte.
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">
                 Freight forwarders aged 22–35 seeking operational mastery, not just theory.
