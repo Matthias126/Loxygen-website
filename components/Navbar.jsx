@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-4 z-50 px-4">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between rounded-full border border-white/20 bg-[linear-gradient(135deg,rgba(255,255,255,0.22)_0%,rgba(2,53,96,0.42)_30%,rgba(2,53,96,0.28)_70%,rgba(255,255,255,0.12)_100%)] px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-2xl backdrop-saturate-150">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between rounded-full bg-[linear-gradient(to_bottom,rgba(255,255,255,0.28)_0%,rgba(150,180,210,0.20)_10%,rgba(2,53,96,0.30)_22%,rgba(2,53,96,0.50)_40%,rgba(2,53,96,0.68)_65%,rgba(2,53,96,0.60)_100%)] px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-2xl backdrop-saturate-200">
         <Link
           href="/"
           className="flex items-center gap-2.5"

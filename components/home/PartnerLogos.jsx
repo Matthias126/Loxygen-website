@@ -27,25 +27,26 @@ export default function PartnerLogos() {
             partner.lightBg ? (
               <div
                 key={partner.name}
-                className="flex h-24 items-center rounded-lg bg-[#FFBA00] px-8"
+                className="flex h-24 w-44 items-center justify-center rounded-lg bg-[#FFBA00] px-6"
               >
                 <Image
                   src={partner.logo}
                   alt={partner.name}
                   width={partner.width}
                   height={partner.height}
-                  className="h-14 w-auto"
+                  className="h-14 w-auto max-w-full object-contain"
                 />
               </div>
             ) : (
-              <Image
-                key={partner.name}
-                src={partner.logo}
-                alt={partner.name}
-                width={partner.width}
-                height={partner.height}
-                className="h-24 w-auto"
-              />
+              <div key={partner.name} className="flex h-24 w-44 items-center justify-center">
+                <Image
+                  src={partner.logo}
+                  alt={partner.name}
+                  width={partner.width}
+                  height={partner.height}
+                  className="h-full w-full object-contain"
+                />
+              </div>
             )
           )}
         </div>

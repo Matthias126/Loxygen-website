@@ -5,7 +5,6 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildAfricaRoadtripJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
 import TestimonialSection from "@/components/TestimonialSection";
-import SustainabilityAwardCrossLink from "@/components/SustainabilityAwardCrossLink";
 
 const TITLE = "Africa Roadtrip 2026 | Loxygen Academy";
 const DESCRIPTION =
@@ -157,7 +156,6 @@ export default function AfricaRoadtrip2026() {
           </div>
         </section>
 
-        <SustainabilityAwardCrossLink />
       </main>
     </>
   );

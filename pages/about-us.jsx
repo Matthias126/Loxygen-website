@@ -15,12 +15,14 @@ const FOUNDERS = [
     photo: "/images/GDW.jpeg",
     photoClassName: "scale-110 origin-top",
     bio: "35+ years in the maritime industry, with C-level positions in freight forwarding and digital supply chain platforms.",
+    linkedIn: "https://www.linkedin.com/in/geertdewilde/",
   },
   {
     name: "Rik Spruyt",
     role: "Co-founder",
     photo: "/images/Rik_about.jpg",
     bio: "35+ years in the maritime industry; founder of the CrossTrades and SeaBlue Project Logistics Network partner networks.",
+    linkedIn: "https://www.linkedin.com/in/rikspruyt/",
   },
 ];
 
@@ -117,7 +119,7 @@ export default function AboutUs() {
             <div className="mt-12 grid grid-cols-1 gap-12 sm:grid-cols-2">
               {FOUNDERS.map((founder) => (
                 <div key={founder.name}>
-                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-brand-light">
+                  <div className="relative aspect-square w-full max-w-xs overflow-hidden rounded-xl bg-brand-light">
                     <Image
                       src={founder.photo}
                       alt={founder.name}
@@ -133,6 +135,20 @@ export default function AboutUs() {
                     {founder.role}
                   </p>
                   <p className="mt-4 text-base leading-7 text-slate-600">{founder.bio}</p>
+                  {founder.linkedIn ? (
+                    <a
+                      href={founder.linkedIn}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${founder.name} on LinkedIn`}
+                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-navy hover:underline"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
+                      </svg>
+                      LinkedIn
+                    </a>
+                  ) : null}
                 </div>
               ))}
             </div>

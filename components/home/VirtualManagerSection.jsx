@@ -213,11 +213,11 @@ export default function VirtualManagerSection() {
       <div className="mx-auto max-w-4xl px-6 pt-32 text-center lg:px-8 lg:pt-40" data-reveal>
         <h2 ref={headingRef} className="font-display text-heading tracking-tight text-white">
           <span className="block">Meet AURA.</span>
-          <span className="block italic text-brand-accent">Ask it anything about the network.</span>
+          <span className="block italic text-brand-accent">Ask it anything about moving freight.</span>
         </h2>
 
         <p ref={paragraphRef} className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/70">
-          AURA is the logistics specialist you always needed and could never afford to hire,
+          AURA is the logistics specialist you always needed,
           trained on every trade lane, partner, rate and compliance requirement across a
           network of 380+ companies. Available soon, always on, and getting smarter every day.
         </p>
