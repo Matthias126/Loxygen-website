@@ -28,7 +28,7 @@ export default function PartnerLogos() {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-6xl px-6 py-14 text-center lg:px-8">
-        <p className="text-sm font-medium text-slate-400">Working with</p>
+        <p className="text-sm font-medium text-slate-400">Exclusive partner of</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-10">
           {PARTNERS.map((partner) => (
             <div
