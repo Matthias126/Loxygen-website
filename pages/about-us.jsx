@@ -20,26 +20,33 @@ const FOUNDERS = [
   {
     name: "Rik Spruyt",
     role: "Co-founder",
-    photo: "/images/Rik_about.jpg",
+    photo: "/images/Rik.png",
     bio: "35+ years in the maritime industry; founder of the CrossTrades and SeaBlue Project Logistics Network partner networks.",
     linkedIn: "https://www.linkedin.com/in/rikspruyt/",
   },
 ];
 
 const NETWORKS = [
-  { name: "CrossTrades", logo: "/images/partner-crosstrades.png", width: 400, height: 173 },
+  {
+    name: "CrossTrades",
+    logo: "/images/crosstrades-logo-white.png",
+    width: 1107,
+    height: 483,
+    boxBg: "bg-[#2764DD]",
+  },
   {
     name: "SeaBlue Project Logistics Network",
-    logo: "/images/partner-seablue.png",
-    width: 400,
-    height: 283,
+    logo: "/images/seablue-logo-white.png",
+    width: 1000,
+    height: 510,
+    boxBg: "bg-[#394F78]",
   },
   {
     name: "Flyte",
     logo: "/images/flyte-weblogo.svg",
     width: 264,
     height: 135,
-    lightBg: true,
+    boxBg: "bg-[#FFBA00]",
   },
 ];
 
@@ -163,31 +170,20 @@ export default function AboutUs() {
                 Backed by three partner networks built for the same mission.
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-                {NETWORKS.map((network) =>
-                  network.lightBg ? (
-                    <div
-                      key={network.name}
-                      className="flex h-16 items-center rounded-lg bg-[#FFBA00] px-6"
-                    >
-                      <Image
-                        src={network.logo}
-                        alt={network.name}
-                        width={network.width}
-                        height={network.height}
-                        className="h-9 w-auto"
-                      />
-                    </div>
-                  ) : (
+                {NETWORKS.map((network) => (
+                  <div
+                    key={network.name}
+                    className={`flex h-16 items-center rounded-lg px-6 ${network.boxBg || "bg-white"}`}
+                  >
                     <Image
-                      key={network.name}
                       src={network.logo}
                       alt={network.name}
                       width={network.width}
                       height={network.height}
-                      className="h-16 w-auto"
+                      className="h-9 w-auto"
                     />
-                  )
-                )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
