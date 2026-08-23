@@ -244,7 +244,7 @@ Look at **osmo.supply** for design inspiration — references have been saved th
 ---
 
 ## Notes
-- Top nav is intentionally lean: **Start / The Academy (dropdown) / About us / Blog / Sign in**
+- Top nav is intentionally lean: **The Academy (dropdown) / About us / Blog / Contact / Sign in**
 - All pages English except contact form which can be bilingual (EN + NL)
 - The site will be hosted at `loxygen.world`; there is also `loxygen.ai` which may be used for the future AI platform (out of scope for now)
 - Do not break the current live site — build entirely fresh, go live with a DNS swap at the end

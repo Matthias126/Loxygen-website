@@ -32,10 +32,6 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
-          <Link href="/" className="text-sm font-medium text-white/80 hover:text-white">
-            Start
-          </Link>
-
           <div className="group relative">
             <button
               type="button"
@@ -67,6 +63,9 @@ export default function Navbar() {
           </Link>
           <Link href="/blog" className="text-sm font-medium text-white/80 hover:text-white">
             Blog
+          </Link>
+          <Link href="/contact" className="text-sm font-medium text-white/80 hover:text-white">
+            Contact
           </Link>
         </div>
 
@@ -119,14 +118,6 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="absolute inset-x-4 top-full mx-auto mt-2 max-w-5xl rounded-3xl border border-white/15 bg-brand-navy/90 px-6 pb-6 pt-2 shadow-lg shadow-black/10 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 pt-4">
-            <Link
-              href="/"
-              onClick={() => setMobileOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"
-            >
-              Start
-            </Link>
-
             <details className="group">
               <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white">
                 The Academy
@@ -168,6 +159,13 @@ export default function Navbar() {
               className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"
             >
               Blog
+            </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMobileOpen(false)}
+              className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"
+            >
+              Contact
             </Link>
             {isAuthenticated ? (
               <>
