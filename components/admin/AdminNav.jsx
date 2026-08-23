@@ -7,6 +7,7 @@ const LINKS = [
   ["/admin/courses", "Courses"],
   ["/admin/pages", "Pages"],
   ["/admin/jollydeck-queue", "JollyDeck queue"],
+  ["/admin/licenses", "Licenses"],
 ];
 
 export default function AdminNav() {

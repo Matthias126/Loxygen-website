@@ -2,6 +2,7 @@ import Head from "next/head";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { getTopicsWithCourses } from "@/lib/topics";
+import { getMicroLearningsAccess } from "@/lib/licenses";
 import { supabaseAdmin } from "@/lib/supabase";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import TopicCarousel from "@/components/TopicCarousel";
@@ -58,11 +59,18 @@ export async function getServerSideProps({ req, res }) {
 
   let ownedCourseIds = [];
   if (session?.user?.id) {
-    const { data } = await supabaseAdmin
-      .from("purchases")
-      .select("course_id")
-      .eq("user_id", session.user.id);
-    ownedCourseIds = (data ?? []).map((purchase) => purchase.course_id);
+    const hasFullAccess =
+      session.user.isAdmin || (await getMicroLearningsAccess(session.user.id));
+
+    if (hasFullAccess) {
+      ownedCourseIds = topics.flatMap((topic) => topic.courses.map((course) => course.id));
+    } else {
+      const { data } = await supabaseAdmin
+        .from("purchases")
+        .select("course_id")
+        .eq("user_id", session.user.id);
+      ownedCourseIds = (data ?? []).map((purchase) => purchase.course_id);
+    }
   }
 
   return { props: { topics, ownedCourseIds } };

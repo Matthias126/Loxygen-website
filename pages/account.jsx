@@ -3,12 +3,13 @@ import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { supabaseAdmin } from "@/lib/supabase";
+import { getMicroLearningsAccess, getOwnedLicensesWithSeats } from "@/lib/licenses";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const TITLE = "My Account | Loxygen Academy";
 const DESCRIPTION = "Your Loxygen Academy account and purchased courses.";
 
-export default function Account({ email, purchases, hasMicroLearningsAccess }) {
+export default function Account({ email, purchases, hasMicroLearningsAccess, ownsAnyLicense }) {
   return (
     <>
       <Head>
@@ -58,6 +59,14 @@ export default function Account({ email, purchases, hasMicroLearningsAccess }) {
 
             <h2 className="font-display mt-16 text-2xl text-brand-navy">Micro-learnings</h2>
 
+            {ownsAnyLicense ? (
+              <p className="mt-3 text-sm text-slate-600">
+                <Link href="/account/team" className="font-semibold text-brand-navy hover:underline">
+                  Manage your team&apos;s seats
+                </Link>
+              </p>
+            ) : null}
+
             {hasMicroLearningsAccess ? (
               <div className="mt-8 flex items-center justify-between gap-6 rounded-xl bg-white p-8 shadow-card">
                 <p className="text-base leading-7 text-slate-600">
@@ -106,10 +115,13 @@ export async function getServerSideProps(context) {
       type: purchase.courses.type,
     }));
 
-  // No micro-learnings subscription/checkout exists yet, so admin bypass is
-  // the only real "has access" signal right now — swap this for a real
-  // subscription check once that's built.
-  const hasMicroLearningsAccess = Boolean(session.user.isAdmin);
+  const hasMicroLearningsAccess =
+    session.user.isAdmin || (await getMicroLearningsAccess(session.user.id));
 
-  return { props: { email: session.user.email, purchases, hasMicroLearningsAccess } };
+  const ownedLicenses = await getOwnedLicensesWithSeats(session.user.id);
+  const ownsAnyLicense = ownedLicenses.length > 0;
+
+  return {
+    props: { email: session.user.email, purchases, hasMicroLearningsAccess, ownsAnyLicense },
+  };
 }

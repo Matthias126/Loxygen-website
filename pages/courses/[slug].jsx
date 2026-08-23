@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { getCourseBySlug } from "@/lib/courses";
+import { getMicroLearningsAccess } from "@/lib/licenses";
 import { COURSE_TYPE_TO_CATEGORY } from "@/lib/courseTypes";
 import { buildCourseDetailJsonLd } from "@/lib/structuredData";
 import { supabaseAdmin } from "@/lib/supabase";
@@ -212,6 +213,9 @@ export async function getServerSideProps({ params, req, res }) {
       .eq("course_id", course.id)
       .maybeSingle();
     isOwned = Boolean(data);
+  }
+  if (!isOwned && session?.user?.id && course.type === "micro-learning") {
+    isOwned = await getMicroLearningsAccess(session.user.id);
   }
 
   // jollydeck_url must never reach the browser for anyone who isn't a
