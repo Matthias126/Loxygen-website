@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 
 const ACADEMY_LINKS = [
@@ -15,15 +15,41 @@ const ACADEMY_LINKS = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
 
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled((prev) => {
+        const isScrolled = window.scrollY > 8;
+        return prev === isScrolled ? prev : isScrolled;
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header className="sticky top-4 z-50 px-4">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between rounded-full bg-[linear-gradient(to_bottom,rgba(255,255,255,0.28)_0%,rgba(150,180,210,0.20)_10%,rgba(2,53,96,0.30)_22%,rgba(2,53,96,0.50)_40%,rgba(2,53,96,0.68)_65%,rgba(2,53,96,0.60)_100%)] px-4 py-2.5 shadow-lg shadow-black/10 backdrop-blur-2xl backdrop-saturate-200">
+      <nav className="relative mx-auto flex max-w-5xl items-center justify-between rounded-full px-4 py-2.5 shadow-lg shadow-black/10">
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 rounded-full bg-brand-navy transition-opacity duration-300 ${
+            scrolled ? "opacity-0" : "opacity-100"
+          }`}
+        />
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 rounded-full bg-brand-navy/35 backdrop-blur-2xl backdrop-saturate-200 transition-opacity duration-300 ${
+            scrolled ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
         <Link
           href="/"
-          className="flex items-center gap-2.5"
+          className="relative z-10 flex items-center gap-2.5"
           onClick={() => setMobileOpen(false)}
         >
           <span className="font-sans text-lg font-bold tracking-wide text-white">
@@ -31,7 +57,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="relative z-10 hidden items-center gap-8 md:flex">
           <div className="group relative">
             <button
               type="button"
@@ -69,7 +95,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="relative z-10 flex items-center gap-3">
           {isAuthenticated ? (
             <div className="hidden items-center gap-4 sm:flex">
               <Link
