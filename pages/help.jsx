@@ -5,7 +5,7 @@ import { HELP_FAQ, buildHelpFaqJsonLd } from "@/lib/structuredData";
 
 const TITLE = "Help & FAQ | Loxygen Academy";
 const DESCRIPTION =
-  "Answers to common questions about creating an account, purchasing courses, accessing e-learning, and getting set up on JollyDeck.";
+  "Answers to common questions about creating an account, purchasing courses, accessing e-learning, and getting set up with micro-learnings.";
 
 export default function Help() {
   const jsonLd = buildHelpFaqJsonLd();

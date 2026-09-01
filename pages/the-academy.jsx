@@ -79,7 +79,7 @@ const ALL_PROGRAMMES = [
     format: "Subscription · €190/year",
     title: "Micro-learnings",
     description:
-      "Bite-sized lessons delivered year-round through JollyDeck, for teams that learn in the flow of work.",
+      "Bite-sized lessons delivered year-round, for teams that learn in the flow of work.",
     image: "/images/micro-learnings.jpg",
     imageAlt: "A Loxygen guide pointing out port infrastructure to a group on a dockside walkway",
   },
@@ -111,19 +111,29 @@ function formatDate(dateString) {
 }
 
 const PARTNER_NETWORKS = [
-  { name: "CrossTrades", logo: "/images/partner-crosstrades.png", width: 400, height: 173 },
+  {
+    name: "CrossTrades",
+    logo: "/images/crosstrades-logo-white.png",
+    width: 1107,
+    height: 483,
+    boxBg: "bg-[#2764DD]",
+    url: "https://crosstradesnetwork.com",
+  },
   {
     name: "SeaBlue Project Logistics Network",
-    logo: "/images/partner-seablue.png",
-    width: 400,
-    height: 283,
+    logo: "/images/seablue-logo-white.png",
+    width: 1000,
+    height: 510,
+    boxBg: "bg-[#394F78]",
+    url: "https://seabluenetwork.com",
   },
   {
     name: "Flyte",
     logo: "/images/flyte-weblogo.svg",
     width: 264,
     height: 135,
-    lightBg: true,
+    boxBg: "bg-[#FFBA00]",
+    url: "https://flyte.network",
   },
 ];
 
@@ -137,10 +147,7 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
     ).map((programme) => ({ kind: "static", ...programme }));
     const liveItems = courses
       .filter(
-        (course) =>
-          COURSE_TYPE_TO_CATEGORY[course.type] &&
-          !course.show_in_upcoming &&
-          course.type !== "micro-learning"
+        (course) => COURSE_TYPE_TO_CATEGORY[course.type] && course.type !== "micro-learning"
       )
       .map((course) => ({
         kind: "live",
@@ -247,7 +254,12 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
                 item.kind === "static" ? (
                   <ProgrammeCard key={item.href} {...item} />
                 ) : (
-                  <CourseCard key={item.course.id} course={item.course} />
+                  <CourseCard
+                    key={item.course.id}
+                    course={item.course}
+                    hidePrice
+                    ctaLabel="Explore"
+                  />
                 )
               )}
             </div>
@@ -295,11 +307,6 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
                           {course.description}
                         </p>
                       ) : null}
-                      {course.price ? (
-                        <p className="mt-4 text-sm font-medium text-slate-500">
-                          €{course.price}
-                        </p>
-                      ) : null}
                       <Link
                         href={`/courses/${course.slug}`}
                         className="group/explore mt-6 mb-2 inline-flex items-center text-sm font-semibold text-brand-navy hover:underline"
@@ -330,32 +337,25 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
               Empowering global partner networks.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
-              {PARTNER_NETWORKS.map((network) =>
-                network.lightBg ? (
-                  <div
-                    key={network.name}
-                    className="flex h-16 items-center rounded-lg bg-[#FFBA00] px-6"
-                  >
-                    <Image
-                      src={network.logo}
-                      alt={network.name}
-                      width={network.width}
-                      height={network.height}
-                      className="h-9 w-auto"
-                    />
-                  </div>
-                ) : (
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-10">
+              {PARTNER_NETWORKS.map((network) => (
+                <a
+                  key={network.name}
+                  href={network.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={network.name}
+                  className={`flex h-24 w-44 items-center justify-center rounded-lg px-6 transition-opacity hover:opacity-90 ${network.boxBg}`}
+                >
                   <Image
-                    key={network.name}
                     src={network.logo}
                     alt={network.name}
                     width={network.width}
                     height={network.height}
-                    className="h-16 w-auto"
+                    className="h-14 w-auto max-w-full object-contain"
                   />
-                )
-              )}
+                </a>
+              ))}
             </div>
 
             <div className="mt-10">

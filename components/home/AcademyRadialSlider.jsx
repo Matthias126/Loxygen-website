@@ -10,10 +10,10 @@ const CARDS = [
   { title: "e-Learning", href: "/e-learning", initials: "EL", image: "/images/e-learning.jpg" },
   { title: "Young Forwarders Benelux", href: "/young-forwarders-benelux", initials: "YF", image: "/images/benelux-port-visit.jpg" },
   { title: "Africa Roadtrip 2026", href: "/africa-roadtrip-2026", initials: "AR", image: "/images/africa_tour2026.png" },
-  { title: "Micro Learnings", href: "/micro-learnings", initials: "ML", image: "/images/micro-learnings.jpg" },
+  { title: "Micro Learnings", href: "/micro-learnings", initials: "ML", image: "/images/microlearnings_picture.png" },
   { title: "Breakbulk Training", href: "/breakbulk-training", initials: "BT", image: "/images/breakbulk-cargo.jpg" },
   { title: "Sustainability Award", href: "/sustainable-forwarding", initials: "SA", image: "/images/sustainability-award.jpg" },
-  { title: "Coming Soon", href: null, initials: "Soon" },
+  { title: "Coming Soon", href: null, initials: "Soon", image: "/images/coming-soon.jpg" },
 ];
 
 export default function AcademyRadialSlider() {

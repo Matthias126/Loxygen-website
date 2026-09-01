@@ -16,10 +16,11 @@ const TIERS = [
     title: "Micro Learnings",
     format: "Online webinars · 3–5 min",
     description:
-      "Bite-sized breakbulk knowledge on the JollyDeck platform, built for busy freight forwarders.",
+      "Bite-sized breakbulk knowledge, built for busy freight forwarders.",
     topics: null,
     note: null,
-    cta: "Register interest",
+    href: "/micro-learnings",
+    cta: "View plans",
   },
   {
     title: "Essentials",
@@ -28,7 +29,8 @@ const TIERS = [
       "A comprehensive foundation course for freight forwarders handling breakbulk cargo.",
     topics: "Cargo types · Stowage · Documentation · Pricing · Risk management",
     note: null,
-    cta: "Register interest",
+    href: "/courses/breakbulk-essentials",
+    cta: "Reserve your seat",
   },
   {
     title: "PRO",
@@ -37,7 +39,8 @@ const TIERS = [
       "Deep-dive training for experienced freight professionals handling complex cargo.",
     topics: "Complex cargo · Charterparties · Heavy-lift operations · Commercial negotiations",
     note: null,
-    cta: "Register interest",
+    href: "/courses/breakbulk-pro",
+    cta: "Reserve your seat",
   },
 ];
 
@@ -133,7 +136,7 @@ export default function BreakbulkTraining() {
                   </div>
 
                   <Link
-                    href="/contact"
+                    href={tier.href}
                     className="mt-12 inline-flex items-center justify-center rounded-lg bg-brand-navy px-8 py-4 text-base font-semibold text-white hover:bg-brand-navy/90 lg:mt-auto"
                   >
                     {tier.cta}

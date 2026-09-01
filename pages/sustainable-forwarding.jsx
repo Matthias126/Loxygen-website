@@ -5,7 +5,6 @@ import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildSustainabilityAwardJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
 import { isSustainabilityAwardClosed } from "@/lib/sustainabilityAward";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const TITLE = "Loxygen Sustainability Award 2026 | Loxygen Academy";
@@ -174,11 +173,16 @@ export default function SustainableForwarding() {
         {/* 2025 Winner spotlight */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_1fr]">
-              <PlaceholderImage
-                label="Friedrich Zufall, cargo bike logistics"
-                className="aspect-square w-full"
-              />
+            <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[20rem_1fr]">
+              <div className="relative aspect-square w-full max-w-xs overflow-hidden rounded-xl">
+                <Image
+                  src="/images/sustainability_award_winners.jpg"
+                  alt="Friedrich Zufall, cargo bike logistics"
+                  fill
+                  sizes="(min-width: 1024px) 320px, 100vw"
+                  className="object-cover"
+                />
+              </div>
 
               <div>
                 <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">

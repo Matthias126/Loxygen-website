@@ -33,6 +33,7 @@ const NETWORKS = [
     width: 1107,
     height: 483,
     boxBg: "bg-[#2764DD]",
+    url: "https://crosstradesnetwork.com",
   },
   {
     name: "SeaBlue Project Logistics Network",
@@ -40,6 +41,7 @@ const NETWORKS = [
     width: 1000,
     height: 510,
     boxBg: "bg-[#394F78]",
+    url: "https://seabluenetwork.com",
   },
   {
     name: "Flyte",
@@ -47,6 +49,7 @@ const NETWORKS = [
     width: 264,
     height: 135,
     boxBg: "bg-[#FFBA00]",
+    url: "https://flyte.network",
   },
 ];
 
@@ -171,9 +174,13 @@ export default function AboutUs() {
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
                 {NETWORKS.map((network) => (
-                  <div
+                  <a
                     key={network.name}
-                    className={`flex h-16 items-center rounded-lg px-6 ${network.boxBg || "bg-white"}`}
+                    href={network.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={network.name}
+                    className={`flex h-16 items-center rounded-lg px-6 transition-opacity hover:opacity-90 ${network.boxBg || "bg-white"}`}
                   >
                     <Image
                       src={network.logo}
@@ -182,7 +189,7 @@ export default function AboutUs() {
                       height={network.height}
                       className="h-9 w-auto"
                     />
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>

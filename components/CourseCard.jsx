@@ -9,7 +9,7 @@ function formatDate(dateString) {
   });
 }
 
-export default function CourseCard({ course, isOwned }) {
+export default function CourseCard({ course, isOwned, hidePrice = false, ctaLabel = "Learn more" }) {
   return (
     <Link
       href={`/courses/${course.slug}`}
@@ -34,30 +34,28 @@ export default function CourseCard({ course, isOwned }) {
         <h3 className="font-display mt-4 text-xl text-brand-navy group-hover:underline">
           {course.title}
         </h3>
-        <p className="mt-3 text-sm leading-6 text-slate-600">{course.description}</p>
+        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{course.description}</p>
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        {course.tiers?.length > 0 ? (
-          <span className="text-sm font-semibold text-brand-navy">
-            From €{Math.min(...course.tiers.map((tier) => tier.price))}
-          </span>
-        ) : course.price ? (
-          <span className="text-sm font-semibold text-brand-navy">€{course.price}</span>
-        ) : (
-          <span />
-        )}
-
         {isOwned ? (
           <span className="text-sm font-semibold text-brand-navy">Owned</span>
         ) : (
           <span className="text-sm font-semibold text-brand-navy">
-            Learn more{" "}
+            {ctaLabel}{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1">
               →
             </span>
           </span>
         )}
+
+        {hidePrice ? null : course.tiers?.length > 0 ? (
+          <span className="text-sm font-semibold text-brand-navy">
+            From €{Math.min(...course.tiers.map((tier) => tier.price))}
+          </span>
+        ) : course.price ? (
+          <span className="text-sm font-semibold text-brand-navy">€{course.price}</span>
+        ) : null}
       </div>
     </Link>
   );

@@ -14,7 +14,6 @@ const STATS = [
   { value: "29 Nov", label: "to 4 Dec 2026" },
   { value: "6 days", label: "across 3 corridors" },
   { value: "Max 10", label: "participants" },
-  { value: "€3,555", label: "starting price, per person" },
 ];
 
 const CORRIDORS = [
@@ -80,7 +79,7 @@ export default function AfricaRoadtrip2026() {
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
+            <div className="mt-16 grid grid-cols-3 gap-8">
               {STATS.map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-stat leading-none text-brand-navy">

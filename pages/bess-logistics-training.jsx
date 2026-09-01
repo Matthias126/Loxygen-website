@@ -15,7 +15,6 @@ const DESCRIPTION =
 const STATS = [
   { value: "3 Sep", label: "2026 · live online" },
   { value: "3 hrs", label: "9h00–12h00 CET" },
-  { value: "€350", label: "excl. VAT · limited seats" },
   { value: "4.8★", label: "rated by past attendees" },
 ];
 
@@ -75,7 +74,7 @@ export default function BessLogisticsTraining() {
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
+            <div className="mt-16 grid grid-cols-3 gap-8">
               {STATS.map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-stat leading-none text-brand-navy">

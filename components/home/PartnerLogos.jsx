@@ -7,6 +7,7 @@ const PARTNERS = [
     width: 1107,
     height: 483,
     boxBg: "bg-[#2764DD]",
+    url: "https://crosstradesnetwork.com",
   },
   {
     name: "SeaBlue Project Logistics Network",
@@ -14,6 +15,7 @@ const PARTNERS = [
     width: 1000,
     height: 510,
     boxBg: "bg-[#394F78]",
+    url: "https://seabluenetwork.com",
   },
   {
     name: "Flyte",
@@ -21,6 +23,7 @@ const PARTNERS = [
     width: 264,
     height: 135,
     boxBg: "bg-[#FFBA00]",
+    url: "https://flyte.network",
   },
 ];
 
@@ -31,9 +34,13 @@ export default function PartnerLogos() {
         <p className="text-sm font-medium text-slate-400">Exclusive partner of</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-10">
           {PARTNERS.map((partner) => (
-            <div
+            <a
               key={partner.name}
-              className={`flex h-24 w-44 items-center justify-center rounded-lg px-6 ${partner.boxBg}`}
+              href={partner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={partner.name}
+              className={`flex h-24 w-44 items-center justify-center rounded-lg px-6 transition-opacity hover:opacity-90 ${partner.boxBg}`}
             >
               <Image
                 src={partner.logo}
@@ -42,7 +49,7 @@ export default function PartnerLogos() {
                 height={partner.height}
                 className="h-14 w-auto max-w-full object-contain"
               />
-            </div>
+            </a>
           ))}
         </div>
       </div>
