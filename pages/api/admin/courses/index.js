@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       type,
       price,
       price_note,
+      rating,
       stripe_price_id,
       is_active,
       show_in_upcoming,
@@ -49,6 +50,7 @@ export default async function handler(req, res) {
         type,
         price: price || null,
         price_note: price_note || null,
+        rating: rating || null,
         stripe_price_id: stripe_price_id || null,
         is_active: isActive,
         show_in_upcoming: isActive && show_in_upcoming === true,
@@ -71,6 +73,7 @@ export default async function handler(req, res) {
           price: tier.price,
           price_note: tier.price_note || null,
           stripe_price_id: tier.stripe_price_id || null,
+          seat_count: tier.seat_count || null,
           sort_order: index,
         }))
       );

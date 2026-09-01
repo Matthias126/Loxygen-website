@@ -4,17 +4,19 @@ import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildMicroLearningsJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
+import { getCourses } from "@/lib/courses";
 import CheckIcon from "@/components/CheckIcon";
+import CheckoutButton from "@/components/CheckoutButton";
 
 const TITLE = "Micro-learnings | Loxygen Academy";
 const DESCRIPTION =
-  "A €190/year subscription to bite-sized logistics and freight forwarding lessons, delivered year-round through JollyDeck.";
+  "A €190/year subscription to bite-sized logistics and freight forwarding lessons, delivered year-round.";
 
 const STATS = [
   { value: "€190", label: "per year, excl. VAT" },
   { value: "15 min", label: "average module length" },
   { value: "Year-round", label: "new modules released regularly" },
-  { value: "JollyDeck", label: "delivery platform" },
+  { value: "Any device", label: "browser-based access" },
 ];
 
 const OUTCOMES = [
@@ -28,7 +30,7 @@ const MICRO_FAQ = [
   {
     question: "How do I get access after subscribing?",
     answer:
-      "Once your payment is confirmed, we set up your JollyDeck account using the email address from checkout and send you the login details. This is a manual step on our side, so allow up to one business day.",
+      "Once your payment is confirmed, we set up your account using the email address from checkout and send you the login details. This is a manual step on our side, so allow up to one business day.",
   },
   {
     question: "Can I cancel my subscription?",
@@ -38,11 +40,11 @@ const MICRO_FAQ = [
   {
     question: "Is this the same as the e-learning courses?",
     answer:
-      "No. E-learning courses are longer, standalone courses purchased individually. Micro-learnings are short modules delivered continuously through JollyDeck as part of your subscription.",
+      "No. E-learning courses are longer, standalone courses purchased individually. Micro-learnings are short modules delivered continuously as part of your subscription.",
   },
 ];
 
-export default function MicroLearnings() {
+export default function MicroLearnings({ plansCourse }) {
   const jsonLd = [
     buildMicroLearningsJsonLd(),
     {
@@ -93,7 +95,7 @@ export default function MicroLearnings() {
                 </span>
               </h1>
               <p className="mt-5 text-lg leading-8 text-slate-600">
-                Bite-sized lessons delivered continuously through JollyDeck, built for freight
+                Bite-sized lessons delivered continuously, built for freight
                 forwarding teams learning in the flow of work, not a once-a-year training day.
               </p>
             </div>
@@ -160,18 +162,56 @@ export default function MicroLearnings() {
           <div className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
             <div className="bg-grain rounded-3xl bg-brand-navy px-6 py-20 text-center">
               <p className="font-display text-banner tracking-tight text-white">
-                €190 per year, excl. VAT
+                Plans for individuals and teams
               </p>
               <p className="mx-auto mt-4 max-w-md text-white/70">
-                Get in touch to get your team set up. Online checkout is coming soon.
+                Excl. VAT. Cancel any time.
               </p>
 
-              <Link
-                href="/contact"
-                className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
-              >
-                Get started
-              </Link>
+              {plansCourse?.tiers?.length > 0 ? (
+                <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {plansCourse.tiers.map((tier) => (
+                    <div
+                      key={tier.id}
+                      className="flex flex-col items-center rounded-xl bg-white px-6 py-8"
+                    >
+                      <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+                        {tier.label}
+                      </p>
+                      <p className="font-display mt-3 text-2xl text-brand-navy">
+                        €{tier.price}
+                        {tier.price_note ? (
+                          <span className="ml-1 text-sm font-normal text-slate-500">
+                            {tier.price_note}
+                          </span>
+                        ) : null}
+                      </p>
+                      {tier.stripe_price_id ? (
+                        <CheckoutButton
+                          slug={plansCourse.slug}
+                          tierId={tier.id}
+                          label="Subscribe"
+                          className="mt-6 inline-flex items-center justify-center rounded-lg bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy/90 disabled:opacity-60"
+                        />
+                      ) : (
+                        <Link
+                          href="/contact"
+                          className="mt-6 inline-flex items-center justify-center rounded-lg bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy/90"
+                        >
+                          Get in touch
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <Link
+                  href="/contact"
+                  className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
+                >
+                  Get started
+                </Link>
+              )}
             </div>
           </div>
         </section>
@@ -207,5 +247,9 @@ export default function MicroLearnings() {
 export async function getStaticProps() {
   const isActive = await isStaticPageActive("micro-learnings");
   if (!isActive) return { notFound: true };
-  return { props: {}, revalidate: 60 };
+
+  const teamCourses = await getCourses({ type: "micro-learning-team" });
+  const plansCourse = teamCourses[0] ?? null;
+
+  return { props: { plansCourse }, revalidate: 60 };
 }

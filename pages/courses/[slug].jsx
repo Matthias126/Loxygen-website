@@ -10,6 +10,7 @@ import { buildCourseDetailJsonLd } from "@/lib/structuredData";
 import { supabaseAdmin } from "@/lib/supabase";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
+import CheckoutButton from "@/components/CheckoutButton";
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString("en-GB", {
@@ -131,42 +132,67 @@ export default function CourseDetail({ course }) {
                     {course.tiers.map((tier) => (
                       <div
                         key={tier.id ?? tier.label}
-                        className="flex items-baseline justify-between gap-4 px-6 py-4"
+                        className="flex flex-wrap items-center justify-between gap-4 px-6 py-4"
                       >
                         <span className="text-base font-medium text-brand-navy">
                           {tier.label}
                         </span>
-                        <span className="flex items-baseline gap-2">
-                          <span className="font-display text-xl text-brand-navy">
-                            €{tier.price}
+                        <div className="flex items-center gap-4">
+                          <span className="flex items-baseline gap-2">
+                            <span className="font-display text-xl text-brand-navy">
+                              €{tier.price}
+                            </span>
+                            {tier.price_note ? (
+                              <span className="text-sm text-slate-500">{tier.price_note}</span>
+                            ) : null}
                           </span>
-                          {tier.price_note ? (
-                            <span className="text-sm text-slate-500">{tier.price_note}</span>
+                          {tier.stripe_price_id ? (
+                            <CheckoutButton
+                              slug={course.slug}
+                              tierId={tier.id}
+                              label={CTA_LABEL[template]}
+                              className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90 disabled:opacity-60"
+                            />
                           ) : null}
-                        </span>
+                        </div>
                       </div>
                     ))}
                   </div>
-                ) : null}
-
-                <div className="mt-8 flex flex-wrap items-center gap-6">
-                  {!course.tiers?.length && course.price ? (
-                    <span className="flex items-baseline gap-2">
-                      <span className="font-display text-2xl text-brand-navy">
-                        €{course.price}
+                ) : (
+                  <div className="mt-8 flex flex-wrap items-center gap-6">
+                    {course.rating ? (
+                      <span className="flex items-baseline gap-2">
+                        <span className="font-display text-2xl text-brand-navy">
+                          {course.rating}★
+                        </span>
+                        <span className="text-sm text-slate-500">rated by past attendees</span>
                       </span>
-                      {course.price_note ? (
-                        <span className="text-sm text-slate-500">{course.price_note}</span>
-                      ) : null}
-                    </span>
-                  ) : null}
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90"
-                  >
-                    {CTA_LABEL[template]}
-                  </Link>
-                </div>
+                    ) : course.price ? (
+                      <span className="flex items-baseline gap-2">
+                        <span className="font-display text-2xl text-brand-navy">
+                          €{course.price}
+                        </span>
+                        {course.price_note ? (
+                          <span className="text-sm text-slate-500">{course.price_note}</span>
+                        ) : null}
+                      </span>
+                    ) : null}
+                    {course.stripe_price_id ? (
+                      <CheckoutButton
+                        slug={course.slug}
+                        label={CTA_LABEL[template]}
+                        className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90 disabled:opacity-60"
+                      />
+                    ) : (
+                      <Link
+                        href="/contact"
+                        className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90"
+                      >
+                        {CTA_LABEL[template]}
+                      </Link>
+                    )}
+                  </div>
+                )}
 
                 {TEMPLATE_NOTE[template] ? (
                   <p className="mt-4 text-sm text-slate-500">{TEMPLATE_NOTE[template]}</p>

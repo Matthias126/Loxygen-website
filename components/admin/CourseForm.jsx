@@ -34,6 +34,7 @@ export default function CourseForm({
     type: initialCourse?.type ?? defaultType ?? COURSE_TYPES[0],
     price: initialCourse?.price ?? "",
     price_note: initialCourse?.price_note ?? "",
+    rating: initialCourse?.rating ?? "",
     stripe_price_id: initialCourse?.stripe_price_id ?? "",
     is_active: initialCourse?.is_active ?? true,
     show_in_upcoming: initialCourse?.show_in_upcoming ?? false,
@@ -50,6 +51,7 @@ export default function CourseForm({
         price: tier.price ?? "",
         price_note: tier.price_note ?? "",
         stripe_price_id: tier.stripe_price_id ?? "",
+        seat_count: tier.seat_count ?? "",
       })) ?? [],
   });
   const [slugEdited, setSlugEdited] = useState(Boolean(initialCourse));
@@ -116,7 +118,10 @@ export default function CourseForm({
   const addTier = () => {
     setForm((prev) => ({
       ...prev,
-      tiers: [...prev.tiers, { label: "", price: "", price_note: "", stripe_price_id: "" }],
+      tiers: [
+        ...prev.tiers,
+        { label: "", price: "", price_note: "", stripe_price_id: "", seat_count: "" },
+      ],
     }));
   };
 
@@ -156,13 +161,18 @@ export default function CourseForm({
       await onSubmit({
         ...form,
         price: form.price === "" ? null : Number(form.price),
+        rating: form.rating === "" ? null : Number(form.rating),
         available_at: form.available_at ? new Date(form.available_at).toISOString() : null,
         registration_deadline: form.registration_deadline
           ? new Date(form.registration_deadline).toISOString()
           : null,
         tiers: form.tiers
           .filter((tier) => tier.label.trim() !== "" && tier.price !== "")
-          .map((tier) => ({ ...tier, price: Number(tier.price) })),
+          .map((tier) => ({
+            ...tier,
+            price: Number(tier.price),
+            seat_count: tier.seat_count === "" ? null : Number(tier.seat_count),
+          })),
       });
     } catch (submitError) {
       setStatus("error");
@@ -286,6 +296,27 @@ export default function CourseForm({
             className={`mt-2 ${FIELD_CLASS}`}
           />
         </div>
+
+        <div>
+          <label htmlFor="rating" className="text-sm font-medium text-brand-navy">
+            Star rating (optional)
+          </label>
+          <input
+            id="rating"
+            name="rating"
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            placeholder="e.g. 4.8"
+            value={form.rating}
+            onChange={handleChange}
+            className={`mt-2 ${FIELD_CLASS}`}
+          />
+          <p className="mt-2 text-xs text-slate-500">
+            If set, shown instead of the price on the course page. Leave blank to show price.
+          </p>
+        </div>
       </div>
 
       <div>
@@ -356,6 +387,25 @@ export default function CourseForm({
                       }
                       className={`mt-1 ${FIELD_CLASS}`}
                     />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-500">
+                      Seat count (optional)
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      step="1"
+                      placeholder="e.g. 5"
+                      value={tier.seat_count}
+                      onChange={(event) =>
+                        handleTierChange(index, "seat_count", event.target.value)
+                      }
+                      className={`mt-1 ${FIELD_CLASS}`}
+                    />
+                    <p className="mt-1 text-xs text-slate-500">
+                      Only for micro-learnings team plans — how many seats this tier grants.
+                    </p>
                   </div>
                 </div>
                 <button

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
@@ -114,6 +115,23 @@ export default function Login() {
 
               {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
             </form>
+
+            <p className="mt-6 text-sm text-slate-500">
+              Don&apos;t have an account?{" "}
+              <Link
+                href={{
+                  pathname: "/signup",
+                  query:
+                    typeof router.query.callbackUrl === "string"
+                      ? { callbackUrl: router.query.callbackUrl }
+                      : undefined,
+                }}
+                className="font-semibold text-brand-navy hover:underline"
+              >
+                Create one
+              </Link>
+              .
+            </p>
           </div>
         </section>
       </main>

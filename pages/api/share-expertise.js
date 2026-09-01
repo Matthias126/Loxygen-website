@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "Loxygen Academy <contact@loxygen.world>",
       to: process.env.CONTACT_TO_EMAIL || "geert@loxygen.world",
       replyTo: email,
@@ -43,6 +43,10 @@ export default async function handler(req, res) {
         <p>${escapeHtml(message).replaceAll("\n", "<br />")}</p>
       `,
     });
+
+    // The SDK resolves (rather than throws) on API-level failures like an
+    // invalid key or unverified domain, so that has to be checked explicitly.
+    if (error) throw error;
 
     return res.status(200).json({ ok: true });
   } catch (error) {
