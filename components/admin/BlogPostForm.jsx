@@ -56,6 +56,12 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Image is too large — please use a file under 4MB.");
+      event.target.value = "";
+      return;
+    }
+
     setUploading(true);
     setError("");
     try {
@@ -65,11 +71,18 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ filename: file.name, contentType: file.type, dataBase64 }),
       });
-      if (!response.ok) throw new Error("Upload failed");
+      if (!response.ok) {
+        const { error: message } = await response.json().catch(() => ({}));
+        throw new Error(message || "Upload failed");
+      }
       const { url } = await response.json();
       setForm((prev) => ({ ...prev, cover_image_url: url }));
-    } catch {
-      setError("Image upload failed. Please try again.");
+    } catch (uploadError) {
+      setError(
+        uploadError.message === "Failed to fetch"
+          ? "Image upload failed — the file may be too large, or you lost connection. Please try again."
+          : `Image upload failed: ${uploadError.message}`
+      );
     } finally {
       setUploading(false);
     }
@@ -225,7 +238,7 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
 
         <div>
           <p className="text-sm font-medium text-brand-navy">Preview</p>
-          <div className="prose prose-slate mt-2 max-w-none rounded-lg border border-slate-200 p-4 prose-headings:font-display prose-headings:text-brand-navy">
+          <div className="prose prose-slate mt-2 max-w-none rounded-lg border border-slate-200 p-4 prose-headings:font-display prose-headings:text-brand-navy prose-h2:text-[40px] prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-6 prose-h3:mb-3">
             <MarkdownContent content={form.content || "*Nothing to preview yet.*"} />
           </div>
         </div>

@@ -10,6 +10,7 @@ import { getStaticPageVisibility } from "@/lib/staticPages";
 import ProgrammeCard from "@/components/ProgrammeCard";
 import CourseCard from "@/components/CourseCard";
 import TestimonialSection from "@/components/TestimonialSection";
+import MarkdownContent from "@/components/MarkdownContent";
 
 const TITLE = "Freight Forwarding & Logistics Courses | Loxygen Academy";
 const DESCRIPTION =
@@ -303,9 +304,9 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
                       </summary>
 
                       {course.description ? (
-                        <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600">
-                          {course.description}
-                        </p>
+                        <div className="prose prose-slate mt-6 max-w-2xl prose-headings:font-display prose-headings:text-brand-navy prose-h2:text-[40px] prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-base prose-p:leading-7 prose-p:text-slate-600 prose-a:text-brand-navy">
+                          <MarkdownContent content={course.description} />
+                        </div>
                       ) : null}
                       <Link
                         href={`/courses/${course.slug}`}

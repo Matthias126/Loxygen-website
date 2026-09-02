@@ -1,8 +1,12 @@
 import { supabaseAdmin } from "@/lib/supabase";
 import { requireAdminApi } from "@/lib/requireAdmin";
 
+// Vercel's Serverless Functions hard-cap request bodies at 4.5mb, enforced
+// before this code even runs — this limit must stay under that so Next gets
+// a chance to return a clean error instead of the connection just dying
+// (which shows up in the browser as a bare "Failed to fetch").
 export const config = {
-  api: { bodyParser: { sizeLimit: "5mb" } },
+  api: { bodyParser: { sizeLimit: "4mb" } },
 };
 
 export default async function handler(req, res) {

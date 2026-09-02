@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import { stripMarkdown } from "@/lib/headings";
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString("en-GB", {
@@ -34,7 +35,9 @@ export default function CourseCard({ course, isOwned, hidePrice = false, ctaLabe
         <h3 className="font-display mt-4 text-xl text-brand-navy group-hover:underline">
           {course.title}
         </h3>
-        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{course.description}</p>
+        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+          {stripMarkdown(course.description)}
+        </p>
       </div>
 
       <div className="mt-8 flex items-center justify-between">

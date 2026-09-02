@@ -35,7 +35,7 @@ export default function BlogCard({ post }) {
       <h3 className="font-display mt-4 text-xl text-brand-navy group-hover:underline">
         {post.title}
       </h3>
-      <p className="mt-3 text-sm leading-6 text-slate-600">{post.excerpt}</p>
+      <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{post.excerpt}</p>
       <span className="mt-6 inline-block text-sm font-semibold text-brand-navy">
         Read{" "}
         <span className="inline-block transition-transform group-hover:translate-x-1">→</span>

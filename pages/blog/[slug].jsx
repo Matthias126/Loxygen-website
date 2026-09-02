@@ -85,7 +85,7 @@ export default function BlogPost({ post, nextPost, relatedPosts }) {
                   />
                 )}
 
-                <div className="prose prose-slate mt-10 max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-p:text-lg prose-p:leading-8 prose-p:text-slate-600 prose-a:text-brand-navy">
+                <div className="prose prose-slate mt-10 max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-h2:text-[40px] prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-lg prose-p:leading-8 prose-p:text-slate-600 prose-a:text-brand-navy">
                   <MarkdownContent content={post.content} />
                 </div>
 

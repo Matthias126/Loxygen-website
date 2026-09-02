@@ -11,6 +11,8 @@ import { supabaseAdmin } from "@/lib/supabase";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
 import CheckoutButton from "@/components/CheckoutButton";
+import MarkdownContent from "@/components/MarkdownContent";
+import { stripMarkdown } from "@/lib/headings";
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString("en-GB", {
@@ -38,27 +40,28 @@ export default function CourseDetail({ course }) {
   const url = `${SITE_URL}/courses/${course.slug}`;
   const jsonLd = buildCourseDetailJsonLd(course, url);
   const ogImage = course.cover_image_url || DEFAULT_OG_IMAGE;
+  const plainDescription = stripMarkdown(course.description);
 
   return (
     <>
       <Head>
         <title>{title}</title>
-        {course.description ? <meta name="description" content={course.description} /> : null}
+        {plainDescription ? <meta name="description" content={plainDescription} /> : null}
         <link rel="canonical" href={url} />
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:title" content={title} />
-        {course.description ? (
-          <meta property="og:description" content={course.description} />
+        {plainDescription ? (
+          <meta property="og:description" content={plainDescription} />
         ) : null}
         <meta property="og:url" content={url} />
         <meta property="og:image" content={ogImage} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
-        {course.description ? (
-          <meta name="twitter:description" content={course.description} />
+        {plainDescription ? (
+          <meta name="twitter:description" content={plainDescription} />
         ) : null}
         <meta name="twitter:image" content={ogImage} />
 
@@ -71,7 +74,7 @@ export default function CourseDetail({ course }) {
       <main>
         {course.jollydeck_url ? (
           <section className="bg-white">
-            <div className="mx-auto max-w-[1800px] px-4 pt-6 lg:px-6">
+            <div className="mx-auto max-w-[1800px] px-4 pt-6 pb-48 lg:px-6">
               <Link
                 href="/the-academy"
                 className="text-sm font-semibold text-brand-navy hover:underline"
@@ -124,7 +127,9 @@ export default function CourseDetail({ course }) {
                 )}
 
                 {course.description ? (
-                  <p className="mt-10 text-lg leading-8 text-slate-600">{course.description}</p>
+                  <div className="prose prose-slate mt-10 max-w-none prose-headings:font-display prose-headings:text-brand-navy prose-h2:text-[40px] prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-6 prose-h3:mb-3 prose-p:text-lg prose-p:leading-8 prose-p:text-slate-600 prose-a:text-brand-navy">
+                    <MarkdownContent content={course.description} />
+                  </div>
                 ) : null}
 
                 {course.tiers?.length > 0 ? (
