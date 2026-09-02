@@ -37,7 +37,7 @@ export default function NewCourse() {
       const { error } = await response.json().catch(() => ({}));
       throw new Error(error || "Failed to create course.");
     }
-    router.push("/admin/courses");
+    router.push(form.type === "micro-learning" ? "/admin/micro-learnings" : "/admin/courses");
   };
 
   return (

@@ -45,25 +45,32 @@ export default async function handler(req, res) {
 
     const isActive = is_active !== false;
 
+    // show_in_navbar isn't part of this form — it's toggled separately from
+    // the courses list — so it's left untouched here, except that
+    // deactivating a course always clears it (an inactive course can't stay
+    // linked from the navbar).
+    const updatePayload = {
+      slug,
+      title,
+      description: description || null,
+      type,
+      price: price || null,
+      price_note: price_note || null,
+      rating: rating || null,
+      stripe_price_id: stripe_price_id || null,
+      is_active: isActive,
+      show_in_upcoming: isActive && show_in_upcoming === true,
+      available_at: available_at || null,
+      registration_deadline: registration_deadline || null,
+      cover_image_url: cover_image_url || null,
+      jollydeck_url: jollydeck_url || null,
+      topic_id: topic_id || null,
+    };
+    if (!isActive) updatePayload.show_in_navbar = false;
+
     const { data, error } = await supabaseAdmin
       .from("courses")
-      .update({
-        slug,
-        title,
-        description: description || null,
-        type,
-        price: price || null,
-        price_note: price_note || null,
-        rating: rating || null,
-        stripe_price_id: stripe_price_id || null,
-        is_active: isActive,
-        show_in_upcoming: isActive && show_in_upcoming === true,
-        available_at: available_at || null,
-        registration_deadline: registration_deadline || null,
-        cover_image_url: cover_image_url || null,
-        jollydeck_url: jollydeck_url || null,
-        topic_id: topic_id || null,
-      })
+      .update(updatePayload)
       .eq("id", id)
       .select()
       .single();
@@ -96,12 +103,39 @@ export default async function handler(req, res) {
     return res.status(200).json({ course: data });
   }
 
+  if (req.method === "PATCH") {
+    const { show_in_navbar } = req.body ?? {};
+
+    if (show_in_navbar === true) {
+      const { data: course, error: fetchError } = await supabaseAdmin
+        .from("courses")
+        .select("is_active")
+        .eq("id", id)
+        .maybeSingle();
+      if (fetchError) return res.status(500).json({ error: fetchError.message });
+      if (!course) return res.status(404).json({ error: "Not found" });
+      if (!course.is_active) {
+        return res.status(400).json({ error: "Only active courses can be shown in the navbar." });
+      }
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from("courses")
+      .update({ show_in_navbar: Boolean(show_in_navbar) })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) return res.status(500).json({ error: error.message });
+    return res.status(200).json({ course: data });
+  }
+
   if (req.method === "DELETE") {
     const { error } = await supabaseAdmin.from("courses").delete().eq("id", id);
     if (error) return res.status(500).json({ error: error.message });
     return res.status(204).end();
   }
 
-  res.setHeader("Allow", "GET, PUT, DELETE");
+  res.setHeader("Allow", "GET, PUT, PATCH, DELETE");
   return res.status(405).json({ error: "Method not allowed" });
 }

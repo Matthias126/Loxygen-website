@@ -76,9 +76,6 @@ async function handleSubscriptionPurchase({ userId, tierId, session, user }) {
     },
   });
 
-  // JollyDeck accounts are still provisioned by hand — this just queues it.
-  await supabaseAdmin.from("jollydeck_queue").insert({ email: user.email });
-
   if (seats.length === 1) {
     const { error: claimError } = await supabaseAdmin
       .from("seats")

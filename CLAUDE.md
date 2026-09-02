@@ -8,7 +8,7 @@ The goal is a full rebuild of the current GoDaddy site. The new site must:
 - Be fully SEO-friendly and crawlable by AI engines (the old site was not)
 - Handle user authentication (login gate for e-learning content)
 - Handle payments via Stripe with automatic course access provisioning
-- Auto-provision Jollydeck accounts after micro-learning subscription purchase
+- Micro-learning content is imported/embedded directly into the site (JollyDeck iframe per course, gated by our own login + purchase/license records) — no separate JollyDeck account per customer, no external provisioning step
 - Allow Geert (the owner) to add new courses/webinars himself via a CMS — no code needed
 
 ---
@@ -20,7 +20,7 @@ The goal is a full rebuild of the current GoDaddy site. The new site must:
 - **Database + storage**: Supabase (PostgreSQL)
 - **Payments**: Stripe (Checkout + webhooks)
 - **Email**: Resend
-- **Micro-learning platform**: JollyDeck (external — we integrate via API after payment)
+- **Micro-learning platform**: JollyDeck content, embedded directly into course pages via iframe (`courses.jollydeck_url`) — no external account provisioning, access is gated entirely by our own login + purchase/license records
 - **Deployment**: GoDaddy
 
 ---
@@ -120,12 +120,13 @@ loxygen/
 ### Auth / middleware
 `middleware.js` protects `/e-learning` and `/account`. Any unauthenticated request is redirected to `/login?callbackUrl=<original path>`. After login, the user is sent back.
 
-### Stripe → Jolidec automation
-When `api/stripe/webhook` receives a `checkout.session.completed` event:
-1. Look up the purchased product in Supabase
-2. Grant the user access (update `purchased_course_ids` in DB)
-3. If product is `micro-learnings`, call `lib/jollyDeck.js → provisionJollyDeckAccess(email)` to create their JollyDeck account automatically
-4. Send a confirmation email via Resend
+### Stripe → access provisioning
+When `pages/api/stripe/webhook.js` receives a `checkout.session.completed` event:
+1. Look up the purchased course/tier in Supabase
+2. Grant access — a row in `purchases` for a one-time course, or a `licenses`/`seats` row for a micro-learnings-team subscription
+3. Send a confirmation email via Resend
+
+No external JollyDeck account provisioning happens here or anywhere else — micro-learning content is embedded directly (`courses.jollydeck_url`, an iframe shown on `/courses/[slug]` to anyone who already owns that course on our own site). There used to be a manual "JollyDeck queue" admin step for this; it's gone because it's no longer needed.
 
 ### Blog SEO
 Blog posts must be statically generated at build time using `getStaticPaths` + `getStaticProps` so they are fully crawlable by AI search engines — this was a major failure of the old GoDaddy site.

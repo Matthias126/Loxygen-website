@@ -13,11 +13,14 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "PATCH") {
-    const { is_active } = req.body ?? {};
+    const { is_active, show_in_navbar } = req.body ?? {};
 
     const { data, error } = await supabaseAdmin
       .from("static_pages")
-      .upsert({ slug, is_active: Boolean(is_active) }, { onConflict: "slug" })
+      .upsert(
+        { slug, is_active: Boolean(is_active), show_in_navbar: Boolean(show_in_navbar) },
+        { onConflict: "slug" }
+      )
       .select()
       .single();
 

@@ -18,7 +18,7 @@ export default function EditCourse({ course }) {
       const { error } = await response.json().catch(() => ({}));
       throw new Error(error || "Failed to update course.");
     }
-    router.push("/admin/courses");
+    router.push(form.type === "micro-learning" ? "/admin/micro-learnings" : "/admin/courses");
   };
 
   return (

@@ -15,14 +15,14 @@ const SECTIONS = [
     description: "Add, edit and deactivate e-learning courses, webinars and programmes.",
   },
   {
+    href: "/admin/micro-learnings",
+    title: "Micro-learnings",
+    description: "Add, edit and deactivate individual micro-learning lessons.",
+  },
+  {
     href: "/admin/pages",
     title: "Pages",
     description: "Turn the 7 flagship pages on or off once their event has passed.",
-  },
-  {
-    href: "/admin/jollydeck-queue",
-    title: "JollyDeck queue",
-    description: "Track and mark off pending micro-learning account provisioning.",
   },
 ];
 

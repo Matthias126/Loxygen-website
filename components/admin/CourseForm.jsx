@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { COURSE_TYPES } from "@/lib/courseTypes";
+import MarkdownContent from "@/components/MarkdownContent";
 
 const FIELD_CLASS =
   "w-full rounded-lg border border-slate-200 px-4 py-3 text-base text-brand-navy placeholder:text-slate-400 focus:border-brand-navy focus:outline-none focus:ring-1 focus:ring-brand-navy";
@@ -133,6 +134,12 @@ export default function CourseForm({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Image is too large — please use a file under 4MB.");
+      event.target.value = "";
+      return;
+    }
+
     setUploading(true);
     setError("");
     try {
@@ -142,11 +149,18 @@ export default function CourseForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ filename: file.name, contentType: file.type, dataBase64 }),
       });
-      if (!response.ok) throw new Error("Upload failed");
+      if (!response.ok) {
+        const { error: message } = await response.json().catch(() => ({}));
+        throw new Error(message || "Upload failed");
+      }
       const { url } = await response.json();
       setForm((prev) => ({ ...prev, cover_image_url: url }));
-    } catch {
-      setError("Image upload failed. Please try again.");
+    } catch (uploadError) {
+      setError(
+        uploadError.message === "Failed to fetch"
+          ? "Image upload failed — the file may be too large, or you lost connection. Please try again."
+          : `Image upload failed: ${uploadError.message}`
+      );
     } finally {
       setUploading(false);
     }
@@ -236,18 +250,43 @@ export default function CourseForm({
         </select>
       </div>
 
-      <div>
-        <label htmlFor="description" className="text-sm font-medium text-brand-navy">
-          Description
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          rows={4}
-          value={form.description}
-          onChange={handleChange}
-          className={`mt-2 ${FIELD_CLASS}`}
-        />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div>
+          <label htmlFor="description" className="text-sm font-medium text-brand-navy">
+            Description (markdown)
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            rows={14}
+            value={form.description}
+            onChange={handleChange}
+            className={`mt-2 font-mono text-sm ${FIELD_CLASS}`}
+          />
+          <ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-slate-500">
+            <li>
+              Leave a blank line between paragraphs to start a new one.
+            </li>
+            <li>
+              Use <code className="font-mono">## </code>for a subheading (bold, larger text), e.g.{" "}
+              <code className="font-mono">## Who this is for?</code>
+            </li>
+            <li>
+              For bold text within a line, wrap it in double asterisks:{" "}
+              <code className="font-mono">**like this**</code>.
+            </li>
+            <li>
+              Start a line with <code className="font-mono">- </code>for a bullet point.
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="text-sm font-medium text-brand-navy">Preview</p>
+          <div className="prose prose-slate mt-2 max-w-none rounded-lg border border-slate-200 p-4 prose-headings:font-display prose-headings:text-brand-navy prose-h2:text-[40px] prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-6 prose-h3:mb-3">
+            <MarkdownContent content={form.description || "*Nothing to preview yet.*"} />
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

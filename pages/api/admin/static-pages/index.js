@@ -1,4 +1,4 @@
-import { getStaticPageVisibility } from "@/lib/staticPages";
+import { getStaticPageSettings } from "@/lib/staticPages";
 import { requireAdminApi } from "@/lib/requireAdmin";
 
 export default async function handler(req, res) {
@@ -10,6 +10,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const visibility = await getStaticPageVisibility();
-  return res.status(200).json({ visibility });
+  const settings = await getStaticPageSettings();
+  return res.status(200).json({ settings });
 }

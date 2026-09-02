@@ -2,20 +2,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 
+// "The Academy hub" has no slug/row in static_pages and always shows — it's
+// the dropdown's own landing page, so there'd be no way back into it if it
+// could be hidden. The rest are keyed by slug so admin/pages.jsx's
+// show_in_navbar checkbox can hide them without deactivating the page.
 const ACADEMY_LINKS = [
-  ["/the-academy", "The Academy hub"],
-  ["/e-learning", "E-learning"],
-  ["/micro-learnings", "Micro-learnings"],
-  ["/breakbulk-training", "Breakbulk training"],
-  ["/bess-logistics-training", "BESS logistics training"],
-  ["/young-forwarders-benelux", "Young Forwarders Benelux"],
-  ["/africa-roadtrip-2026", "Africa Roadtrip 2026"],
-  ["/sustainable-forwarding", "Sustainability Award"],
+  ["/the-academy", "The Academy hub", null],
+  ["/e-learning", "E-learning", "e-learning"],
+  ["/micro-learnings", "Micro-learnings", "micro-learnings"],
+  ["/breakbulk-training", "Breakbulk training", "breakbulk-training"],
+  ["/bess-logistics-training", "BESS logistics training", "bess-logistics-training"],
+  ["/young-forwarders-benelux", "Young Forwarders Benelux", "young-forwarders-benelux"],
+  ["/africa-roadtrip-2026", "Africa Roadtrip 2026", "africa-roadtrip-2026"],
+  ["/sustainable-forwarding", "Sustainability Award", "sustainable-forwarding"],
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [navVisibility, setNavVisibility] = useState(null);
+  const [navCourses, setNavCourses] = useState([]);
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
 
@@ -30,6 +36,21 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    fetch("/api/navbar-links")
+      .then((res) => res.json())
+      .then(({ visibility, courses }) => {
+        setNavVisibility(visibility);
+        setNavCourses(courses ?? []);
+      })
+      .catch(() => {});
+  }, []);
+
+  const academyLinks = [
+    ...ACADEMY_LINKS.filter(([, , slug]) => !slug || navVisibility?.[slug] !== false),
+    ...navCourses.map((course) => [`/courses/${course.slug}`, course.title]),
+  ];
 
   return (
     <header className="sticky top-4 z-50 px-4">
@@ -71,7 +92,7 @@ export default function Navbar() {
 
             <div className="invisible absolute left-1/2 top-full w-72 -translate-x-1/2 pt-3 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100">
               <div className="rounded-2xl border border-white/10 bg-brand-navy p-2 shadow-xl">
-                {ACADEMY_LINKS.map(([href, label]) => (
+                {academyLinks.map(([href, label]) => (
                   <Link
                     key={href}
                     href={href}
@@ -159,7 +180,7 @@ export default function Navbar() {
                 </svg>
               </summary>
               <div className="flex flex-col gap-1 pl-3">
-                {ACADEMY_LINKS.map(([href, label]) => (
+                {academyLinks.map(([href, label]) => (
                   <Link
                     key={href}
                     href={href}

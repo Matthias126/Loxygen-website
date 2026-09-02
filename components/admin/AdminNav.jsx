@@ -5,8 +5,8 @@ const LINKS = [
   ["/admin", "Dashboard"],
   ["/admin/blog", "Blog"],
   ["/admin/courses", "Courses"],
+  ["/admin/micro-learnings", "Micro-learnings"],
   ["/admin/pages", "Pages"],
-  ["/admin/jollydeck-queue", "JollyDeck queue"],
   ["/admin/licenses", "Licenses"],
 ];
 

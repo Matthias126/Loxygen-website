@@ -16,33 +16,36 @@ const PAGE_LABELS = {
 };
 
 export default function AdminPages() {
-  const [visibility, setVisibility] = useState(null);
+  const [settings, setSettings] = useState(null);
   const [error, setError] = useState("");
   const [updating, setUpdating] = useState(null);
 
-  const loadVisibility = async () => {
+  const loadSettings = async () => {
     const response = await fetch("/api/admin/static-pages");
     if (!response.ok) {
       setError("Failed to load pages.");
       return;
     }
-    const { visibility: data } = await response.json();
-    setVisibility(data);
+    const { settings: data } = await response.json();
+    setSettings(data);
   };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- standard fetch-on-mount for an admin list
-    loadVisibility();
+    loadSettings();
   }, []);
 
-  const handleToggle = async (slug, currentlyActive) => {
+  const handleToggle = async (slug, field) => {
+    const current = settings[slug];
+    const next = { ...current, [field]: !current[field] };
+
     setUpdating(slug);
     setError("");
 
     const response = await fetch(`/api/admin/static-pages/${slug}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ is_active: !currentlyActive }),
+      body: JSON.stringify(next),
     });
 
     setUpdating(null);
@@ -52,7 +55,7 @@ export default function AdminPages() {
       return;
     }
 
-    setVisibility((prev) => ({ ...prev, [slug]: !currentlyActive }));
+    setSettings((prev) => ({ ...prev, [slug]: next }));
   };
 
   return (
@@ -75,21 +78,23 @@ export default function AdminPages() {
             <p className="mt-3 max-w-2xl text-slate-600">
               Turn a page off once its event has passed, and it 404s and disappears from The
               Academy hub. Content itself (dates, copy, photos) still needs a developer to
-              change.
+              change. Untick &ldquo;Show in navbar&rdquo; to declutter the top menu without
+              taking the page down.
             </p>
 
             {error ? <p className="mt-6 text-sm font-medium text-red-600">{error}</p> : null}
 
-            {visibility === null ? (
+            {settings === null ? (
               <p className="mt-8 text-sm text-slate-500">Loading…</p>
             ) : (
               <div className="mt-8 divide-y divide-slate-200 rounded-xl border border-slate-200">
                 {STATIC_PAGE_SLUGS.map((slug) => {
-                  const isActive = visibility[slug] !== false;
+                  const isActive = settings[slug]?.is_active !== false;
+                  const showInNavbar = settings[slug]?.show_in_navbar !== false;
                   return (
                     <div
                       key={slug}
-                      className="flex items-center justify-between gap-6 px-6 py-4"
+                      className="flex flex-wrap items-center justify-between gap-4 px-6 py-4"
                     >
                       <div>
                         <p className="font-medium text-brand-navy">{PAGE_LABELS[slug]}</p>
@@ -100,20 +105,31 @@ export default function AdminPages() {
                           </Link>
                         </p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => handleToggle(slug, isActive)}
-                        disabled={updating === slug}
-                        className={`text-sm font-semibold hover:underline disabled:opacity-60 ${
-                          isActive ? "text-red-600" : "text-brand-navy"
-                        }`}
-                      >
-                        {updating === slug
-                          ? "Updating…"
-                          : isActive
-                            ? "Deactivate"
-                            : "Activate"}
-                      </button>
+                      <div className="flex items-center gap-6">
+                        <label className="flex items-center gap-2 text-sm text-slate-600">
+                          <input
+                            type="checkbox"
+                            checked={showInNavbar}
+                            disabled={updating === slug}
+                            onChange={() => handleToggle(slug, "show_in_navbar")}
+                          />
+                          Show in navbar
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => handleToggle(slug, "is_active")}
+                          disabled={updating === slug}
+                          className={`text-sm font-semibold hover:underline disabled:opacity-60 ${
+                            isActive ? "text-red-600" : "text-brand-navy"
+                          }`}
+                        >
+                          {updating === slug
+                            ? "Updating…"
+                            : isActive
+                              ? "Deactivate"
+                              : "Activate"}
+                        </button>
+                      </div>
                     </div>
                   );
                 })}
