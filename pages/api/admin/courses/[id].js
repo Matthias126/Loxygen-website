@@ -131,6 +131,24 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "DELETE") {
+    // The micro-learning-team course isn't a real page — it's the only
+    // place the live micro-learnings pricing tiers live (see
+    // lib/courseTypes.js). Deleting it takes the pricing section on
+    // /micro-learnings down with it, which has already happened by
+    // accident twice — edit its tiers instead of deleting the course.
+    const { data: course, error: fetchError } = await supabaseAdmin
+      .from("courses")
+      .select("type")
+      .eq("id", id)
+      .maybeSingle();
+    if (fetchError) return res.status(500).json({ error: fetchError.message });
+    if (course?.type === "micro-learning-team") {
+      return res.status(400).json({
+        error:
+          "This course holds the live micro-learnings pricing tiers and can't be deleted. Edit its tiers instead.",
+      });
+    }
+
     const { error } = await supabaseAdmin.from("courses").delete().eq("id", id);
     if (error) return res.status(500).json({ error: error.message });
     return res.status(204).end();

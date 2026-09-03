@@ -10,6 +10,12 @@ export default function CheckoutButton({ slug, tierId, label, className }) {
     setStatus("submitting");
     setError("");
 
+    // Opened synchronously, in the same tick as the click, so browsers don't
+    // treat it as an unrequested popup — window.open() called after the
+    // await below would get silently blocked in Safari and some Chrome
+    // versions since it's no longer inside a direct user-gesture handler.
+    const newTab = window.open("", "_blank");
+
     try {
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -18,6 +24,7 @@ export default function CheckoutButton({ slug, tierId, label, className }) {
       });
 
       if (response.status === 401) {
+        newTab?.close();
         router.push(`/login?callbackUrl=${encodeURIComponent(router.asPath)}`);
         return;
       }
@@ -28,8 +35,15 @@ export default function CheckoutButton({ slug, tierId, label, className }) {
       }
 
       const { url } = await response.json();
-      window.location.href = url;
+      if (newTab) {
+        newTab.location.href = url;
+      } else {
+        // Popup blocked outright — fall back to the current tab.
+        window.location.href = url;
+      }
+      setStatus("idle");
     } catch (submitError) {
+      newTab?.close();
       setStatus("error");
       setError(submitError.message);
     }

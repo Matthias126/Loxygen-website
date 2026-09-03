@@ -168,34 +168,39 @@ export default function MicroLearnings({ plansCourse }) {
               </p>
 
               {plansCourse?.tiers?.length > 0 ? (
-                <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
                   {plansCourse.tiers.map((tier) => (
                     <div
                       key={tier.id}
-                      className="flex flex-col items-center rounded-xl bg-white px-6 py-8"
+                      className="flex flex-col items-center rounded-2xl bg-white px-10 py-20"
                     >
-                      <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+                      <p className="text-base font-semibold uppercase tracking-wide text-slate-400">
                         {tier.label}
                       </p>
-                      <p className="font-display mt-3 text-2xl text-brand-navy">
+                      <p className="font-display mt-4 text-6xl text-brand-navy">
                         €{tier.price}
                         {tier.price_note ? (
-                          <span className="ml-1 text-sm font-normal text-slate-500">
+                          <span className="ml-1 text-base font-normal text-slate-500">
                             {tier.price_note}
                           </span>
                         ) : null}
                       </p>
+                      {tier.seat_count ? (
+                        <p className="mt-3 text-sm text-slate-500">
+                          {tier.seat_count} {tier.seat_count === 1 ? "participant" : "participants"}
+                        </p>
+                      ) : null}
                       {tier.stripe_price_id ? (
                         <CheckoutButton
                           slug={plansCourse.slug}
                           tierId={tier.id}
                           label="Subscribe"
-                          className="mt-6 inline-flex items-center justify-center rounded-lg bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy/90 disabled:opacity-60"
+                          className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-navy px-8 py-4 text-base font-semibold text-white hover:bg-brand-navy/90 disabled:opacity-60"
                         />
                       ) : (
                         <Link
                           href="/contact"
-                          className="mt-6 inline-flex items-center justify-center rounded-lg bg-brand-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy/90"
+                          className="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-navy px-8 py-4 text-base font-semibold text-white hover:bg-brand-navy/90"
                         >
                           Get in touch
                         </Link>
