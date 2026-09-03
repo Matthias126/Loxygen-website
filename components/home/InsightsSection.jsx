@@ -27,35 +27,37 @@ export default function InsightsSection({ posts = [] }) {
 
         <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2" data-reveal-group>
           {posts.map((post, index) => (
-            <div key={post.slug} data-reveal-item>
+            <div key={post.slug} className="h-full" data-reveal-item>
               <Link
                 href={`/blog/${post.slug}`}
-                className={`group block rounded-2xl bg-white p-8 shadow-card transition-[transform,box-shadow] hover:-translate-y-1 hover:rotate-0 hover:shadow-card-hover ${TILTS[index % TILTS.length]}`}
+                className={`group flex h-full flex-col justify-between rounded-2xl bg-white p-8 shadow-card transition-[transform,box-shadow] hover:-translate-y-1 hover:rotate-0 hover:shadow-card-hover ${TILTS[index % TILTS.length]}`}
               >
-                {post.coverImageUrl ? (
-                  <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl">
-                    <Image
-                      src={post.coverImageUrl}
-                      alt={post.coverImageAlt || post.title}
-                      fill
-                      sizes="(min-width: 1024px) 550px, 90vw"
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <PlaceholderImage label={post.category} className="mb-6 aspect-video w-full" />
-                )}
-                <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                  {post.category}
-                </span>
-                <h3 className="font-display mt-4 text-xl text-brand-navy group-hover:underline">
-                  {post.title}
-                </h3>
-                {post.excerpt ? (
-                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
-                    {post.excerpt}
-                  </p>
-                ) : null}
+                <div>
+                  {post.coverImageUrl ? (
+                    <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl">
+                      <Image
+                        src={post.coverImageUrl}
+                        alt={post.coverImageAlt || post.title}
+                        fill
+                        sizes="(min-width: 1024px) 550px, 90vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <PlaceholderImage label={post.category} className="mb-6 aspect-video w-full" />
+                  )}
+                  <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    {post.category}
+                  </span>
+                  <h3 className="font-display mt-4 line-clamp-2 text-xl text-brand-navy group-hover:underline">
+                    {post.title}
+                  </h3>
+                  {post.excerpt ? (
+                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
+                      {post.excerpt}
+                    </p>
+                  ) : null}
+                </div>
                 <span className="mt-4 inline-block text-sm font-semibold text-brand-navy">
                   Read more{" "}
                   <span className="inline-block transition-transform group-hover:translate-x-1">
