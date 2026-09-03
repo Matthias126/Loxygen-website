@@ -9,8 +9,6 @@ const TITLE = "Blog | Loxygen Academy";
 const DESCRIPTION =
   "Practical insights on breakbulk, sustainability, AI and learning in freight forwarding, from the Loxygen Academy team.";
 
-const STAGGER_CLASS = ["", "md:mt-12", "md:mt-6"];
-
 export default function Blog({ posts }) {
   const router = useRouter();
   const activeCategory =
@@ -77,10 +75,8 @@ export default function Blog({ posts }) {
 
             {visiblePosts.length > 0 ? (
               <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {visiblePosts.map((post, index) => (
-                  <div key={post.slug} className={STAGGER_CLASS[index % STAGGER_CLASS.length]}>
-                    <BlogCard post={post} />
-                  </div>
+                {visiblePosts.map((post) => (
+                  <BlogCard key={post.slug} post={post} />
                 ))}
               </div>
             ) : (
