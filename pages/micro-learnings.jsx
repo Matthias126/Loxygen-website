@@ -13,8 +13,7 @@ const DESCRIPTION =
   "A €190/year subscription to bite-sized logistics and freight forwarding lessons, delivered year-round.";
 
 const STATS = [
-  { value: "€190", label: "per year, excl. VAT" },
-  { value: "15 min", label: "average module length" },
+  { value: "8-12 min", label: "per session" },
   { value: "Year-round", label: "new modules released regularly" },
   { value: "Any device", label: "browser-based access" },
 ];
@@ -100,7 +99,7 @@ export default function MicroLearnings({ plansCourse }) {
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
+            <div className="mt-16 grid grid-cols-3 gap-8">
               {STATS.map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-stat leading-none text-brand-navy">
