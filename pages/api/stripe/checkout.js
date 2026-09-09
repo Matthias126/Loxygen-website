@@ -57,9 +57,13 @@ export default async function handler(req, res) {
     line_items: [{ price: priceId, quantity: 1 }],
     customer_email: session.user.email,
     client_reference_id: session.user.id,
-    // Prices are flat, manually-set "excl. VAT" amounts — this site doesn't
-    // use Stripe Tax, so Managed Payments' tax-code requirement doesn't apply.
+    // Prices are flat, manually-set "excl. VAT" amounts — Stripe Tax adds the
+    // correct VAT on top per customer location/VAT number. Managed Payments
+    // is a separate feature and stays off.
     managed_payments: { enabled: false },
+    automatic_tax: { enabled: true },
+    billing_address_collection: "required",
+    tax_id_collection: { enabled: true },
     metadata: {
       userId: session.user.id,
       courseId: course.id,
