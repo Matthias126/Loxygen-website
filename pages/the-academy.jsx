@@ -148,7 +148,10 @@ export default function TheAcademy({ courses, upcomingCourses, pageVisibility })
     ).map((programme) => ({ kind: "static", ...programme }));
     const liveItems = courses
       .filter(
-        (course) => COURSE_TYPE_TO_CATEGORY[course.type] && course.type !== "micro-learning"
+        (course) =>
+          COURSE_TYPE_TO_CATEGORY[course.type] &&
+          course.type !== "micro-learning" &&
+          course.type !== "micro-learning-team"
       )
       .map((course) => ({
         kind: "live",
