@@ -39,8 +39,8 @@ export default async function handler(req, res) {
       tiers,
     } = req.body ?? {};
 
-    if (!slug || !title || !type) {
-      return res.status(400).json({ error: "Slug, title and type are required." });
+    if (!slug || !title || !type || !description) {
+      return res.status(400).json({ error: "Slug, title, type and description are required." });
     }
 
     const isActive = is_active !== false;

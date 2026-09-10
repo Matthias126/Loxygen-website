@@ -255,10 +255,15 @@ export default function CourseForm({
           <label htmlFor="description" className="text-sm font-medium text-brand-navy">
             Description (markdown)
           </label>
+          <p className="mt-1 text-xs text-slate-500">
+            The opening sentence doubles as this page&apos;s search-engine description, so make it
+            count.
+          </p>
           <textarea
             id="description"
             name="description"
             rows={14}
+            required
             value={form.description}
             onChange={handleChange}
             className={`mt-2 font-mono text-sm ${FIELD_CLASS}`}

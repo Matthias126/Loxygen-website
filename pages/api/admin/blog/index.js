@@ -28,8 +28,8 @@ export default async function handler(req, res) {
       published_at,
     } = req.body ?? {};
 
-    if (!slug || !title || !category) {
-      return res.status(400).json({ error: "Slug, title and category are required." });
+    if (!slug || !title || !category || !excerpt) {
+      return res.status(400).json({ error: "Slug, title, category and excerpt are required." });
     }
 
     const { data, error } = await supabaseAdmin

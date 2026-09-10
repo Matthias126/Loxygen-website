@@ -161,10 +161,15 @@ export default function BlogPostForm({ initialPost, onSubmit, submitLabel = "Sav
         <label htmlFor="excerpt" className="text-sm font-medium text-brand-navy">
           Excerpt
         </label>
+        <p className="mt-1 text-xs text-slate-500">
+          Shown on the blog listing card and used as this post&apos;s search-engine description —
+          keep it to 1-2 sentences.
+        </p>
         <textarea
           id="excerpt"
           name="excerpt"
           rows={2}
+          required
           value={form.excerpt}
           onChange={handleChange}
           className={`mt-2 ${FIELD_CLASS}`}
