@@ -229,7 +229,10 @@ export default function CourseDetail({ course }) {
 export async function getServerSideProps({ params, req, res }) {
   const course = await getCourseBySlug(params.slug);
 
-  if (!course || !course.is_active) {
+  // micro-learning-team is a pricing-tier container sold exclusively via its
+  // dedicated /micro-learnings page — it has no standalone content of its
+  // own, so it shouldn't get a generic /courses/[slug] detail page too.
+  if (!course || !course.is_active || course.type === "micro-learning-team") {
     return { notFound: true };
   }
 

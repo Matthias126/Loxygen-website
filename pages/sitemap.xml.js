@@ -27,10 +27,14 @@ async function getStaticRoutes() {
   ];
 
   const courses = await getCourses();
-  const courseRoutes = courses.map((course) => ({
-    loc: `/courses/${course.slug}`,
-    lastmod: course.created_at,
-  }));
+  const courseRoutes = courses
+    // micro-learning-team has no standalone /courses/[slug] page — see
+    // pages/courses/[slug].jsx, it 404s there and is sold via /micro-learnings.
+    .filter((course) => course.type !== "micro-learning-team")
+    .map((course) => ({
+      loc: `/courses/${course.slug}`,
+      lastmod: course.created_at,
+    }));
 
   return [...topLevelRoutes, ...blogRoutes, ...courseRoutes];
 }
