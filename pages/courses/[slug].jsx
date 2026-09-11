@@ -39,8 +39,9 @@ function formatShortDate(dateString) {
 }
 
 // Builds the top stats bar from whatever real fields the course actually
-// has — no course is guaranteed a date, price, rating and deadline all at
-// once, so this only shows what exists rather than leaving blank cells.
+// has — no course is guaranteed a date, rating and deadline all at once, so
+// this only shows what exists rather than leaving blank cells. Price is
+// deliberately never shown here — it stays down by the checkout button.
 function buildCourseStats(course) {
   const stats = [];
 
@@ -51,10 +52,6 @@ function buildCourseStats(course) {
       value: formatShortDate(course.available_at),
       label: context ? `${year} · ${context}` : String(year),
     });
-  }
-
-  if (course.price) {
-    stats.push({ value: `€${course.price}`, label: course.price_note || "per person" });
   }
 
   if (course.rating) {
