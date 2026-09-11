@@ -14,14 +14,6 @@ import CheckoutButton from "@/components/CheckoutButton";
 import MarkdownContent from "@/components/MarkdownContent";
 import { stripMarkdown } from "@/lib/headings";
 
-function formatDate(dateString) {
-  return new Date(dateString).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
 const CTA_LABEL = {
   "self-paced": "Start learning",
   scheduled: "Reserve your seat",
@@ -34,6 +26,51 @@ const TEMPLATE_NOTE = {
   immersive: "Limited spots. Applications reviewed on a rolling basis.",
 };
 
+// The word that follows the year in the date stat, e.g. "2026 · live online".
+const TYPE_DATE_CONTEXT = {
+  webinar: "live online",
+  "e-learning": "self-paced",
+  "micro-learning": "self-paced",
+  immersive: "on location",
+};
+
+function formatShortDate(dateString) {
+  return new Date(dateString).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
+// Builds the top stats bar from whatever real fields the course actually
+// has — no course is guaranteed a date, price, rating and deadline all at
+// once, so this only shows what exists rather than leaving blank cells.
+function buildCourseStats(course) {
+  const stats = [];
+
+  if (course.available_at) {
+    const year = new Date(course.available_at).getFullYear();
+    const context = TYPE_DATE_CONTEXT[course.type];
+    stats.push({
+      value: formatShortDate(course.available_at),
+      label: context ? `${year} · ${context}` : String(year),
+    });
+  }
+
+  if (course.price) {
+    stats.push({ value: `€${course.price}`, label: course.price_note || "per person" });
+  }
+
+  if (course.rating) {
+    stats.push({ value: `${course.rating}★`, label: "rated by past attendees" });
+  } else if (course.registration_deadline) {
+    stats.push({
+      value: formatShortDate(course.registration_deadline),
+      label: "registration closes",
+    });
+  }
+
+  return stats;
+}
+
+const STATS_GRID_CLASS = { 1: "grid-cols-1", 2: "grid-cols-2", 3: "grid-cols-3" };
+
 export default function CourseDetail({ course }) {
   const template = COURSE_TYPE_TO_CATEGORY[course.type] ?? "self-paced";
   const title = `${course.title} | Loxygen Academy`;
@@ -41,6 +78,7 @@ export default function CourseDetail({ course }) {
   const jsonLd = buildCourseDetailJsonLd(course, url);
   const ogImage = course.cover_image_url || DEFAULT_OG_IMAGE;
   const plainDescription = stripMarkdown(course.description);
+  const courseStats = buildCourseStats(course);
 
   return (
     <>
@@ -98,7 +136,7 @@ export default function CourseDetail({ course }) {
           </section>
         ) : (
         <section className="bg-white">
-          <div className="mx-auto max-w-3xl px-6 py-24 lg:px-8">
+          <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <Link
               href="/the-academy"
               className="text-sm font-semibold text-brand-navy hover:underline"
@@ -106,24 +144,40 @@ export default function CourseDetail({ course }) {
               ← Back to the Academy
             </Link>
 
-            <p className="mt-8 text-xs font-semibold uppercase tracking-wide text-slate-400">
-              {course.type}
-              {course.available_at ? ` · ${formatDate(course.available_at)}` : ""}
-            </p>
-            <h1 className="font-display mt-4 text-heading tracking-tight text-brand-navy">
-              {course.title}
-            </h1>
+            <div className="max-w-3xl">
+              <p className="mt-8 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                {course.type}
+              </p>
+              <h1 className="font-display mt-4 text-heading tracking-tight text-brand-navy">
+                {course.title}
+              </h1>
+            </div>
 
               <>
+                {courseStats.length > 0 ? (
+                  <div
+                    className={`mt-16 grid gap-8 ${STATS_GRID_CLASS[courseStats.length]}`}
+                  >
+                    {courseStats.map((stat) => (
+                      <div key={stat.label}>
+                        <p className="font-display text-stat leading-none text-brand-navy">
+                          {stat.value}
+                        </p>
+                        <p className="mt-3 text-sm text-slate-500">{stat.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
                 {course.cover_image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element -- external Supabase Storage URL, no next/image domain config for this demo pass
                   <img
                     src={course.cover_image_url}
                     alt={course.title}
-                    className="mt-10 aspect-[21/9] w-full rounded-xl object-cover"
+                    className="mt-12 aspect-[21/9] w-full rounded-xl object-cover"
                   />
                 ) : (
-                  <PlaceholderImage label={course.type} className="mt-10 aspect-[21/9] w-full" />
+                  <PlaceholderImage label={course.type} className="mt-12 aspect-[21/9] w-full" />
                 )}
 
                 {course.description ? (
