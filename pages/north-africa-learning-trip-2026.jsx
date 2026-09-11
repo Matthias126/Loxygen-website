@@ -171,7 +171,7 @@ export default function NorthAfricaLearningTrip2026() {
         {/* Why this region, now */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">Why this region, now</h2>
+            <h2 className="font-display text-banner tracking-tight text-brand-navy">Why this region, now</h2>
             <div className="mt-10 max-w-3xl space-y-6">
               <p className="text-lg leading-8 text-slate-600">
                 The African Continental Free Trade Area removes the tariffs. It does not move the
@@ -198,7 +198,7 @@ export default function NorthAfricaLearningTrip2026() {
         {/* Corridors */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">
+            <h2 className="font-display text-banner tracking-tight text-brand-navy">
               Three corridors, one journey
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -225,7 +225,7 @@ export default function NorthAfricaLearningTrip2026() {
         {/* What we actually do */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">
+            <h2 className="font-display text-banner tracking-tight text-brand-navy">
               Six days inside the operations
             </h2>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
@@ -249,7 +249,7 @@ export default function NorthAfricaLearningTrip2026() {
         {/* Who hosts you */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">Who hosts you</h2>
+            <h2 className="font-display text-banner tracking-tight text-brand-navy">Who hosts you</h2>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
               Not a supplier tour. Three operators, on their own ground.
             </p>
@@ -274,7 +274,7 @@ export default function NorthAfricaLearningTrip2026() {
         {/* Who it's for */}
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-            <h2 className="font-display text-2xl text-brand-navy">Who it&apos;s for</h2>
+            <h2 className="font-display text-banner tracking-tight text-brand-navy">Who it&apos;s for</h2>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
               Experienced forwarders with the mandate to act on what they see — in general cargo,
               airfreight, project cargo, breakbulk and new-energy logistics.
