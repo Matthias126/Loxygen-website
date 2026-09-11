@@ -135,10 +135,7 @@ export default function CourseDetail({ course }) {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
             <div className="max-w-3xl">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-                {course.type}
-              </p>
-              <h1 className="font-display mt-4 text-heading tracking-tight text-brand-navy">
+              <h1 className="font-display text-heading tracking-tight text-brand-navy">
                 {course.title}
               </h1>
             </div>
