@@ -14,7 +14,7 @@ const FOOTER_COLUMNS = [
       ["/breakbulk-training", "Breakbulk training"],
       ["/bess-logistics-training", "BESS logistics training"],
       ["/young-forwarders-benelux", "Young Forwarders Benelux"],
-      ["/africa-roadtrip-2026", "Africa Roadtrip 2026"],
+      ["/north-africa-learning-trip-2026", "North Africa Learning Trip 2026"],
       ["/sustainable-forwarding", "Sustainability Award"],
     ],
   },

@@ -13,7 +13,11 @@ const ACADEMY_LINKS = [
   ["/breakbulk-training", "Breakbulk training", "breakbulk-training"],
   ["/bess-logistics-training", "BESS logistics training", "bess-logistics-training"],
   ["/young-forwarders-benelux", "Young Forwarders Benelux", "young-forwarders-benelux"],
-  ["/africa-roadtrip-2026", "Africa Roadtrip 2026", "africa-roadtrip-2026"],
+  [
+    "/north-africa-learning-trip-2026",
+    "North Africa Learning Trip 2026",
+    "north-africa-learning-trip-2026",
+  ],
   ["/sustainable-forwarding", "Sustainability Award", "sustainable-forwarding"],
 ];
 

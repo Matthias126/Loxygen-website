@@ -38,10 +38,11 @@ const ALL_PROGRAMMES = [
   },
   {
     category: "immersive",
-    href: "/africa-roadtrip-2026",
+    href: "/north-africa-learning-trip-2026",
     format: "Immersive programme · 2026",
-    title: "Africa Roadtrip 2026",
-    description: "An immersive road trip through Africa's key logistics corridors.",
+    title: "North Africa Learning Trip 2026",
+    description:
+      "Boots-on-the-ground logistics learning across Egypt, Tunisia and Morocco.",
     image: "/images/africa_tour2026.png",
     imageAlt: "A Terex mobile harbour crane and dockworkers at a Marsa Maroc port terminal in Morocco",
   },

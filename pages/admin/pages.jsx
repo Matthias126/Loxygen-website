@@ -7,7 +7,7 @@ import AdminNav from "@/components/admin/AdminNav";
 
 const PAGE_LABELS = {
   "young-forwarders-benelux": "Young Forwarders Benelux",
-  "africa-roadtrip-2026": "Africa Roadtrip 2026",
+  "north-africa-learning-trip-2026": "North Africa Learning Trip 2026",
   "breakbulk-training": "Breakbulk Training",
   "bess-logistics-training": "BESS Logistics Training",
   "e-learning": "E-learning",
