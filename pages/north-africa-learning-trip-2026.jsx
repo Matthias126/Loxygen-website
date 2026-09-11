@@ -236,7 +236,7 @@ export default function NorthAfricaLearningTrip2026() {
               {WHAT_YOU_SEE.map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-xl bg-white p-8 shadow-card transition-[box-shadow,border-color] hover:shadow-card-hover hover:border-l-4 hover:border-l-brand-navy"
+                  className="rounded-xl bg-white p-8 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-card-hover"
                 >
                   <h3 className="font-display text-xl text-brand-navy">{item.title}</h3>
                   <p className="mt-3 text-base leading-7 text-slate-600">{item.description}</p>
