@@ -24,6 +24,11 @@ const SECTIONS = [
     title: "Pages",
     description: "Turn the 7 flagship pages on or off once their event has passed.",
   },
+  {
+    href: "/admin/purchases",
+    title: "Purchases",
+    description: "See who booked a course or webinar, to build invite lists.",
+  },
 ];
 
 export default function AdminDashboard() {

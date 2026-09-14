@@ -8,6 +8,7 @@ const LINKS = [
   ["/admin/micro-learnings", "Micro-learnings"],
   ["/admin/pages", "Pages"],
   ["/admin/licenses", "Licenses"],
+  ["/admin/purchases", "Purchases"],
 ];
 
 export default function AdminNav() {

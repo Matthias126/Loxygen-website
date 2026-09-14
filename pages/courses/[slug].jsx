@@ -192,14 +192,30 @@ export default function CourseDetail({ course }) {
                               <span className="text-sm text-slate-500">{tier.price_note}</span>
                             ) : null}
                           </span>
-                          {tier.stripe_price_id ? (
+                          {tier.booking_type === "external" && tier.booking_url ? (
+                            <a
+                              href={tier.booking_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90"
+                            >
+                              {CTA_LABEL[template]}
+                            </a>
+                          ) : tier.stripe_price_id ? (
                             <CheckoutButton
                               slug={course.slug}
                               tierId={tier.id}
                               label={CTA_LABEL[template]}
                               className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90 disabled:opacity-60"
                             />
-                          ) : null}
+                          ) : (
+                            <Link
+                              href="/contact"
+                              className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90"
+                            >
+                              {CTA_LABEL[template]}
+                            </Link>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -223,7 +239,16 @@ export default function CourseDetail({ course }) {
                         ) : null}
                       </span>
                     ) : null}
-                    {course.stripe_price_id ? (
+                    {course.booking_type === "external" && course.booking_url ? (
+                      <a
+                        href={course.booking_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center rounded-lg bg-brand-navy px-7 py-3.5 text-base font-semibold text-white hover:bg-brand-navy/90"
+                      >
+                        {CTA_LABEL[template]}
+                      </a>
+                    ) : course.stripe_price_id ? (
                       <CheckoutButton
                         slug={course.slug}
                         label={CTA_LABEL[template]}

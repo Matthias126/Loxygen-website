@@ -6,7 +6,19 @@ import {
   buildSeatAutoClaimedEmail,
   buildLicenseConfirmationEmail,
   buildCoursePurchaseConfirmationEmail,
+  buildPurchaseNotificationEmail,
 } from "@/lib/email";
+
+async function notifyAdminOfPurchase({ courseTitle, tierLabel, buyerName, buyerEmail }) {
+  if (!process.env.CONTACT_TO_EMAIL) return;
+  const { subject, html } = buildPurchaseNotificationEmail({
+    courseTitle,
+    tierLabel,
+    buyerName,
+    buyerEmail,
+  });
+  await sendTransactionalEmail({ to: process.env.CONTACT_TO_EMAIL, subject, html });
+}
 
 export const config = { api: { bodyParser: false } };
 
@@ -18,7 +30,7 @@ async function readRawBody(req) {
   return Buffer.concat(chunks);
 }
 
-async function handleOneTimePurchase({ userId, courseId, user }) {
+async function handleOneTimePurchase({ userId, courseId, tierId, user }) {
   const { data: existingPurchase, error: existingPurchaseError } = await supabaseAdmin
     .from("purchases")
     .select("id")
@@ -35,9 +47,20 @@ async function handleOneTimePurchase({ userId, courseId, user }) {
     .maybeSingle();
   if (courseError) throw courseError;
 
+  let tierLabel = null;
+  if (tierId) {
+    const { data: tier, error: tierError } = await supabaseAdmin
+      .from("course_price_tiers")
+      .select("label")
+      .eq("id", tierId)
+      .maybeSingle();
+    if (tierError) throw tierError;
+    tierLabel = tier?.label ?? null;
+  }
+
   const { error: insertError } = await supabaseAdmin
     .from("purchases")
-    .insert({ user_id: userId, course_id: courseId });
+    .insert({ user_id: userId, course_id: courseId, tier_id: tierId || null });
   if (insertError) throw insertError;
 
   if (course) {
@@ -46,6 +69,13 @@ async function handleOneTimePurchase({ userId, courseId, user }) {
       courseSlug: course.slug,
     });
     await sendTransactionalEmail({ to: user.email, subject, html });
+
+    await notifyAdminOfPurchase({
+      courseTitle: course.title,
+      tierLabel,
+      buyerName: user.name,
+      buyerEmail: user.email,
+    });
   }
 }
 
@@ -60,7 +90,7 @@ async function handleSubscriptionPurchase({ userId, tierId, session, user }) {
 
   const { data: tier, error: tierError } = await supabaseAdmin
     .from("course_price_tiers")
-    .select("stripe_price_id")
+    .select("label, stripe_price_id")
     .eq("id", tierId)
     .maybeSingle();
   if (tierError) throw tierError;
@@ -94,6 +124,13 @@ async function handleSubscriptionPurchase({ userId, tierId, session, user }) {
     const { subject, html } = buildLicenseConfirmationEmail({ seats });
     await sendTransactionalEmail({ to: user.email, subject, html });
   }
+
+  await notifyAdminOfPurchase({
+    courseTitle: "Micro-learnings team plan",
+    tierLabel: tier?.label ?? null,
+    buyerName: user.name,
+    buyerEmail: user.email,
+  });
 }
 
 async function handleCheckoutCompleted(session) {
@@ -102,7 +139,7 @@ async function handleCheckoutCompleted(session) {
 
   const { data: user, error: userError } = await supabaseAdmin
     .from("users")
-    .select("id, email")
+    .select("id, email, name")
     .eq("id", userId)
     .maybeSingle();
   if (userError) throw userError;
@@ -111,7 +148,7 @@ async function handleCheckoutCompleted(session) {
   if (session.mode === "subscription") {
     await handleSubscriptionPurchase({ userId, tierId, session, user });
   } else {
-    await handleOneTimePurchase({ userId, courseId, user });
+    await handleOneTimePurchase({ userId, courseId, tierId, user });
   }
 }
 

@@ -37,6 +37,8 @@ export default function CourseForm({
     price_note: initialCourse?.price_note ?? "",
     rating: initialCourse?.rating ?? "",
     stripe_price_id: initialCourse?.stripe_price_id ?? "",
+    booking_type: initialCourse?.booking_type ?? "stripe",
+    booking_url: initialCourse?.booking_url ?? "",
     is_active: initialCourse?.is_active ?? true,
     show_in_upcoming: initialCourse?.show_in_upcoming ?? false,
     available_at: initialCourse?.available_at ? initialCourse.available_at.slice(0, 10) : "",
@@ -52,6 +54,8 @@ export default function CourseForm({
         price: tier.price ?? "",
         price_note: tier.price_note ?? "",
         stripe_price_id: tier.stripe_price_id ?? "",
+        booking_type: tier.booking_type ?? "stripe",
+        booking_url: tier.booking_url ?? "",
         seat_count: tier.seat_count ?? "",
       })) ?? [],
   });
@@ -121,7 +125,15 @@ export default function CourseForm({
       ...prev,
       tiers: [
         ...prev.tiers,
-        { label: "", price: "", price_note: "", stripe_price_id: "", seat_count: "" },
+        {
+          label: "",
+          price: "",
+          price_note: "",
+          stripe_price_id: "",
+          booking_type: "stripe",
+          booking_url: "",
+          seat_count: "",
+        },
       ],
     }));
   };
@@ -327,19 +339,55 @@ export default function CourseForm({
         </div>
 
         <div>
-          <label htmlFor="stripe_price_id" className="text-sm font-medium text-brand-navy">
-            Stripe price ID
+          <label htmlFor="booking_type" className="text-sm font-medium text-brand-navy">
+            Booking method
           </label>
-          <input
-            id="stripe_price_id"
-            name="stripe_price_id"
-            type="text"
-            placeholder="price_..."
-            value={form.stripe_price_id}
+          <select
+            id="booking_type"
+            name="booking_type"
+            value={form.booking_type}
             onChange={handleChange}
             className={`mt-2 ${FIELD_CLASS}`}
-          />
+          >
+            <option value="stripe">Stripe checkout</option>
+            <option value="external">External link (e.g. Notion)</option>
+          </select>
         </div>
+
+        {form.booking_type === "external" ? (
+          <div>
+            <label htmlFor="booking_url" className="text-sm font-medium text-brand-navy">
+              Booking URL
+            </label>
+            <input
+              id="booking_url"
+              name="booking_url"
+              type="text"
+              placeholder="https://notion.so/..."
+              value={form.booking_url}
+              onChange={handleChange}
+              className={`mt-2 ${FIELD_CLASS}`}
+            />
+            <p className="mt-2 text-xs text-slate-500">
+              The book button sends customers straight here instead of Stripe checkout.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <label htmlFor="stripe_price_id" className="text-sm font-medium text-brand-navy">
+              Stripe price ID
+            </label>
+            <input
+              id="stripe_price_id"
+              name="stripe_price_id"
+              type="text"
+              placeholder="price_..."
+              value={form.stripe_price_id}
+              onChange={handleChange}
+              className={`mt-2 ${FIELD_CLASS}`}
+            />
+          </div>
+        )}
 
         <div>
           <label htmlFor="rating" className="text-sm font-medium text-brand-navy">
@@ -421,17 +469,45 @@ export default function CourseForm({
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-slate-500">Stripe price ID</label>
-                    <input
-                      type="text"
-                      placeholder="price_..."
-                      value={tier.stripe_price_id}
+                    <label className="text-xs font-medium text-slate-500">Booking method</label>
+                    <select
+                      value={tier.booking_type}
                       onChange={(event) =>
-                        handleTierChange(index, "stripe_price_id", event.target.value)
+                        handleTierChange(index, "booking_type", event.target.value)
                       }
                       className={`mt-1 ${FIELD_CLASS}`}
-                    />
+                    >
+                      <option value="stripe">Stripe checkout</option>
+                      <option value="external">External link (e.g. Notion)</option>
+                    </select>
                   </div>
+                  {tier.booking_type === "external" ? (
+                    <div>
+                      <label className="text-xs font-medium text-slate-500">Booking URL</label>
+                      <input
+                        type="text"
+                        placeholder="https://notion.so/..."
+                        value={tier.booking_url}
+                        onChange={(event) =>
+                          handleTierChange(index, "booking_url", event.target.value)
+                        }
+                        className={`mt-1 ${FIELD_CLASS}`}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="text-xs font-medium text-slate-500">Stripe price ID</label>
+                      <input
+                        type="text"
+                        placeholder="price_..."
+                        value={tier.stripe_price_id}
+                        onChange={(event) =>
+                          handleTierChange(index, "stripe_price_id", event.target.value)
+                        }
+                        className={`mt-1 ${FIELD_CLASS}`}
+                      />
+                    </div>
+                  )}
                   <div>
                     <label className="text-xs font-medium text-slate-500">
                       Seat count (optional)
