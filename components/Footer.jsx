@@ -37,8 +37,6 @@ const FOOTER_COLUMNS = [
       ["/dpa", "Data Processing Agreement"],
       ["/privacy-policy", "Privacy policy"],
       ["/cookie-policy", "Cookie policy"],
-      ["/login", "Sign in"],
-      ["/account", "My account"],
       ["#cookie-preferences", "Cookie preferences"],
     ],
   },
