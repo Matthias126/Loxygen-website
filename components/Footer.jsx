@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { OPEN_PREFERENCES_EVENT } from "@/lib/cookieConsent";
 
 const FOOTER_COLUMNS = [
   {
@@ -37,7 +36,6 @@ const FOOTER_COLUMNS = [
       ["/dpa", "Data Processing Agreement"],
       ["/privacy-policy", "Privacy policy"],
       ["/cookie-policy", "Cookie policy"],
-      ["#cookie-preferences", "Cookie preferences"],
     ],
   },
 ];
@@ -90,30 +88,16 @@ export default function Footer() {
             <div key={column.heading} className="flex flex-col gap-6">
               <p className="footer-eyebrow">{column.heading}</p>
               <div className="flex flex-col items-start gap-1">
-                {column.links.map(([href, label]) =>
-                  href === "#cookie-preferences" ? (
-                    <button
-                      key={href}
-                      type="button"
-                      onClick={() =>
-                        window.dispatchEvent(new CustomEvent(OPEN_PREFERENCES_EVENT))
-                      }
-                      data-underline-link
-                      className="text-footer-link leading-(--text-footer-link--line-height) text-white"
-                    >
-                      {label}
-                    </button>
-                  ) : (
-                    <Link
-                      key={href}
-                      href={href}
-                      data-underline-link
-                      className="text-footer-link leading-(--text-footer-link--line-height) text-white"
-                    >
-                      {label}
-                    </Link>
-                  )
-                )}
+                {column.links.map(([href, label]) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    data-underline-link
+                    className="text-footer-link leading-(--text-footer-link--line-height) text-white"
+                  >
+                    {label}
+                  </Link>
+                ))}
               </div>
             </div>
           ))}

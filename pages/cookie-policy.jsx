@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { OPEN_PREFERENCES_EVENT } from "@/lib/cookieConsent";
 
 const TITLE = "Cookie Policy | Loxygen Academy";
 const DESCRIPTION =
@@ -148,11 +149,17 @@ export default function CookiePolicy() {
                 <div className="mt-6 space-y-4 text-base leading-7 text-slate-600">
                   <p>
                     You can accept or decline analytics from the banner shown on your first visit,
-                    and change your mind at any time from the &ldquo;Cookie preferences&rdquo;
-                    link in the site footer. Declining means the analytics script never loads —
-                    nothing is set or removed retroactively, since Vercel Web Analytics
-                    doesn&apos;t use cookies in the first place.
+                    and change your mind at any time below. Declining means the analytics script
+                    never loads — nothing is set or removed retroactively, since Vercel Web
+                    Analytics doesn&apos;t use cookies in the first place.
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new CustomEvent(OPEN_PREFERENCES_EVENT))}
+                    className="inline-flex items-center justify-center rounded-lg border border-brand-navy px-5 py-2.5 text-sm font-semibold text-brand-navy hover:bg-brand-navy/5"
+                  >
+                    Change my cookie choice
+                  </button>
                   <p>
                     You can also block or delete cookies through your browser&apos;s own settings.
                     Blocking the strictly necessary session cookie will sign you out and prevent
