@@ -39,8 +39,8 @@ export default function CookieConsent() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-6 text-white/90">
           We use cookieless analytics to understand how visitors use this site. See our{" "}
-          <Link href="/privacy-cookies" className="underline hover:text-white">
-            privacy &amp; cookie policy
+          <Link href="/cookie-policy" className="underline hover:text-white">
+            cookie policy
           </Link>{" "}
           for details. You can change this choice at any time from the footer.
         </p>
