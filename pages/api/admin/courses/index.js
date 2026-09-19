@@ -19,6 +19,7 @@ export default async function handler(req, res) {
     const {
       slug,
       title,
+      excerpt,
       description,
       type,
       price,
@@ -37,8 +38,10 @@ export default async function handler(req, res) {
       tiers,
     } = req.body ?? {};
 
-    if (!slug || !title || !type || !description) {
-      return res.status(400).json({ error: "Slug, title, type and description are required." });
+    if (!slug || !title || !type || !description || !excerpt) {
+      return res
+        .status(400)
+        .json({ error: "Slug, title, type, excerpt and description are required." });
     }
 
     const isActive = is_active !== false;
@@ -48,6 +51,7 @@ export default async function handler(req, res) {
       .insert({
         slug,
         title,
+        excerpt,
         description: description || null,
         type,
         price: price || null,

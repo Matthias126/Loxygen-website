@@ -12,7 +12,7 @@ import PlaceholderImage from "@/components/PlaceholderImage";
 import CountdownTimer from "@/components/CountdownTimer";
 import CheckoutButton from "@/components/CheckoutButton";
 import MarkdownContent from "@/components/MarkdownContent";
-import { stripMarkdown } from "@/lib/headings";
+import { stripMarkdown, truncateForMeta } from "@/lib/headings";
 
 const CTA_LABEL = {
   "self-paced": "Start learning",
@@ -74,29 +74,29 @@ export default function CourseDetail({ course }) {
   const url = `${SITE_URL}/courses/${course.slug}`;
   const jsonLd = buildCourseDetailJsonLd(course, url);
   const ogImage = course.cover_image_url || DEFAULT_OG_IMAGE;
-  const plainDescription = stripMarkdown(course.description);
+  const metaDescription = course.excerpt || truncateForMeta(stripMarkdown(course.description));
   const courseStats = buildCourseStats(course);
 
   return (
     <>
       <Head>
         <title>{title}</title>
-        {plainDescription ? <meta name="description" content={plainDescription} /> : null}
+        {metaDescription ? <meta name="description" content={metaDescription} /> : null}
         <link rel="canonical" href={url} />
 
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={SITE_NAME} />
         <meta property="og:title" content={title} />
-        {plainDescription ? (
-          <meta property="og:description" content={plainDescription} />
+        {metaDescription ? (
+          <meta property="og:description" content={metaDescription} />
         ) : null}
         <meta property="og:url" content={url} />
         <meta property="og:image" content={ogImage} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
-        {plainDescription ? (
-          <meta name="twitter:description" content={plainDescription} />
+        {metaDescription ? (
+          <meta name="twitter:description" content={metaDescription} />
         ) : null}
         <meta name="twitter:image" content={ogImage} />
 

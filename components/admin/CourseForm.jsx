@@ -31,6 +31,7 @@ export default function CourseForm({
   const [form, setForm] = useState({
     title: initialCourse?.title ?? "",
     slug: initialCourse?.slug ?? "",
+    excerpt: initialCourse?.excerpt ?? "",
     description: initialCourse?.description ?? "",
     type: initialCourse?.type ?? defaultType ?? COURSE_TYPES[0],
     price: initialCourse?.price ?? "",
@@ -262,15 +263,30 @@ export default function CourseForm({
         </select>
       </div>
 
+      <div>
+        <label htmlFor="excerpt" className="text-sm font-medium text-brand-navy">
+          Excerpt
+        </label>
+        <p className="mt-1 text-xs text-slate-500">
+          Used as this page&apos;s search-engine description and social share preview — keep it to
+          1-2 sentences (Google cuts snippets off at roughly 160 characters).
+        </p>
+        <textarea
+          id="excerpt"
+          name="excerpt"
+          rows={2}
+          required
+          value={form.excerpt}
+          onChange={handleChange}
+          className={`mt-2 ${FIELD_CLASS}`}
+        />
+      </div>
+
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div>
           <label htmlFor="description" className="text-sm font-medium text-brand-navy">
             Description (markdown)
           </label>
-          <p className="mt-1 text-xs text-slate-500">
-            The opening sentence doubles as this page&apos;s search-engine description, so make it
-            count.
-          </p>
           <textarea
             id="description"
             name="description"
