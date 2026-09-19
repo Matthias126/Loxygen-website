@@ -1,12 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/next";
 import { SessionProvider } from "next-auth/react";
 import { Inter, Instrument_Serif } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+import CookieConsent from "@/components/CookieConsent";
+import {
+  getStoredConsent,
+  subscribeToConsentChange,
+  getServerConsentSnapshot,
+} from "@/lib/cookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,6 +29,12 @@ const instrumentSerif = Instrument_Serif({
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
+  const consent = useSyncExternalStore(
+    subscribeToConsentChange,
+    getStoredConsent,
+    getServerConsentSnapshot
+  );
+  const analyticsAllowed = consent === "accepted";
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -58,6 +71,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
         <Component {...pageProps} />
         <Footer />
         <BackToTopButton />
+        <CookieConsent />
+        {analyticsAllowed ? <Analytics /> : null}
       </div>
     </SessionProvider>
   );
