@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import { SITE_URL, SITE_NAME } from "@/lib/seo";
 import { buildNorthAfricaLearningTripJsonLd } from "@/lib/structuredData";
 import { isStaticPageActive } from "@/lib/staticPages";
@@ -100,6 +99,10 @@ const EDITION_2026 = {
   places: "Ten places",
   deadline: "Registration closes 2 October 2026",
 };
+
+const RESERVE_URL =
+  "https://elemental-bridge-2ed.notion.site/6d4e00d96bf241268e132ecb6e5dab6b?pvs=105";
+const REQUEST_INFO_URL = "https://share.hsforms.com/1Dsik5pq1QTSJJKUtqnz79Qsuew1";
 
 export default function NorthAfricaLearningTrip2026() {
   const jsonLd = buildNorthAfricaLearningTripJsonLd();
@@ -317,18 +320,22 @@ export default function NorthAfricaLearningTrip2026() {
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  href="mailto:geert@loxygen.world?subject=North%20Africa%20Learning%20Trip%202026%3A%20send%20me%20the%20programme"
+                <a
+                  href={REQUEST_INFO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-lg border border-white px-7 py-3.5 text-base font-semibold text-white hover:bg-white/10"
                 >
                   Request the programme
-                </Link>
-                <Link
-                  href="mailto:geert@loxygen.world?subject=North%20Africa%20Learning%20Trip%202026%3A%20reserve%20my%20place"
+                </a>
+                <a
+                  href={RESERVE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-brand-navy hover:bg-white/90"
                 >
                   Reserve a place
-                </Link>
+                </a>
               </div>
             </div>
           </div>
