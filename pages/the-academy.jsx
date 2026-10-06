@@ -61,7 +61,7 @@ const ALL_PROGRAMMES = [
     format: "Specialist course",
     title: "BESS Logistics Training",
     description:
-      "Transport, safety and compliance training for battery energy storage system logistics.",
+      "Battery energy storage logistics: transport, safety and compliance. Three editions with Portilog since March 2026 — Edition 4 on 9 December 2026.",
     image: "/images/BESS.jpg",
     imageAlt: "Battery energy storage system containers staged at a logistics yard",
   },
