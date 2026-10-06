@@ -20,6 +20,7 @@ export default function AdminLicenses() {
   const [tierId, setTierId] = useState("");
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
+  const [busyId, setBusyId] = useState(null);
 
   const loadLicenses = async () => {
     const response = await fetch("/api/admin/licenses");
@@ -64,6 +65,55 @@ export default function AdminLicenses() {
 
     setOwnerEmail("");
     setTierId("");
+    loadLicenses();
+  };
+
+  const handleDeleteLicense = async (license) => {
+    const seatLabel = `${license.seat_count} seat${license.seat_count === 1 ? "" : "s"}`;
+    if (
+      !window.confirm(
+        `Delete ${license.owner_email}'s license (${seatLabel})? Everyone on it loses access. This can't be undone.`
+      )
+    ) {
+      return;
+    }
+
+    setBusyId(license.id);
+    setError("");
+    const response = await fetch(`/api/admin/licenses/${license.id}`, { method: "DELETE" });
+    setBusyId(null);
+
+    if (!response.ok) {
+      const { error: message } = await response.json().catch(() => ({}));
+      setError(message || "Failed to delete license.");
+      return;
+    }
+
+    loadLicenses();
+  };
+
+  const handleRevokeSeat = async (seat) => {
+    const message =
+      seat.status === "claimed"
+        ? `Remove ${seat.claimed_email} from this seat? They lose access and the seat gets a new code.`
+        : `Cancel the invite for ${seat.invited_email}? The seat gets a new code.`;
+    if (!window.confirm(message)) return;
+
+    setBusyId(seat.id);
+    setError("");
+    const response = await fetch("/api/admin/seats/revoke", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ seatId: seat.id }),
+    });
+    setBusyId(null);
+
+    if (!response.ok) {
+      const { error: errorMessage } = await response.json().catch(() => ({}));
+      setError(errorMessage || "Failed to remove seat.");
+      return;
+    }
+
     loadLicenses();
   };
 
@@ -149,16 +199,42 @@ export default function AdminLicenses() {
                         {license.owner_email} · {license.seat_count} seat
                         {license.seat_count === 1 ? "" : "s"}
                       </p>
-                      <p className="text-xs text-slate-500">
-                        {license.source} · {license.status} · {formatDate(license.created_at)}
-                      </p>
+                      <div className="flex items-center gap-4">
+                        <p className="text-xs text-slate-500">
+                          {license.source} · {license.status} · {formatDate(license.created_at)}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteLicense(license)}
+                          disabled={busyId !== null}
+                          className="text-xs font-semibold text-red-600 hover:text-red-700 disabled:opacity-60"
+                        >
+                          {busyId === license.id ? "Deleting…" : "Delete license"}
+                        </button>
+                      </div>
                     </div>
                     <ul className="mt-3 space-y-1 text-xs text-slate-500">
                       {license.seats.map((seat) => (
-                        <li key={seat.id}>
-                          {seat.status === "claimed"
-                            ? `Claimed by ${seat.claimed_email}`
-                            : `Unclaimed${seat.invited_email ? ` · invited: ${seat.invited_email}` : ""} · code: ${seat.redemption_code}`}
+                        <li key={seat.id} className="flex items-center gap-3">
+                          <span>
+                            {seat.status === "claimed"
+                              ? `Claimed by ${seat.claimed_email}`
+                              : `Unclaimed${seat.invited_email ? ` · invited: ${seat.invited_email}` : ""} · code: ${seat.redemption_code}`}
+                          </span>
+                          {seat.status === "claimed" || seat.invited_email ? (
+                            <button
+                              type="button"
+                              onClick={() => handleRevokeSeat(seat)}
+                              disabled={busyId !== null}
+                              className="font-semibold text-red-600 hover:text-red-700 disabled:opacity-60"
+                            >
+                              {busyId === seat.id
+                                ? "Removing…"
+                                : seat.status === "claimed"
+                                  ? "Remove"
+                                  : "Cancel invite"}
+                            </button>
+                          ) : null}
                         </li>
                       ))}
                     </ul>
