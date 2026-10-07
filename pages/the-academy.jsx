@@ -91,7 +91,7 @@ const ALL_PROGRAMMES = [
     format: "Award & recognition",
     title: "Sustainability Award",
     description:
-      "Recognising freight forwarders' environmental, social and governance initiatives — four categories, judged by an independent jury.",
+      "Recognising freight forwarders' environmental, social and governance initiatives. 2026 winners announced for CrossTrades and SeaBlue Project Logistics Network.",
     image: "/images/sustainability-award.jpg",
     imageAlt: "Offshore wind turbines along a coastal energy transition site",
   },
