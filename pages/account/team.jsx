@@ -150,15 +150,29 @@ export default function Team({ initialLicenses }) {
                       </h2>
                       <span
                         className={`text-xs font-semibold uppercase tracking-wide ${
-                          license.status === "active" ? "text-slate-400" : "text-red-600"
+                          license.is_live ? "text-slate-400" : "text-red-600"
                         }`}
                       >
-                        {license.status}
+                        {license.is_live
+                          ? license.status
+                          : license.status === "active"
+                            ? "expired"
+                            : license.status}
                       </span>
                     </div>
-                    {license.status !== "active" ? (
+                    {license.expires_at ? (
+                      <p className="mt-1 text-sm text-slate-500">
+                        {license.source === "stripe" ? "Renews automatically on" : "Valid until"}{" "}
+                        {new Date(license.expires_at).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    ) : null}
+                    {!license.is_live ? (
                       <p className="mt-2 text-sm text-red-600">
-                        This subscription is not active — seats can&apos;t be assigned or revoked.
+                        This licence is not active — seats can&apos;t be assigned or revoked.
                       </p>
                     ) : null}
                     <div className="mt-4 divide-y divide-slate-200 rounded-xl border border-slate-200">
@@ -166,7 +180,7 @@ export default function Team({ initialLicenses }) {
                         <SeatRow
                           key={seat.id}
                           seat={seat}
-                          busy={busy || license.status !== "active"}
+                          busy={busy || !license.is_live}
                           onAssign={handleAssign}
                           onRevoke={handleRevoke}
                         />

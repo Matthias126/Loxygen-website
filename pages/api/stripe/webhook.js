@@ -1,8 +1,9 @@
 import { supabaseAdmin } from "@/lib/supabase";
 import { stripe } from "@/lib/stripe";
-import { createLicenseWithSeats } from "@/lib/licenses";
+import { createLicenseWithSeats, getSubscriptionPeriodEnd } from "@/lib/licenses";
 import {
   sendTransactionalEmail,
+  firstNameOf,
   buildSeatAutoClaimedEmail,
   buildLicenseConfirmationEmail,
   buildCoursePurchaseConfirmationEmail,
@@ -95,7 +96,9 @@ async function handleSubscriptionPurchase({ userId, tierId, session, user }) {
     .maybeSingle();
   if (tierError) throw tierError;
 
-  const { seats } = await createLicenseWithSeats({
+  const subscription = await stripe.subscriptions.retrieve(session.subscription);
+
+  const { license, seats } = await createLicenseWithSeats({
     ownerUserId: userId,
     tierId,
     source: "stripe",
@@ -104,6 +107,7 @@ async function handleSubscriptionPurchase({ userId, tierId, session, user }) {
       stripeSubscriptionId: session.subscription,
       stripePriceId: tier?.stripe_price_id ?? null,
     },
+    expiresAt: getSubscriptionPeriodEnd(subscription),
   });
 
   if (seats.length === 1) {
@@ -118,10 +122,21 @@ async function handleSubscriptionPurchase({ userId, tierId, session, user }) {
       .eq("id", seats[0].id);
     if (claimError) throw claimError;
 
-    const { subject, html } = buildSeatAutoClaimedEmail();
+    const { subject, html } = buildSeatAutoClaimedEmail({
+      expiryDate: license.expires_at,
+      renews: true,
+      selfPurchase: true,
+    });
     await sendTransactionalEmail({ to: user.email, subject, html });
   } else {
-    const { subject, html } = buildLicenseConfirmationEmail({ seats });
+    const { subject, html } = buildLicenseConfirmationEmail({
+      firstName: firstNameOf(user.name),
+      companyName: user.business_name,
+      seats,
+      grantDate: license.created_at,
+      expiryDate: license.expires_at,
+      renews: true,
+    });
     await sendTransactionalEmail({ to: user.email, subject, html });
   }
 
@@ -139,7 +154,7 @@ async function handleCheckoutCompleted(session) {
 
   const { data: user, error: userError } = await supabaseAdmin
     .from("users")
-    .select("id, email, name")
+    .select("id, email, name, business_name")
     .eq("id", userId)
     .maybeSingle();
   if (userError) throw userError;
@@ -154,9 +169,12 @@ async function handleCheckoutCompleted(session) {
 
 async function handleSubscriptionStatusChange(subscription) {
   const status = ["active", "trialing"].includes(subscription.status) ? "active" : "canceled";
+  const periodEnd = getSubscriptionPeriodEnd(subscription);
   const { error } = await supabaseAdmin
     .from("licenses")
-    .update({ status })
+    // A renewal arrives as subscription.updated with the new period, so the
+    // licence's next-renewal date moves forward with it.
+    .update(periodEnd ? { status, expires_at: periodEnd } : { status })
     .eq("stripe_subscription_id", subscription.id);
   if (error) throw error;
 }

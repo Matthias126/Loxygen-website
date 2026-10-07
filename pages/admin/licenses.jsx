@@ -13,6 +13,14 @@ function formatDate(dateString) {
   });
 }
 
+function formatDay(dateString) {
+  return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
 export default function AdminLicenses() {
   const [licenses, setLicenses] = useState(null);
   const [tiers, setTiers] = useState([]);
@@ -86,6 +94,33 @@ export default function AdminLicenses() {
     if (!response.ok) {
       const { error: message } = await response.json().catch(() => ({}));
       setError(message || "Failed to delete license.");
+      return;
+    }
+
+    loadLicenses();
+  };
+
+  const handleExtendLicense = async (license) => {
+    if (
+      !window.confirm(
+        `Extend ${license.owner_email}'s licence by one year? Do this once the renewal has been paid.`
+      )
+    ) {
+      return;
+    }
+
+    setBusyId(license.id);
+    setError("");
+    const response = await fetch(`/api/admin/licenses/${license.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "extend" }),
+    });
+    setBusyId(null);
+
+    if (!response.ok) {
+      const { error: message } = await response.json().catch(() => ({}));
+      setError(message || "Failed to extend licence.");
       return;
     }
 
@@ -201,8 +236,26 @@ export default function AdminLicenses() {
                       </p>
                       <div className="flex items-center gap-4">
                         <p className="text-xs text-slate-500">
-                          {license.source} · {license.status} · {formatDate(license.created_at)}
+                          {license.source} ·{" "}
+                          {license.is_live ? (
+                            license.status
+                          ) : (
+                            <span className="font-semibold text-red-600">
+                              {license.status === "active" ? "expired" : license.status}
+                            </span>
+                          )}{" "}
+                          · {formatDate(license.created_at)}
                         </p>
+                        {license.source !== "stripe" ? (
+                          <button
+                            type="button"
+                            onClick={() => handleExtendLicense(license)}
+                            disabled={busyId !== null}
+                            className="text-xs font-semibold text-brand-navy hover:underline disabled:opacity-60"
+                          >
+                            Extend 1 year
+                          </button>
+                        ) : null}
                         <button
                           type="button"
                           onClick={() => handleDeleteLicense(license)}
@@ -213,6 +266,12 @@ export default function AdminLicenses() {
                         </button>
                       </div>
                     </div>
+                    {license.expires_at ? (
+                      <p className="mt-1 text-xs text-slate-500">
+                        {license.source === "stripe" ? "Renews" : "Valid until"}{" "}
+                        {formatDay(license.expires_at)}
+                      </p>
+                    ) : null}
                     <ul className="mt-3 space-y-1 text-xs text-slate-500">
                       {license.seats.map((seat) => (
                         <li key={seat.id} className="flex items-center gap-3">

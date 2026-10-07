@@ -1,7 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabase";
 import { requireAdminApi } from "@/lib/requireAdmin";
-import { createLicenseWithSeats } from "@/lib/licenses";
-import { sendTransactionalEmail, buildLicenseConfirmationEmail } from "@/lib/email";
+import { createLicenseWithSeats, isLicenseLive } from "@/lib/licenses";
+import { sendTransactionalEmail, buildLicenseConfirmationEmail, firstNameOf } from "@/lib/email";
 
 export default async function handler(req, res) {
   const session = await requireAdminApi(req, res);
@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     const emailByOwnerId = new Map((owners ?? []).map((owner) => [owner.id, owner.email]));
     const licensesWithOwner = (licenses ?? []).map((license) => ({
       ...license,
+      is_live: isLicenseLive(license),
       owner_email: emailByOwnerId.get(license.owner_user_id) ?? null,
     }));
 
@@ -40,7 +41,7 @@ export default async function handler(req, res) {
 
     const { data: owner, error: ownerError } = await supabaseAdmin
       .from("users")
-      .select("id, email")
+      .select("id, email, name, business_name")
       .eq("email", ownerEmail.toLowerCase().trim())
       .maybeSingle();
     if (ownerError) return res.status(500).json({ error: ownerError.message });
@@ -53,7 +54,14 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: error.message });
     }
 
-    const { subject, html } = buildLicenseConfirmationEmail({ seats: result.seats });
+    const { subject, html } = buildLicenseConfirmationEmail({
+      firstName: firstNameOf(owner.name),
+      companyName: owner.business_name,
+      seats: result.seats,
+      grantDate: result.license.created_at,
+      expiryDate: result.license.expires_at,
+      renews: false,
+    });
     await sendTransactionalEmail({ to: owner.email, subject, html });
 
     return res.status(201).json({ license: result.license, seats: result.seats });
