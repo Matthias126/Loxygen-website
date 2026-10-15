@@ -86,7 +86,7 @@ const HOSTS = [
       "The Mediterranean framing, the nearshoring flows, and what the offshore regime actually permits.",
   },
   {
-    company: "Ipsen Logistics",
+    company: "Africa Ports and Airports",
     country: "Morocco",
     description: "Casablanca and Tangier. Tanger Free Zone and Tanger Med.",
   },
