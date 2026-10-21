@@ -73,6 +73,7 @@ export default function Signup() {
       <Head>
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
+        <meta name="robots" content="noindex" />
         <link rel="canonical" href={`${SITE_URL}/signup`} />
 
         <meta property="og:type" content="website" />

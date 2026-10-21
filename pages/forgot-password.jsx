@@ -43,6 +43,7 @@ export default function ForgotPassword() {
       <Head>
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
+        <meta name="robots" content="noindex" />
         <link rel="canonical" href={`${SITE_URL}/forgot-password`} />
 
         <meta property="og:type" content="website" />

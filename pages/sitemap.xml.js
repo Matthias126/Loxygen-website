@@ -6,6 +6,8 @@ import { getCourses } from "@/lib/courses";
 
 const EXCLUDED_PAGES = new Set(["_app", "_document", "404", "sitemap.xml"]);
 const GATED_PAGES = new Set(["account"]);
+// Auth/utility flows — no search value, and each page is also noindex.
+const UTILITY_PAGES = new Set(["login", "signup", "forgot-password", "reset-password", "redeem"]);
 
 async function getStaticRoutes() {
   const pagesDir = path.join(process.cwd(), "pages");
@@ -14,7 +16,9 @@ async function getStaticRoutes() {
     .readdirSync(pagesDir)
     .filter((file) => /\.jsx?$/.test(file))
     .map((file) => file.replace(/\.jsx?$/, ""))
-    .filter((name) => !EXCLUDED_PAGES.has(name) && !GATED_PAGES.has(name))
+    .filter(
+      (name) => !EXCLUDED_PAGES.has(name) && !GATED_PAGES.has(name) && !UTILITY_PAGES.has(name)
+    )
     .map((name) => ({ loc: name === "index" ? "" : `/${name}` }));
 
   const blogEntries = await getBlogSitemapEntries();

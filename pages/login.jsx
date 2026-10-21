@@ -48,6 +48,7 @@ export default function Login() {
       <Head>
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
+        <meta name="robots" content="noindex" />
         <link rel="canonical" href={`${SITE_URL}/login`} />
 
         <meta property="og:type" content="website" />

@@ -28,6 +28,47 @@ const nextConfig = {
         destination: "/north-africa-learning-trip-2026",
         permanent: true,
       },
+      // Old GoDaddy URLs still indexed by Google (Search Console → "Not
+      // found (404)"). Explicit 301s rather than `permanent` (308) since
+      // that's what SEO tools check for. Any /start/... URL not listed here
+      // falls through to pages/start/[[...path]].jsx, which matches it to a
+      // blog post by slug.
+      {
+        source: "/battery-energy-logistics",
+        destination: "/bess-logistics-training",
+        statusCode: 301,
+      },
+      {
+        source: "/breakbulk-rotterdam",
+        destination: "/breakbulk-training",
+        statusCode: 301,
+      },
+      {
+        source: "/start/f/the-2025-loxygen-sustainability-award-goes-to-zufall",
+        destination: "/sustainable-forwarding",
+        statusCode: 301,
+      },
+      {
+        source: "/share-your-expertise-1",
+        destination: "/share-your-expertise",
+        statusCode: 301,
+      },
+      {
+        source: "/m/login",
+        destination: "/login",
+        statusCode: 301,
+      },
+      {
+        source: "/m/create-account",
+        destination: "/signup",
+        statusCode: 301,
+      },
+      // Course slug typo, corrected in the Supabase courses table.
+      {
+        source: "/courses/mastering-trade-documnetation-for-logistics-coordinators",
+        destination: "/courses/mastering-trade-documentation-for-logistics-coordinators",
+        statusCode: 301,
+      },
     ];
   },
 };

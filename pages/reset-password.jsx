@@ -46,6 +46,7 @@ export default function ResetPassword() {
       <Head>
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
+        <meta name="robots" content="noindex" />
         <link rel="canonical" href={`${SITE_URL}/reset-password`} />
 
         <meta property="og:type" content="website" />
