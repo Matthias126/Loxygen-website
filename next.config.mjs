@@ -48,19 +48,46 @@ const nextConfig = {
         destination: "/breakbulk-training",
         statusCode: 301,
       },
-      // Old GoDaddy online store (/ols/products/<product>).
+      // Old GoDaddy online store, served at both /ols/... and
+      // /e-learning/ols/... (products and categories). Anything without a
+      // direct equivalent falls through to /e-learning.
       {
-        source: "/ols/products/incoterms-2020",
+        source: "/:store(e-learning/ols|ols)/products/incoterms-2020",
         destination: "/courses/mastering-incoterms-2020-for-cross-border-delivery-teams",
         statusCode: 301,
       },
       {
-        source: "/ols/products/europe-learning-tour-live-7-12062026-benelux",
+        source: "/:store(e-learning/ols|ols)/products/europe-learning-tour-live-7-12062026-benelux",
         destination: "/courses/benelux-immersion-week",
         statusCode: 301,
       },
       {
-        source: "/ols/:path*",
+        source: "/:store(e-learning/ols|ols)/products/breakbulk-shipping-essentials-for-freight-forwarders",
+        destination: "/courses/mastering-breakbulk-shipping-for-freight-forwarders",
+        statusCode: 301,
+      },
+      {
+        source: "/:store(e-learning/ols|ols)/products/international-trade-and-transport-english",
+        destination: "/courses/international-trade-and-transport",
+        statusCode: 301,
+      },
+      {
+        source: "/:store(e-learning/ols|ols)/products/extra-battery-energy-storage-systems-logistics-3092026-9-am-cet",
+        destination: "/bess-logistics-training",
+        statusCode: 301,
+      },
+      {
+        source: "/:store(e-learning/ols|ols)/categories/micro-learning",
+        destination: "/micro-learnings",
+        statusCode: 301,
+      },
+      {
+        source: "/:store(e-learning/ols|ols)/categories/europe-learning-experience",
+        destination: "/young-forwarders-benelux",
+        statusCode: 301,
+      },
+      {
+        source: "/:store(e-learning/ols|ols)/:path*",
         destination: "/e-learning",
         statusCode: 301,
       },
@@ -93,6 +120,16 @@ const nextConfig = {
       {
         source: "/m/create-account",
         destination: "/signup",
+        statusCode: 301,
+      },
+      {
+        source: "/m/create",
+        destination: "/signup",
+        statusCode: 301,
+      },
+      {
+        source: "/m/reset",
+        destination: "/forgot-password",
         statusCode: 301,
       },
       // Course slug typo, corrected in the Supabase courses table.
