@@ -9,6 +9,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import CookieConsent from "@/components/CookieConsent";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import {
   getStoredConsent,
   subscribeToConsentChange,
@@ -72,7 +73,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
         <Footer />
         <BackToTopButton />
         <CookieConsent />
-        {analyticsAllowed ? <Analytics /> : null}
+        {analyticsAllowed ? (
+          <>
+            <Analytics />
+            <GoogleAnalytics />
+          </>
+        ) : null}
       </div>
     </SessionProvider>
   );

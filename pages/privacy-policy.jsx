@@ -5,7 +5,7 @@ import { SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/seo";
 const TITLE = "Privacy Policy | Loxygen Academy";
 const DESCRIPTION =
   "How Loxygen Academy collects, uses, shares and protects the personal data of visitors and account holders on loxygen.world.";
-const LAST_UPDATED = "19 September 2026";
+const LAST_UPDATED = "25 October 2026";
 
 const SECTIONS = [
   {
@@ -59,8 +59,10 @@ const SECTIONS = [
             reply to you — they are not written into our database.
           </li>
           <li>
-            <strong>Website analytics:</strong> if you accept our cookie banner, anonymous,
-            aggregate page-view counts — see our{" "}
+            <strong>Website analytics:</strong> if you accept our cookie banner, which pages you
+            visit, how you arrived on the site, and your device type, browser and approximate
+            location (country or city), identified by a random ID in an analytics cookie rather
+            than by name — see our{" "}
             <Link href="/cookie-policy" className="underline hover:text-brand-navy/80">
               Cookie Policy
             </Link>{" "}
@@ -114,6 +116,11 @@ const SECTIONS = [
             analytics.
           </li>
           <li>
+            <strong>Google</strong> — if you consent, provides website analytics (Google
+            Analytics). Google may process this data outside the EU, under the EU–US Data Privacy
+            Framework and the European Commission&apos;s standard contractual clauses.
+          </li>
+          <li>
             <strong>JollyDeck</strong> — delivers the micro-learning content embedded on course
             pages, for customers who&apos;ve purchased that course.
           </li>
@@ -132,7 +139,8 @@ const SECTIONS = [
         We keep account and purchase data for as long as your account is active, plus a
         reasonable period afterwards, and for as long as Belgian tax and accounting law requires
         us to retain invoices and financial records. Contact-form messages are kept only as long
-        as normal email records are kept. You can ask us to delete your account and associated
+        as normal email records are kept. Google Analytics data is kept for at most 14 months,
+        then deleted automatically. You can ask us to delete your account and associated
         data at any time, subject to what we&apos;re legally required to retain.
       </p>
     ),

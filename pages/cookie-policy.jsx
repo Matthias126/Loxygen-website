@@ -6,7 +6,7 @@ import { OPEN_PREFERENCES_EVENT } from "@/lib/cookieConsent";
 const TITLE = "Cookie Policy | Loxygen Academy";
 const DESCRIPTION =
   "What cookies and similar technologies loxygen.world uses, why, and how to control them.";
-const LAST_UPDATED = "19 September 2026";
+const LAST_UPDATED = "25 October 2026";
 
 const COOKIE_ROWS = [
   {
@@ -17,7 +17,7 @@ const COOKIE_ROWS = [
     consent: "Strictly necessary — set only if you sign in",
   },
   {
-    name: "loxygen-cookie-consent",
+    name: "loxygen-cookie-consent-v2",
     provider: "Loxygen (browser local storage, not a cookie)",
     purpose:
       "Remembers whether you accepted or declined analytics, so we don't ask again every visit.",
@@ -31,6 +31,14 @@ const COOKIE_ROWS = [
       "Counts page views and traffic sources in aggregate. Vercel's Web Analytics is cookieless — it does not use cookies or local storage and does not build a profile of you across visits.",
     duration: "No cookie is set — page-view data is retained by Vercel in aggregate form",
     consent: "Only loaded if you accept via the cookie banner",
+  },
+  {
+    name: "_ga, _ga_<ID>",
+    provider: "Google Ireland Ltd. (Google Analytics)",
+    purpose:
+      "Distinguish visitors and sessions, so we can see which pages are visited, how people arrive on the site and how they move through it. Google Analytics doesn't store IP addresses, and we don't use it for advertising.",
+    duration: "2 years",
+    consent: "Only set if you accept via the cookie banner",
   },
 ];
 
@@ -149,9 +157,10 @@ export default function CookiePolicy() {
                 <div className="mt-6 space-y-4 text-base leading-7 text-slate-600">
                   <p>
                     You can accept or decline analytics from the banner shown on your first visit,
-                    and change your mind at any time below. Declining means the analytics script
-                    never loads — nothing is set or removed retroactively, since Vercel Web
-                    Analytics doesn&apos;t use cookies in the first place.
+                    and change your mind at any time below. Declining means neither analytics
+                    script loads and no analytics cookies are set. If you accepted earlier and
+                    change your mind, Google Analytics is switched off straight away and its
+                    cookies are deleted.
                   </p>
                   <button
                     type="button"
