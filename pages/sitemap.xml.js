@@ -4,7 +4,7 @@ import { SITE_URL } from "@/lib/seo";
 import { getBlogSitemapEntries } from "@/lib/blog";
 import { getCourses } from "@/lib/courses";
 
-const EXCLUDED_PAGES = new Set(["_app", "_document", "404", "sitemap.xml"]);
+const EXCLUDED_PAGES = new Set(["_app", "_document", "404", "sitemap.xml", "llms.txt"]);
 const GATED_PAGES = new Set(["account"]);
 // Auth/utility flows — no search value, and each page is also noindex.
 const UTILITY_PAGES = new Set(["login", "signup", "forgot-password", "reset-password", "redeem"]);
