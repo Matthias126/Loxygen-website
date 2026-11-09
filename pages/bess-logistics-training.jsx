@@ -58,7 +58,7 @@ const LIFECYCLE_STAGES = [
   {
     title: "End of life",
     detail:
-      "Decommissioning, recycling and black mass — a regulated waste stream from 9 November 2026",
+      "Decommissioning, recycling and black mass — a regulated waste stream from 9 December 2026",
   },
   {
     title: "Second life & data centres",
@@ -69,7 +69,7 @@ const LIFECYCLE_STAGES = [
 
 const CLOCKS = [
   {
-    date: "9 November 2026",
+    date: "9 December 2026",
     title: "Black mass",
     detail:
       "Processed battery waste becomes a regulated cross-border stream. End-of-life turns into a compliance question — and a service line.",
